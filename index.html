@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC Deployment Checklist v4.2 (Optimized)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <style>
+        /* Minified CSS */
+        :root{--bg-color:#1a1d24;--panel-bg:#21252e;--text-color:#c0c5ce;--text-light:#e0e7ff;--border-color:#4a5568;--accent-color:#63b3ed;--success-color:#48bb78;--error-color:#f56565;--warning-color:#f6e05e;--needs-review-color:#ed8936;--font-mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace}*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box}html,body{height:100%}body{font-family:var(--font-mono);background-color:var(--bg-color);color:var(--text-color);margin:0;padding:1rem;line-height:1.6;font-size:14px}.desktop-view{display:grid;grid-template-columns:250px 1fr 2fr;grid-template-rows:auto auto 1fr;grid-template-areas:"header header header" "controls controls controls" "sidebar overview detail";gap:1rem;height:calc(100vh - 2rem);max-width:1600px;margin:0 auto}.app-header{grid-area:header;border:1px dashed var(--border-color);padding:.5rem 1rem;display:flex;justify-content:space-between;align-items:center}.app-controls{grid-area:controls;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.panel{border:1px dashed var(--border-color);background-color:var(--panel-bg);padding:1rem;overflow:hidden;height:100%;display:flex;flex-direction:column}.panel-sidebar{grid-area:sidebar}.panel-overview{grid-area:overview}.panel-detail{grid-area:detail}.panel-title{font-weight:700;color:var(--text-light);margin:0 0 1rem;padding-bottom:.5rem;border-bottom:1px dashed var(--border-color);display:flex;align-items:center;gap:.5rem;flex-shrink:0}.panel-content{overflow-y:auto;flex-grow:1}.category-list,.rack-list,.equipment-list{list-style:none;padding:0;margin:0}.category-list-item,.rack-list-item{padding:.5rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;transition:background-color .2s;border-radius:4px}.category-list-item:hover,.rack-list-item:hover{background-color:rgba(255,255,255,.05)}.category-list-item.active{color:var(--accent-color);font-weight:700;background-color:rgba(99,179,237,.1)}.status-icon{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700}.status-icon.verified{background-color:var(--success-color);color:#fff}.status-icon.failed{background-color:var(--error-color);color:#fff}.status-icon.needs-review{background-color:var(--needs-review-color);color:#fff}.status-icon.in-progress{background-color:var(--accent-color);color:#fff}.status-icon.pending{border:1px solid var(--border-color);background:0 0}.rack-progress-bar{width:100%;height:16px;background-color:var(--bg-color);border:1px solid var(--border-color);border-radius:3px;overflow:hidden}.rack-progress-fill{height:100%;background-color:var(--accent-color);transition:width .3s}.rack-list-item .rack-name{width:100px;flex-shrink:0}.rack-list-item .percentage{width:50px;text-align:right}.equipment-list-item{border:1px solid var(--border-color);padding:1rem;margin-bottom:1rem;background-color:var(--bg-color);border-radius:4px}.equipment-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.equipment-header .title{font-weight:700;color:var(--text-light);flex-grow:1}.equipment-details{margin-top:.5rem;padding-left:1rem;color:var(--text-color);font-size:.9em;word-break:break-all}.item-note{font-style:italic;color:var(--warning-color);margin-top:.5rem;padding:.5rem;background-color:rgba(246,224,94,.1);border-radius:4px;border-left:3px solid var(--warning-color)}.item-controls{display:flex;gap:.5rem;align-items:center}.note-btn,.photo-btn{cursor:pointer;font-size:1.2em;padding:.25rem;border-radius:3px;transition:background-color .2s;background:0 0;border:none;color:var(--text-color)}.note-btn:hover,.photo-btn:hover{background-color:rgba(255,255,255,.1)}.status-toggle{width:32px;height:32px;border:2px solid var(--border-color);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:1rem;border-radius:4px;transition:all .2s}.status-toggle.verified{border-color:var(--success-color);background-color:var(--success-color);color:#fff}.status-toggle.failed{border-color:var(--error-color);background-color:var(--error-color);color:#fff}.status-toggle.needs-review{border-color:var(--needs-review-color);background-color:var(--needs-review-color);color:#fff}.search-input{background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.5rem;width:200px;border-radius:4px}.search-input:focus,.btn:focus-visible,.note-btn:focus-visible,.status-toggle:focus-visible,.rack-selector input:focus-visible+span{outline:2px solid var(--accent-color);outline-offset:2px}.btn{background-color:var(--accent-color);color:var(--bg-color);border:none;padding:.5rem 1rem;cursor:pointer;font-family:var(--font-mono);border-radius:4px;transition:background-color .2s;font-weight:700}.btn:hover{background-color:#5299d3}.btn-secondary{background-color:var(--border-color);color:var(--text-light)}.btn-secondary:hover{background-color:#5a6c7d}.rack-selector{padding-bottom:1rem;border-bottom:1px dashed var(--border-color);margin-bottom:1rem;flex-shrink:0}.rack-selector-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.5rem}.rack-selector label{display:inline-flex;align-items:center;padding:.25rem .5rem;cursor:pointer;border-radius:3px;transition:background-color .2s}.rack-selector label:hover{background-color:rgba(255,255,255,.05)}.rack-selector input{margin-right:.5rem}.no-selection{display:flex;align-items:center;justify-content:center;height:100%;color:var(--border-color);font-style:italic}.detail-rack-group h4{color:var(--text-light);margin:1.5rem 0 .5rem;border-bottom:1px dashed var(--border-color);padding-bottom:.25rem;display:flex;align-items:center;gap:.5rem;justify-content:space-between}.detail-rack-group h4 .rack-photo-btn,.detail-rack-group h4 .rack-reset-btn{background-color:var(--accent-color);color:var(--bg-color);border:none;padding:.25rem .5rem;border-radius:4px;font-size:.8em;cursor:pointer;transition:background-color .2s;font-weight:700}.detail-rack-group h4 .rack-reset-btn{background-color:var(--border-color);color:var(--text-light)}.detail-rack-group h4 .rack-photo-btn:hover{background-color:#5299d3}.detail-rack-group h4 .rack-reset-btn:hover{background-color:#5a6c7d}.progress-stats{display:flex;gap:1rem;padding:.5rem;background-color:var(--bg-color);border-radius:4px;margin-bottom:1rem;font-size:.9em}.progress-stats span{display:flex;align-items:center;gap:.25rem}.mobile-view{display:none}.offline-indicator{position:fixed;top:10px;right:10px;background-color:var(--error-color);color:#fff;padding:.5rem;border-radius:4px;display:none;z-index:3000}.offline-indicator.show{display:block}.notification{position:fixed;top:20px;right:20px;padding:1rem;border-radius:4px;color:#fff;font-family:var(--font-mono);z-index:1000;transform:translateX(calc(100% + 20px));transition:transform .3s ease-in-out}.notification.show{transform:translateX(0)}.notification.success{background-color:var(--success-color)}.notification.error{background-color:var(--error-color)}.notification.info{background-color:var(--accent-color)}@media (max-width:768px){.desktop-view{display:none}.mobile-view{display:flex;flex-direction:column;height:calc(100vh - 1rem);border:1px dashed var(--border-color);background-color:var(--panel-bg)}body{padding:.5rem}.mobile-panel{display:none;flex-direction:column;height:100%}.mobile-panel.active{display:flex}.mobile-header{padding:.75rem;border-bottom:1px dashed var(--border-color);display:flex;justify-content:space-between;align-items:center;font-size:1.1rem;flex-shrink:0}.mobile-panel-content{overflow-y:auto;flex-grow:1;padding:1rem}.mobile-back-btn{cursor:pointer;color:var(--accent-color);background:0 0;border:none;font-size:1.1rem;font-family:var(--font-mono);padding:0}.mobile-category-item,.mobile-rack-item{display:flex;align-items:center;gap:1rem;padding:1rem;font-size:1.1rem;border-bottom:1px solid var(--border-color);cursor:pointer}.mobile-category-item:hover,.mobile-rack-item:hover{background-color:rgba(255,255,255,.05)}.mobile-toolbar{padding:1rem;border-top:1px dashed var(--border-color);display:flex;justify-content:space-around;align-items:center;font-size:1.2rem;flex-shrink:0}.mobile-toolbar .btn{min-width:80px;text-align:center}.mobile-equipment-item{border:1px solid var(--border-color);margin-bottom:1rem;padding:1rem;border-radius:4px;background-color:var(--bg-color)}.mobile-equipment-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.5rem}.mobile-equipment-title{font-weight:700;color:var(--text-light);flex-grow:1;font-size:1rem}.mobile-equipment-controls{display:flex;gap:.5rem;align-items:center}.mobile-status-toggle{width:40px;height:40px;border:2px solid var(--border-color);cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;border-radius:4px;transition:all .2s}.mobile-status-toggle.verified{border-color:var(--success-color);background-color:var(--success-color);color:#fff}.mobile-status-toggle.failed{border-color:var(--error-color);background-color:var(--error-color);color:#fff}.mobile-status-toggle.needs-review{border-color:var(--needs-review-color);background-color:var(--needs-review-color);color:#fff}}
+    </style>
+</head>
+<body>
+    <div class="offline-indicator" id="offline-indicator" role="status" aria-live="polite">
+        📶 Working Offline
+    </div>
+
+    <!-- Desktop View -->
+    <div class="desktop-view">
+        <header class="app-header" role="banner">
+            <h1 class="header-title" style="font-size: 1.2em; margin: 0;">📊 DC Deployment Checklist v4.2</h1>
+            <div class="header-user"><span>DataCenter-1</span> | <span>Admin</span></div>
+        </header>
+
+        <div class="app-controls" role="search">
+            <input type="search" id="search-input" class="search-input" placeholder="Search equipment, cables, racks..." aria-label="Search equipment, cables, racks">
+            <button class="btn" id="clear-search-btn">Clear</button>
+            <button class="btn" id="export-yaml-btn">📥 Export YAML</button>
+            <button class="btn" id="export-csv-btn">📥 Export CSV</button>
+            <button class="btn btn-secondary" id="import-btn">📤 Import Progress</button>
+            <button class="btn btn-secondary" id="backup-btn">💾 Backup</button>
+            <button class="btn btn-secondary" id="reset-all-btn">🔄 Reset All Progress</button>
+        </div>
+
+        <aside class="panel panel-sidebar" role="navigation">
+            <h2 class="panel-title" style="font-size: 1.1em;">📋 Categories</h2>
+            <div class="progress-stats" id="overall-stats"></div>
+            <div class="panel-content">
+                <ul id="category-list" class="category-list"></ul>
+            </div>
+        </aside>
+
+        <main class="panel panel-overview" role="region" aria-labelledby="overview-title">
+            <h2 class="panel-title" id="overview-title" style="font-size: 1.1em;">📊 Rack Overview</h2>
+            <div class="rack-selector" id="rack-selector"></div>
+            <div class="panel-content">
+                <ul id="rack-overview-list" class="rack-list"></ul>
+            </div>
+        </main>
+
+        <section class="panel panel-detail" role="region" aria-labelledby="detail-panel-title">
+            <h2 class="panel-title" id="detail-panel-title" style="font-size: 1.1em;">🔧 Equipment Detail</h2>
+            <div class="panel-content" id="equipment-detail-content"></div>
+        </section>
+    </div>
+
+    <!-- Mobile View -->
+    <div class="mobile-view" id="mobile-view">
+        <!-- Categories Panel -->
+        <div id="mobile-panel-categories" class="mobile-panel active">
+            <header class="mobile-header">
+                <span>🏢 DC-1</span>
+                <span id="mobile-total-progress"></span>
+            </header>
+            <div class="mobile-panel-content">
+                <ul id="mobile-category-list" class="mobile-category-list"></ul>
+            </div>
+            <footer class="mobile-toolbar">
+                <button class="btn" id="mobile-export-yaml-btn">YAML</button>
+                <button class="btn" id="mobile-export-csv-btn">CSV</button>
+                <button class="btn btn-secondary" id="mobile-search-btn">Search</button>
+                <button class="btn btn-secondary" id="mobile-backup-btn">Backup</button>
+                <button class="btn btn-secondary" id="mobile-reset-btn">Reset</button>
+            </footer>
+        </div>
+
+        <!-- Racks Panel -->
+        <div id="mobile-panel-racks" class="mobile-panel">
+            <header class="mobile-header">
+                <button class="mobile-back-btn" aria-label="Go back to categories">← Back</button>
+                <h2 id="mobile-rack-title" style="font-size: 1.1em; margin: 0;"></h2>
+            </header>
+            <div class="mobile-panel-content">
+                <ul id="mobile-rack-list" class="mobile-rack-list"></ul>
+            </div>
+        </div>
+
+        <!-- Items Panel -->
+        <div id="mobile-panel-items" class="mobile-panel">
+            <header class="mobile-header">
+                <button class="mobile-back-btn" aria-label="Go back to racks">← Back</button>
+                <h2 id="mobile-item-title" style="font-size: 1.1em; margin: 0;"></h2>
+            </header>
+            <div class="mobile-panel-content">
+                <div id="mobile-item-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    /**
+     * @file Data Center Interactive Checklist Application v4.2
+     * @description A standalone, client-side web application for tracking data center deployment tasks.
+     * This refactored version includes significant improvements in code quality, performance,
+     * accessibility, and maintainability.
+     *
+     * @author Gemini AI Code Auditor
+     * @version 4.2
+     * @license MIT
+     */
+    (function() {
+        'use strict';
+
+        // #region DATA
+        /**
+         * @description The raw data for the checklist. In a real-world scenario, this would
+         * be fetched from an API or a separate JSON file.
+         * @type {Object}
+         */
+        const fullRawData = {
+            "C1 (N-MCS)": {
+                "SFP Installation Verification": ["SPINE (C1.43) Ports 1-14: QSFP-100G-SM-SR", "OAM FW (C1.42) Port 15: SRX-SFP-1GE-LX (xconnect FW C2.42)", "OAM FW (C1.42) Ports 16-17: SRX-SFP-10GE-LR (to TOR BL C1.39)", "OAM FW (C1.42) HA CONTROL: SRX-SFP-1GE-LX (xconnect FW C2.42)", "OAM AGG (C1.41) Ports 1-6: GLC-LH-SMD", "OAM AGG (C1.41) Ports 47-48: SFP-10G-LR-S (xconnect AGG C2.41)", "TOR BL (C1.39) Ports 47-48: SFP-10G-LR-S (to FW C1.42)", "TOR BL (C1.39) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR BL (C1.39) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR BL (C1.39) Port 51: QSFP-100G-LR4-S (NatCo primary NNI link)", "TOR BL (C1.39) Ports 53-54: QSFP-100G-SM-SR (xconnect TORs C2.39)", "TOR (C1.37) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C1.37) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C1.37) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C1.35)", "TOR (C1.35) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C1.35) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C1.35) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C1.37)", "BOR (C1.4) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C1.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C1.2)", "BOR (C1.2) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C1.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C1.4)"],
+                "Fiber Optic (FO) Connections": ["SPINE 1 (C1.43) Port 1 -> TOR BL 1 (C1.39) Port 49 (Cable: PL-FO00001)", "SPINE 1 (C1.43) Port 2 -> TOR BL 2 (C2.39) Port 49 (Cable: PL-FO00002)", "SPINE 1 (C1.43) Port 3 -> TOR A (C1.37) Port 49 (Cable: PL-FO00003)", "SPINE 1 (C1.43) Port 4 -> TOR B (C1.35) Port 49 (Cable: PL-FO00004)", "SPINE 1 (C1.43) Port 5 -> TOR A (C2.37) Port 49 (Cable: PL-FO00005)", "SPINE 1 (C1.43) Port 6 -> TOR B (C2.35) Port 49 (Cable: PL-FO00006)", "SPINE 1 (C1.43) Port 7 -> TOR A (C3.45) Port 49 (Cable: PL-FO00007)", "SPINE 1 (C1.43) Port 8 -> TOR B (C3.43) Port 49 (Cable: PL-FO00008)", "SPINE 1 (C1.43) Port 9 -> TOR A (C4.45) Port 49 (Cable: PL-FO00009)", "SPINE 1 (C1.43) Port 10 -> TOR B (C4.43) Port 49 (Cable: PL-FO00010)", "SPINE 1 (C1.43) Port 11 -> TOR A (C5.45) Port 49 (Cable: PL-FO00011)", "SPINE 1 (C1.43) Port 12 -> TOR B (C5.43) Port 49 (Cable: PL-FO00012)", "SPINE 1 (C1.43) Port 13 -> TOR A (C6.45) Port 49 (Cable: PL-FO00013)", "SPINE 1 (C1.43) Port 14 -> TOR B (C6.43) Port 49 (Cable: PL-FO00014)", "FW 1 (C1.42) Port 15 -> FW 2 (C2.42) Port 15 (Cable: PL-FO00015)", "FW 1 (C1.42) Port 16 -> TOR BL 1 (C1.39) Port 47 (Cable: PL-FO00016)", "FW 1 (C1.42) Port 17 -> TOR BL 1 (C1.39) Port 48 (Cable: PL-FO00017)", "FW 1 (C1.42) HA CONTROL -> FW 2 (C2.42) HA CONTROL (Cable: PL-FO00018)", "AGG 1 (C1.41) Port 1 -> BOR A (C1.4) Port 49 (Cable: PL-FO00019)", "AGG 1 (C1.41) Port 2 -> BOR B (C2.2) Port 49 (Cable: PL-FO00020)", "AGG 1 (C1.41) Port 3 -> BOR A (C3.4) Port 49 (Cable: PL-FO00021)", "AGG 1 (C1.41) Port 4 -> BOR B (C4.2) Port 49 (Cable: PL-FO00022)", "AGG 1 (C1.41) Port 5 -> BOR A (C5.4) Port 49 (Cable: PL-FO00023)", "AGG 1 (C1.41) Port 6 -> BOR B (C6.2) Port 49 (Cable: PL-FO00024)", "AGG 1 (C1.41) Port 47 -> AGG 2 (C2.41) Port 47 (Cable: PL-FO00025)", "AGG 1 (C1.41) Port 48 -> AGG 2 (C2.41) Port 48 (Cable: PL-FO00026)", "TOR BL 1 (C1.39) Port 51 -> NatCo NNI link (Cable: PL-FO00049)"],
+                "UTP OAM Connections": ["Spine (C1.43) MGMT -> BOR SW A, Port 46", "FW (C1.42) MGMT -> BOR SW A, Port 44", "AGG SW (C1.41) MGMT -> BOR SW A, Port 43", "TOR_SW_BL (C1.39) MGMT -> BOR SW A, Port 42", "TOR_SW_A (C1.37) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C1.35) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C1.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C1.2) MGMT -> BOR SW A, Port 45", "PDU A (C1.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C1.PDU B) MGMT -> BOR SW B, Port 48", "C1.20 Server ILO -> BOR SW A, Port 32", "C1.18 Server ILO -> BOR SW A, Port 31", "C1.16 Server ILO -> BOR SW A, Port 30", "C1.14 Server ILO -> BOR SW A, Port 29", "C1.12 Server ILO -> BOR SW A, Port 28", "C1.10 Server ILO -> BOR SW A, Port 27", "C1.8 Server ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "C1.6 Server ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
+                "UTP Console Connections": ["Console Server (C1.3) Eth1 -> BOR A (C1.2), Port 41", "Console Server (C1.3) Port 1 -> SPINE (C1.43), CON", "Console Server (C1.3) Port 2 -> FW (C1.42), CON", "Console Server (C1.3) Port 3 -> AGG (C1.41), CON", "Console Server (C1.3) Port 4 -> TOR BL (C1.39), CON"],
+                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "Spine (C1.43) (N9K-C9336C-FX2): RU 43, PDU A 18, PDU B 18", "FW (C1.42) (SRX1500-AC): RU 42, PDU A 8, PDU B 8", "AGG SW (C1.41) (N9K-C93180YC-FX3H): RU 41, PDU A 27, PDU B 27", "TOR_SW_BL (C1.39) (N9K-C93180YC-FX3H): RU 39, PDU A 17, PDU B 17", "TOR_SW_A (C1.37) (N9K-C93180YC-FX3H): RU 37, PDU A 7, PDU B 7", "TOR_SW_B (C1.35) (N9K-C93180YC-FX3H): RU 35, PDU A 26, PDU B 26", "BOR_SW_A (C1.4) (N9K-C92348GC-X): RU 4, PDU A 21, PDU B 21", "BOR_SW_B (C1.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C1.20) (Lenovo SR650 v3): RU 21, PDU A 14, PDU B 14", "Server (C1.18) (Lenovo SR650 v3): RU 19, PDU A 4, PDU B 4", "Server (C1.16) (Lenovo SR650 v3): RU 17, PDU A 23, PDU B 23", "Server (C1.14) (Lenovo SR650 v3): RU 15, PDU A 13, PDU B 13", "Server (C1.12) (Lenovo SR650 v3): RU 13, PDU A 3, PDU B 3", "Server (C1.10) (Lenovo SR650 v3): RU 11, PDU A 22, PDU B 22", "Server (C1.8) (Lenovo SR650 v3): RU 9, PDU A 12, PDU B 12", "Server (C1.6) (Lenovo SR650 v3): RU 7, PDU A 2, PDU B 2"]
+            },
+            "C2 (N-MCS)": {
+                "SFP Installation Verification": ["SPINE (C2.43) Ports 1-14: QSFP-100G-SM-SR", "OAM FW (C2.42) Port 15: SRX-SFP-1GE-LX (xconnect FW C1.42)", "OAM FW (C2.42) Ports 16-17: SRX-SFP-10GE-LR (to TOR BL C2.39)", "OAM FW (C2.42) HA CONTROL: SRX-SFP-1GE-LX (xconnect FW C1.42)", "OAM AGG (C2.41) Ports 1-6: GLC-LH-SMD", "OAM AGG (C2.41) Ports 47-48: SFP-10G-LR-S (xconnect AGG C1.41)", "TOR BL (C2.39) Ports 47-48: SFP-10G-LR-S (to FW C2.42)", "TOR BL (C2.39) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR BL (C2.39) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR BL (C2.39) Port 51: QSFP-100G-LR4-S (NatCo primary NNI link)", "TOR BL (C2.39) Ports 53-54: QSFP-100G-SM-SR (xconnect TORs C1.39)", "TOR (C2.37) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C2.37) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C2.37) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C2.35)", "TOR (C2.35) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C2.35) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C2.35) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C2.37)", "BOR (C2.4) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C2.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C2.2)", "BOR (C2.2) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C2.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C2.4)"],
+                "Fiber Optic (FO) Connections": ["SPINE 2 (C2.43) Port 1 -> TOR BL 2 (C2.39) Port 50 (Cable: PL-FO00027)", "SPINE 2 (C2.43) Port 2 -> TOR BL 1 (C1.39) Port 50 (Cable: PL-FO00028)", "SPINE 2 (C2.43) Port 3 -> TOR A (C1.37) Port 50 (Cable: PL-FO00029)", "SPINE 2 (C2.43) Port 4 -> TOR B (C1.35) Port 50 (Cable: PL-FO00030)", "SPINE 2 (C2.43) Port 5 -> TOR A (C2.37) Port 50 (Cable: PL-FO00031)", "SPINE 2 (C2.43) Port 6 -> TOR B (C2.35) Port 50 (Cable: PL-FO00032)", "SPINE 2 (C2.43) Port 7 -> TOR A (C3.45) Port 50 (Cable: PL-FO00033)", "SPINE 2 (C2.43) Port 8 -> TOR B (C3.43) Port 50 (Cable: PL-FO00034)", "SPINE 2 (C2.43) Port 9 -> TOR A (C4.45) Port 50 (Cable: PL-FO00035)", "SPINE 2 (C2.43) Port 10 -> TOR B (C4.43) Port 50 (Cable: PL-FO00036)", "SPINE 2 (C2.43) Port 11 -> TOR A (C5.45) Port 50 (Cable: PL-FO00037)", "SPINE 2 (C2.43) Port 12 -> TOR B (C5.43) Port 50 (Cable: PL-FO00038)", "SPINE 2 (C2.43) Port 13 -> TOR A (C6.45) Port 50 (Cable: PL-FO00039)", "SPINE 2 (C2.43) Port 14 -> TOR B (C6.43) Port 50 (Cable: PL-FO00040)", "FW 2 (C2.42) Port 16 -> TOR BL 2 (C2.39) Port 47 (Cable: PL-FO00041)", "FW 2 (C2.42) Port 17 -> TOR BL 2 (C2.39) Port 48 (Cable: PL-FO00042)", "AGG 2 (C2.41) Port 1 -> BOR B (C1.2) Port 49 (Cable: PL-FO00043)", "AGG 2 (C2.41) Port 2 -> BOR A (C2.4) Port 49 (Cable: PL-FO00044)", "AGG 2 (C2.41) Port 3 -> BOR B (C3.2) Port 49 (Cable: PL-FO00045)", "AGG 2 (C2.41) Port 4 -> BOR A (C4.4) Port 49 (Cable: PL-FO00046)", "AGG 2 (C2.41) Port 5 -> BOR B (C5.2) Port 49 (Cable: PL-FO00047)", "AGG 2 (C2.41) Port 6 -> BOR A (C6.4) Port 49 (Cable: PL-FO00048)", "TOR BL 2 (C2.39) Port 51 -> NatCo NNI link (Cable: PL-FO00050)"],
+                "UTP OAM Connections": ["Spine (C2.43) MGMT -> BOR SW A, Port 46", "FW (C2.42) MGMT -> BOR SW A, Port 44", "AGG SW (C2.41) MGMT -> BOR SW A, Port 43", "TOR_SW_BL (C2.39) MGMT -> BOR SW A, Port 42", "TOR_SW_A (C2.37) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C2.35) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C2.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C2.2) MGMT -> BOR SW A, Port 45", "PDU A (C2.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C2.PDU B) MGMT -> BOR SW B, Port 48", "C2.20 Server ILO -> BOR SW A, Port 32", "C2.18 Server ILO -> BOR SW A, Port 31", "C2.16 Server ILO -> BOR SW A, Port 30", "C2.14 Server ILO -> BOR SW A, Port 29", "C2.12 Server ILO -> BOR SW A, Port 28", "C2.10 Server ILO -> BOR SW A, Port 27", "C2.8 Server ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "C2.6 Server ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
+                "UTP Console Connections": ["Console Server (C2.3) Eth1 -> BOR A (C2.2), Port 41", "Console Server (C2.3) Port 1 -> SPINE (C2.43), CON", "Console Server (C2.3) Port 2 -> FW (C2.42), CON", "Console Server (C2.3) Port 3 -> AGG (C2.41), CON", "Console Server (C2.3) Port 4 -> TOR BL (C2.39), CON"],
+                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "Spine (C2.43) (N9K-C9336C-FX2): RU 43, PDU A 18, PDU B 18", "FW (C2.42) (SRX1500-AC): RU 42, PDU A 8, PDU B 8", "AGG SW (C2.41) (N9K-C93180YC-FX3H): RU 41, PDU A 27, PDU B 27", "TOR_SW_BL (C2.39) (N9K-C93180YC-FX3H): RU 39, PDU A 17, PDU B 17", "TOR_SW_A (C2.37) (N9K-C93180YC-FX3H): RU 37, PDU A 7, PDU B 7", "TOR_SW_B (C2.35) (N9K-C93180YC-FX3H): RU 35, PDU A 26, PDU B 26", "BOR_SW_A (C2.4) (N9K-C92348GC-X): RU 4, PDU A 21, PDU B 21", "BOR_SW_B (C2.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C2.20) (Lenovo SR650 v3): RU 21, PDU A 14, PDU B 14", "Server (C2.18) (Lenovo SR650 v3): RU 19, PDU A 4, PDU B 4", "Server (C2.16) (Lenovo SR650 v3): RU 17, PDU A 23, PDU B 23", "Server (C2.14) (Lenovo SR650 v3): RU 15, PDU A 13, PDU B 13", "Server (C2.12) (Lenovo SR650 v3): RU 13, PDU A 3, PDU B 3", "Server (C2.10) (Lenovo SR650 v3): RU 11, PDU A 22, PDU B 22", "Server (C2.8) (Lenovo SR650 v3): RU 9, PDU A 12, PDU B 12", "Server (C2.6) (Lenovo SR650 v3): RU 7, PDU A 2, PDU B 2"]
+            },
+            "C3 (MCS)": {
+                "SFP Installation Verification": ["TOR (C3.45) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C3.45) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C3.45) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C3.43)", "TOR (C3.43) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C3.43) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C3.43) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C3.45)", "BOR (C3.4) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C3.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C3.2)", "BOR (C3.2) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C3.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C3.4)"],
+                "UTP OAM Connections": ["TOR_SW_A (C3.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C3.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C3.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C3.2) MGMT -> BOR SW A, Port 45", "PDU A (C3.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C3.PDU B) MGMT -> BOR SW B, Port 48", "C3.20 Server ILO -> BOR SW A, Port 32", "C3.18 Server ILO -> BOR SW A, Port 31", "C3.16 Server ILO -> BOR SW A, Port 30", "C3.14 Server ILO -> BOR SW A, Port 29", "C3.12 Server ILO -> BOR SW A, Port 28", "C3.10 Server ILO -> BOR SW A, Port 27", "C3.8 Server ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "C3.6 Server ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
+                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "TOR_SW_A (C3.45) (N9K-C93180YC-FX3H): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C3.43) (N9K-C93180YC-FX3H): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C3.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C3.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C3.20) (Lenovo SR650 v3): RU 21, PDU A 4, PDU B 4", "Server (C3.18) (Lenovo SR650 v3): RU 19, PDU A 23, PDU B 23", "Server (C3.16) (Lenovo SR650 v3): RU 17, PDU A 13, PDU B 13", "Server (C3.14) (Lenovo SR650 v3): RU 15, PDU A 3, PDU B 3", "Server (C3.12) (Lenovo SR650 v3): RU 13, PDU A 22, PDU B 22", "Server (C3.10) (Lenovo SR650 v3): RU 11, PDU A 12, PDU B 12", "Server (C3.8) (Lenovo SR650 v3): RU 9, PDU A 2, PDU B 2", "Server (C3.6) (Lenovo SR650 v3): RU 7, PDU A 21, PDU B 21"]
+            },
+            "C4 (CS)": {
+                "SFP Installation Verification": ["TOR (C4.45) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C4.45) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C4.45) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C4.43)", "TOR (C4.43) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C4.43) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C4.43) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C4.45)", "BOR (C4.4) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C4.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C4.2)", "BOR (C4.2) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C4.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C4.4)"],
+                "UTP OAM Connections": ["TOR_SW_A (C4.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C4.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C4.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C4.2) MGMT -> BOR SW A, Port 45", "PDU A (C4.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C4.PDU B) MGMT -> BOR SW B, Port 48", "C4.22 Server IMM -> BOR SW B, Port 25", "C4.20 Server IMM -> BOR SW A, Port 32", "C4.18 Server IMM -> BOR SW A, Port 31", "C4.16 Server IMM -> BOR SW A, Port 30", "C4.14 Server IMM -> BOR SW A, Port 29", "C4.12 Server IMM -> BOR SW A, Port 28", "C4.10 Server IMM -> BOR SW A, Port 27", "C4.8 Server IMM -> BOR SW A, Port 26", "C4.6 Server IMM -> BOR SW A, Port 25"],
+                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "TOR_SW_A (C4.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C4.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C4.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C4.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C4.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C4.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C4.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C4.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C4.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C4.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C4.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C4.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C4.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12"]
+            },
+            "C5 (CS)": {
+                "SFP Installation Verification": ["TOR (C5.45) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C5.45) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C5.45) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C5.43)", "TOR (C5.43) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C5.43) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C5.43) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C5.45)", "BOR (C5.4) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C5.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C5.2)", "BOR (C5.2) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C5.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C5.4)"],
+                "UTP OAM Connections": ["TOR_SW_A (C5.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C5.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C5.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C5.2) MGMT -> BOR SW A, Port 45", "PDU A (C5.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C5.PDU B) MGMT -> BOR SW B, Port 48", "C5.22 Server IMM -> BOR SW B, Port 25", "C5.20 Server IMM -> BOR SW A, Port 32", "C5.18 Server IMM -> BOR SW A, Port 31", "C5.16 Server IMM -> BOR SW A, Port 30", "C5.14 Server IMM -> BOR SW A, Port 29", "C5.12 Server IMM -> BOR SW A, Port 28", "C5.10 Server IMM -> BOR SW A, Port 27", "C5.8 Server IMM -> BOR SW A, Port 26", "C5.6 Server IMM -> BOR SW A, Port 25"],
+                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "TOR_SW_A (C5.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C5.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C5.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C5.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C5.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C5.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C5.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C5.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C5.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C5.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C5.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C5.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C5.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12"]
+            },
+            "C6 (CS)": {
+                "SFP Installation Verification": ["TOR (C6.45) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C6.45) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C6.45) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C6.43)", "TOR (C6.43) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C6.43) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C6.43) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C6.45)", "BOR (C6.4) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C6.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C6.2)", "BOR (C6.2) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C6.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C6.4)"],
+                "UTP OAM Connections": ["TOR_SW_A (C6.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C6.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C6.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C6.2) MGMT -> BOR SW A, Port 45", "PDU A (C6.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C6.PDU B) MGMT -> BOR SW B, Port 48", "C6.22 Server IMM -> BOR SW B, Port 25", "C6.20 Server IMM -> BOR SW A, Port 32", "C6.18 Server IMM -> BOR SW A, Port 31", "C6.16 Server IMM -> BOR SW A, Port 30", "C6.14 Server IMM -> BOR SW A, Port 29", "C6.12 Server IMM -> BOR SW A, Port 28", "C6.10 Server IMM -> BOR SW A, Port 27", "C6.8 Server IMM -> BOR SW A, Port 26", "C6.6 Server IMM -> BOR SW A, Port 25"],
+                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "TOR_SW_A (C6.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C6.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C6.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C6.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C6.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C6.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C6.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C6.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C6.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C6.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C6.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C6.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C6.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12"]
+            }
+        };
+        // #endregion
+
+        // #region STATE MANAGEMENT
+        /**
+         * @description The application's state, including user progress and UI settings.
+         * Loaded from localStorage or initialized with defaults.
+         * @type {Object}
+         */
+        let state = {};
+
+        /**
+         * @description The application's configuration, derived from the raw data.
+         * @type {{racks: Object, categories: string[], version: string, allItems: Object}}
+         */
+        const config = {
+            racks: {},
+            categories: [],
+            version: '4.2',
+            allItems: {}
+        };
+
+        const statusCycle = ['pending', 'verified', 'failed', 'needs-review'];
+        const localStorageKey = 'dcChecklistState_v4'; // Keep v4 key for compatibility
+        // #endregion
+
+        // #region CORE LOGIC
+        /**
+         * @description Initializes the application by parsing data, loading state,
+         * setting up event listeners, and performing the initial render.
+         */
+        function init() {
+            parseData();
+            loadState();
+            setupEventListeners();
+            setupOfflineHandling();
+
+            if (!state.activeCategory && config.categories.length > 0) {
+                state.activeCategory = config.categories[0];
+            }
+
+            if (Object.keys(state.selectedRacks).length === 0) {
+                Object.keys(config.racks).forEach(rackId => {
+                    state.selectedRacks[rackId] = true;
+                });
+            }
+
+            render();
+        }
+
+        /**
+         * @description Loads the application state from localStorage.
+         * Includes validation and backup for corrupted data.
+         */
+        function loadState() {
+            try {
+                const savedState = localStorage.getItem(localStorageKey);
+                if (savedState) {
+                    const parsed = JSON.parse(savedState);
+                    if (parsed && typeof parsed.itemStatus === 'object') {
+                        state = parsed;
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to load state, backing up corrupted data.", e);
+                const corruptedData = localStorage.getItem(localStorageKey);
+                if (corruptedData) {
+                    localStorage.setItem(`dcChecklistState_corrupted_${Date.now()}`, corruptedData);
+                }
+            }
+            // Initialize with default state if loading fails
+            state = {
+                itemStatus: {},
+                itemNotes: {},
+                itemTimestamps: {},
+                rackPhotos: {},
+                activeCategory: null,
+                selectedRacks: {},
+                mobileView: 'categories',
+                mobileRack: null,
+                searchTerm: '',
+                technicianId: 'Anonymous',
+                isOnline: navigator.onLine
+            };
+        }
+
+        /**
+         * @description Saves the current application state to localStorage.
+         * Debounced to prevent excessive writes.
+         */
+        const saveState = debounce(() => {
+            try {
+                state.lastSaved = new Date().toISOString();
+                state.version = config.version;
+                localStorage.setItem(localStorageKey, JSON.stringify(state));
+            } catch (e) {
+                console.error("Failed to save state", e);
+                showNotification("Failed to save progress", "error");
+            }
+        }, 500);
+
+        /**
+         * @description Parses the raw data into a structured format for the application.
+         */
+        function parseData() {
+            const uniqueCategories = new Set();
+            Object.keys(fullRawData).forEach(rackName => {
+                config.racks[rackName] = { name: rackName, items: [] };
+                const rackData = fullRawData[rackName];
+                Object.keys(rackData).forEach(categoryName => {
+                    uniqueCategories.add(categoryName);
+                    rackData[categoryName].forEach((itemString, index) => {
+                        const [title, ...detailsParts] = itemString.split(' -> ');
+                        const details = detailsParts.length > 0 ? `→ ${detailsParts.join(' -> ')}` : '';
+                        const itemId = `${sanitizeForId(rackName)}-${sanitizeForId(categoryName)}-${index}`;
+                        const item = { id: itemId, title, details, category: categoryName, rack: rackName, notes: '' };
+                        config.racks[rackName].items.push(item);
+                        config.allItems[itemId] = item;
+                    });
+                });
+            });
+            config.categories = Array.from(uniqueCategories).sort();
+        }
+        // #endregion
+
+        // #region RENDERING
+        /**
+         * @description Main render function that orchestrates the rendering of all UI components.
+         */
+        function render() {
+            renderRackSelector();
+            renderCategories();
+            renderRackOverview();
+            renderEquipmentDetail();
+            renderMobile();
+            renderOverallStats();
+        }
+
+        /**
+         * @description Renders the overall progress statistics.
+         */
+        function renderOverallStats() {
+            const progress = getCategoryProgress();
+            const statsEl = document.getElementById('overall-stats');
+            if (statsEl) {
+                statsEl.innerHTML = `
+                    <span title="Verified"><div class="status-icon verified">✓</div> ${progress.verified}</span>
+                    <span title="Failed"><div class="status-icon failed">✗</div> ${progress.failed}</span>
+                    <span title="Needs Review"><div class="status-icon needs-review">!</div> ${progress.needsReview}</span>
+                    <span title="Total">Σ ${progress.total}</span>
+                `;
+            }
+        }
+
+        /**
+         * @description Renders the rack selection checkboxes.
+         */
+        function renderRackSelector() {
+            const container = document.getElementById("rack-selector");
+            const rackIds = Object.keys(config.racks);
+            const allSelected = rackIds.length > 0 && rackIds.every(id => state.selectedRacks[id]);
+            let html = '<div class="rack-selector-grid">';
+            html += `<label><input type="checkbox" value="all" ${allSelected ? "checked" : ""}> <span>All</span></label>`;
+            rackIds.forEach(id => {
+                const checked = state.selectedRacks[id] ? "checked" : "";
+                const shortName = id.split(" ")[0];
+                html += `<label><input type="checkbox" value="${id}" ${checked}> <span>${shortName}</span></label>`;
+            });
+            html += "</div>";
+            container.innerHTML = html;
+        }
+
+        /**
+         * @description Renders the list of categories and their progress.
+         */
+        function renderCategories() {
+            const container = document.getElementById("category-list");
+            let html = "";
+            config.categories.forEach(categoryName => {
+                const progress = getCategoryProgress(categoryName);
+                const status = getCategoryStatus(progress);
+                const activeClass = state.activeCategory === categoryName ? "active" : "";
+                html += `
+                    <li class="category-list-item ${activeClass}" data-category-id="${categoryName}" tabindex="0" role="button">
+                        <span class="status-icon ${status}">${getStatusIcon(status)}</span>
+                        ${categoryName}
+                        <small>(${progress.checked}/${progress.total})</small>
+                    </li>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        /**
+         * @description Renders the overview of racks for the active category.
+         */
+        function renderRackOverview() {
+            const container = document.getElementById("rack-overview-list");
+            if (!state.activeCategory) {
+                container.innerHTML = "";
+                return;
+            }
+            let html = "";
+            Object.keys(config.racks).forEach(rackId => {
+                if (!state.selectedRacks[rackId]) return;
+                const progress = getRackProgressForCategory(rackId, state.activeCategory);
+                if (progress.total === 0) return;
+                const percentage = progress.total > 0 ? (progress.verified / progress.total) * 100 : 0;
+                const shortName = rackId.split(" ")[0];
+                html += `
+                    <li class="rack-list-item" data-rack-id="${rackId}" tabindex="0" role="button">
+                        <div class="rack-name">${shortName}</div>
+                        <div class="rack-progress-bar" aria-label="${shortName} progress ${Math.round(percentage)}%">
+                            <div class="rack-progress-fill" style="width:${percentage}%;"></div>
+                        </div>
+                        <span class="percentage">${Math.round(percentage)}%</span>
+                    </li>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        /**
+         * @description Renders the detailed equipment list for the active category and selected racks.
+         */
+        function renderEquipmentDetail() {
+            const container = document.getElementById("equipment-detail-content");
+            const titleEl = document.getElementById("detail-panel-title");
+
+            if (!state.activeCategory) {
+                container.innerHTML = '<div class="no-selection">Select a Category to view details</div>';
+                titleEl.textContent = "🔧 Equipment Detail";
+                return;
+            }
+
+            titleEl.textContent = `🔧 ${state.activeCategory}`;
+            let html = "";
+            const searchTerm = state.searchTerm.toLowerCase();
+
+            Object.keys(config.racks).forEach(rackId => {
+                if (!state.selectedRacks[rackId]) return;
+
+                const rack = config.racks[rackId];
+                const items = rack.items.filter(item =>
+                    item.category === state.activeCategory &&
+                    (!searchTerm || (item.title.toLowerCase().includes(searchTerm) || item.details.toLowerCase().includes(searchTerm)))
+                );
+
+                if (items.length > 0) {
+                    const sanitizedId = sanitizeForId(rackId);
+                    const allVerified = items.every(item => state.itemStatus[item.id] === "verified");
+                    const hasPhoto = state.rackPhotos[rackId] ? '<span style="color: var(--success-color);">📸</span>' : '';
+
+                    html += `
+                        <div class="detail-rack-group">
+                            <h3 id="detail-rack-${sanitizedId}" style="font-size: 1em; display: flex; align-items: center; justify-content: space-between;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" class="rack-master-check" data-rack-id="${rackId}" ${allVerified ? "checked" : ""}>
+                                    <span>${rackId} ${hasPhoto}</span>
+                                </label>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="rack-photo-btn" data-rack-id="${rackId}" title="Add or View Rack Photo">📷 Photo</button>
+                                    <button class="rack-reset-btn" data-rack-id="${rackId}" title="Reset Progress for ${rackId}">🔄 Reset</button>
+                                </div>
+                            </h3>
+                            <ul class="equipment-list">
+                    `;
+                    items.forEach(item => {
+                        html += generateItemHTML(item);
+                    });
+                    html += "</ul></div>";
+                }
+            });
+            container.innerHTML = html || '<div class="no-selection">No items match your selection or search.</div>';
+        }
+
+        /**
+         * @description Generates the HTML for a single equipment item.
+         * @param {Object} item - The item object.
+         * @returns {string} The HTML string for the item.
+         */
+        function generateItemHTML(item) {
+            const status = state.itemStatus[item.id] || "pending";
+            const note = state.itemNotes[item.id];
+            const timestamp = state.itemTimestamps[item.id];
+            const statusContent = getStatusIcon(status);
+            const noteHTML = note ? `<div class="item-note">Note: ${escapeHTML(note)}</div>` : "";
+            const timestampHTML = timestamp ? `<div style="font-size: 0.8em; color: var(--border-color); margin-top: 0.5rem;">Last updated: ${new Date(timestamp).toLocaleString()}</div>` : "";
+
+            return `
+                <li class="equipment-list-item" id="item-${item.id}">
+                    <div class="equipment-header">
+                        <div class="title">${escapeHTML(item.title)}</div>
+                        <div class="item-controls">
+                            <button class="note-btn" data-item-id="${item.id}" aria-label="Add note for ${escapeHTML(item.title)}">📝</button>
+                            <div class="status-toggle ${status}" data-item-id="${item.id}"
+                                 title="Click to cycle status: ${status}" role="button" tabindex="0" aria-label="Cycle status for ${escapeHTML(item.title)}. Current status: ${status}">
+                                 ${statusContent}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equipment-details">${escapeHTML(item.details)}</div>
+                    ${noteHTML}
+                    ${timestampHTML}
+                </li>`;
+        }
+        
+        /**
+         * @description Orchestrates rendering for mobile views.
+         */
+        function renderMobile() {
+            document.getElementById("mobile-panel-categories").classList.toggle("active", state.mobileView === "categories");
+            document.getElementById("mobile-panel-racks").classList.toggle("active", state.mobileView === "racks");
+            document.getElementById("mobile-panel-items").classList.toggle("active", state.mobileView === "items");
+
+            switch (state.mobileView) {
+                case 'categories': renderMobileCategoryList(); break;
+                case 'racks': renderMobileRackList(); break;
+                case 'items': renderMobileItemList(); break;
+            }
+        }
+
+        /**
+         * @description Renders the category list for the mobile view.
+         */
+        function renderMobileCategoryList() {
+            const container = document.getElementById("mobile-category-list");
+            const totalProgress = getCategoryProgress();
+            const percentage = totalProgress.total > 0 ? Math.round(totalProgress.verified / totalProgress.total * 100) : 0;
+            document.getElementById("mobile-total-progress").textContent = `📊 ${percentage}%`;
+            let html = "";
+            config.categories.forEach(categoryName => {
+                const progress = getCategoryProgress(categoryName);
+                const status = getCategoryStatus(progress);
+                html += `
+                    <li class="mobile-category-item" data-category-id="${categoryName}" role="button" tabindex="0">
+                        <span class="status-icon ${status}">${getStatusIcon(status)}</span>
+                        <span>${categoryName}</span>
+                        <span>(${progress.verified}/${progress.total})</span>
+                    </li>`;
+            });
+            container.innerHTML = html;
+        }
+
+        /**
+         * @description Renders the rack list for the mobile view.
+         */
+        function renderMobileRackList() {
+            const container = document.getElementById("mobile-rack-list");
+            document.getElementById("mobile-rack-title").textContent = state.activeCategory;
+            let html = "";
+            Object.keys(config.racks).forEach(rackId => {
+                const progress = getRackProgressForCategory(rackId, state.activeCategory, true); // Get detailed progress
+                if (progress.total === 0) return;
+                
+                const percentage = progress.total > 0 ? Math.round(progress.verified / progress.total * 100) : 0;
+                const status = getCategoryStatus(progress);
+                html += `
+                    <li class="mobile-rack-item" data-rack-id="${rackId}" role="button" tabindex="0">
+                        <span class="status-icon ${status}">${getStatusIcon(status)}</span>
+                        <span>${rackId.split(" ")[0]}</span>
+                        <span>${percentage}%</span>
+                    </li>`;
+            });
+            container.innerHTML = html;
+        }
+
+        /**
+         * @description Renders the item list for a specific rack in the mobile view.
+         */
+        function renderMobileItemList() {
+            const container = document.getElementById("mobile-item-list");
+            if (!state.mobileRack) {
+                container.innerHTML = "";
+                return;
+            }
+            document.getElementById("mobile-item-title").textContent = state.mobileRack.split(" ")[0];
+            const rack = config.racks[state.mobileRack];
+            const searchTerm = state.searchTerm.toLowerCase();
+            const items = rack.items.filter(item => 
+                item.category === state.activeCategory &&
+                (!searchTerm || (item.title.toLowerCase().includes(searchTerm) || item.details.toLowerCase().includes(searchTerm)))
+            );
+
+            let html = `
+                <div style="margin-bottom: 1rem; padding: 1rem; border: 1px dashed var(--border-color); border-radius: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>Rack Controls</strong>
+                        <div>
+                            <button class="btn mobile-rack-photo-btn" data-rack-id="${state.mobileRack}" style="padding: 0.25rem 0.5rem;">📷 Photo</button>
+                            <button class="btn btn-secondary mobile-rack-reset-btn" data-rack-id="${state.mobileRack}" style="margin-left: 0.5rem; padding: 0.25rem 0.5rem;">🔄 Reset</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            items.forEach(item => {
+                const status = state.itemStatus[item.id] || "pending";
+                const note = state.itemNotes[item.id];
+                const statusContent = getStatusIcon(status);
+                html += `
+                    <div class="mobile-equipment-item" id="mobile-item-${item.id}">
+                        <div class="mobile-equipment-header">
+                            <div class="mobile-equipment-title">${escapeHTML(item.title)}</div>
+                            <div class="mobile-equipment-controls">
+                                <button class="note-btn" data-item-id="${item.id}" aria-label="Add note">📝</button>
+                                <div class="mobile-status-toggle ${status}" data-item-id="${item.id}" role="button" tabindex="0">${statusContent}</div>
+                            </div>
+                        </div>
+                        <div class="equipment-details">${escapeHTML(item.details)}</div>
+                        ${note ? `<div class="item-note">Note: ${escapeHTML(note)}</div>` : ""}
+                    </div>`;
+            });
+            container.innerHTML = html || '<div class="no-selection">No items match your selection or search.</div>';
+        }
+        // #endregion
+
+        // #region EVENT HANDLING
+        /**
+         * @description Sets up all event listeners for the application.
+         * Uses event delegation for performance.
+         */
+        function setupEventListeners() {
+            // --- DELEGATED EVENTS ---
+            document.body.addEventListener('click', handleBodyClick);
+            document.body.addEventListener('change', handleBodyChange);
+            document.body.addEventListener('keydown', handleBodyKeydown);
+
+            // --- DIRECT EVENTS ---
+            const searchInput = document.getElementById("search-input");
+            searchInput.addEventListener("input", debounce(e => {
+                state.searchTerm = e.target.value;
+                renderEquipmentDetail();
+            }, 300));
+
+            // --- OFFLINE/ONLINE EVENTS ---
+            window.addEventListener('online', () => { state.isOnline = true; updateOnlineStatus(); });
+            window.addEventListener('offline', () => { state.isOnline = false; updateOnlineStatus(); });
+        }
+
+        /**
+         * @description Handles all click events on the body using delegation.
+         * @param {Event} e - The click event object.
+         */
+        function handleBodyClick(e) {
+            const target = e.target;
+            const categoryItem = target.closest(".category-list-item");
+            const statusToggle = target.closest(".status-toggle, .mobile-status-toggle");
+            const noteBtn = target.closest(".note-btn");
+            const rackItem = target.closest(".rack-list-item");
+            const rackPhotoBtn = target.closest(".rack-photo-btn, .mobile-rack-photo-btn");
+            const rackResetBtn = target.closest(".rack-reset-btn, .mobile-rack-reset-btn");
+            const mobileCategoryItem = target.closest(".mobile-category-item");
+            const mobileRackItem = target.closest(".mobile-rack-item");
+            const mobileBackBtn = target.closest(".mobile-back-btn");
+
+            // Desktop
+            if (categoryItem) selectCategory(categoryItem.dataset.categoryId);
+            if (statusToggle) toggleItemStatus(statusToggle.dataset.itemId);
+            if (noteBtn) promptForNote(noteBtn.dataset.itemId);
+            if (rackItem) scrollToRack(rackItem.dataset.rackId);
+            if (rackPhotoBtn) captureRackPhoto(rackPhotoBtn.dataset.rackId);
+            if (rackResetBtn) resetRackProgress(rackResetBtn.dataset.rackId);
+            
+            // Mobile
+            if (mobileCategoryItem) selectCategory(mobileCategoryItem.dataset.categoryId, true);
+            if (mobileRackItem) selectRackForMobile(mobileRackItem.dataset.rackId);
+            if (mobileBackBtn) setMobileView(state.mobileView === 'items' ? 'racks' : 'categories');
+
+            // Controls
+            if (target.id === 'clear-search-btn') {
+                document.getElementById("search-input").value = '';
+                state.searchTerm = '';
+                renderEquipmentDetail();
+            }
+            if (target.id === 'export-yaml-btn' || target.id === 'mobile-export-yaml-btn') exportYAML();
+            if (target.id === 'export-csv-btn' || target.id === 'mobile-export-csv-btn') exportCSV();
+            if (target.id === 'import-btn') importState();
+            if (target.id === 'backup-btn' || target.id === 'mobile-backup-btn') createBackup();
+            if (target.id === 'reset-all-btn' || target.id === 'mobile-reset-btn') resetAllProgress();
+            if (target.id === 'mobile-search-btn') showMobileSearch();
+        }
+
+        /**
+         * @description Handles all change events on the body using delegation (for checkboxes).
+         * @param {Event} e - The change event object.
+         */
+        function handleBodyChange(e) {
+            const target = e.target;
+            if (target.closest("#rack-selector") && target.type === 'checkbox') {
+                updateRackSelection(target.value, target.checked);
+            }
+            if (target.classList.contains('rack-master-check')) {
+                toggleAllItemsInRack(target.dataset.rackId, target.checked);
+            }
+        }
+
+        /**
+         * @description Handles keydown events for accessibility and shortcuts.
+         * @param {Event} e - The keydown event object.
+         */
+        function handleBodyKeydown(e) {
+            // Enter/Space for accessible buttons
+            if (e.key === 'Enter' || e.key === ' ') {
+                const roleButton = e.target.closest('[role="button"]');
+                if (roleButton) {
+                    e.preventDefault();
+                    roleButton.click();
+                }
+            }
+            // Global shortcuts
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case 's': e.preventDefault(); createBackup(); break;
+                    case 'e': e.preventDefault(); exportYAML(); break;
+                    case 'f': e.preventDefault(); document.getElementById("search-input").focus(); break;
+                }
+            }
+        }
+        // #endregion
+
+        // #region USER ACTIONS
+        /**
+         * @description Sets the active category and triggers a re-render.
+         * @param {string} categoryId - The ID of the category to select.
+         * @param {boolean} [isMobile=false] - Flag for mobile-specific view change.
+         */
+        function selectCategory(categoryId, isMobile = false) {
+            state.activeCategory = categoryId;
+            if (isMobile) {
+                setMobileView("racks");
+            } else {
+                saveState();
+                render();
+            }
+        }
+
+        /**
+         * @description Sets the active rack for the mobile item view.
+         * @param {string} rackId - The ID of the rack to select.
+         */
+        function selectRackForMobile(rackId) {
+            state.mobileRack = rackId;
+            setMobileView("items");
+        }
+
+        /**
+         * @description Changes the current view on mobile.
+         * @param {string} view - The view to switch to ('categories', 'racks', 'items').
+         */
+        function setMobileView(view) {
+            state.mobileView = view;
+            saveState();
+            renderMobile();
+        }
+
+        /**
+         * @description Cycles through the status of a checklist item.
+         * @param {string} itemId - The ID of the item to update.
+         */
+        function toggleItemStatus(itemId) {
+            const currentStatus = state.itemStatus[itemId] || "pending";
+            const currentIndex = statusCycle.indexOf(currentStatus);
+            const nextStatus = statusCycle[(currentIndex + 1) % statusCycle.length];
+
+            if (nextStatus === "pending") {
+                delete state.itemStatus[itemId];
+                delete state.itemTimestamps[itemId];
+            } else {
+                state.itemStatus[itemId] = nextStatus;
+                state.itemTimestamps[itemId] = new Date().toISOString();
+            }
+
+            saveState();
+            
+            // Targeted DOM update for performance
+            const item = config.allItems[itemId];
+            const itemEl = document.getElementById(`item-${item.id}`);
+            if (itemEl) {
+                itemEl.outerHTML = generateItemHTML(item);
+            }
+            const mobileItemEl = document.getElementById(`mobile-item-${item.id}`);
+            if (mobileItemEl) {
+                // Simplified mobile update for now
+                renderMobileItemList();
+            }
+            
+            // Update parent components that show progress
+            renderCategories();
+            renderRackOverview();
+            renderOverallStats();
+        }
+
+        /**
+         * @description Toggles the status of all items in a rack for the current category.
+         * @param {string} rackId - The ID of the rack.
+         * @param {boolean} isChecked - The target state (true for 'verified').
+         */
+        function toggleAllItemsInRack(rackId, isChecked) {
+            const items = config.racks[rackId].items.filter(item => item.category === state.activeCategory);
+            items.forEach(item => {
+                if (isChecked) {
+                    state.itemStatus[item.id] = "verified";
+                    state.itemTimestamps[item.id] = new Date().toISOString();
+                } else {
+                    delete state.itemStatus[item.id];
+                    delete state.itemTimestamps[item.id];
+                }
+            });
+            saveState();
+            render(); // Full re-render is acceptable here as it's a bulk action
+        }
+
+        /**
+         * @description Updates the selection state for racks.
+         * @param {string} rackId - The ID of the rack, or 'all'.
+         * @param {boolean} isChecked - The selection state.
+         */
+        function updateRackSelection(rackId, isChecked) {
+            if (rackId === "all") {
+                Object.keys(config.racks).forEach(id => state.selectedRacks[id] = isChecked);
+            } else {
+                state.selectedRacks[rackId] = isChecked;
+            }
+            saveState();
+            render();
+        }
+
+        /**
+         * @description Scrolls the detail view to a specific rack.
+         * @param {string} rackId - The ID of the rack to scroll to.
+         */
+        function scrollToRack(rackId) {
+            const element = document.getElementById(`detail-rack-${sanitizeForId(rackId)}`);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+                element.focus();
+            }
+        }
+
+        /**
+         * @description Prompts the user for a note on an item.
+         * @param {string} itemId - The ID of the item.
+         */
+        function promptForNote(itemId) {
+            // In a real app, this would be a custom, non-blocking modal.
+            const currentNote = state.itemNotes[itemId] || "";
+            const newNote = prompt("Enter note for this item:", currentNote);
+            if (newNote !== null) {
+                if (newNote.trim()) {
+                    state.itemNotes[itemId] = newNote.trim();
+                } else {
+                    delete state.itemNotes[itemId];
+                }
+                saveState();
+                render(); // Re-render to show/hide note
+            }
+        }
+        
+        /**
+         * @description Resets the progress for all items in a specific rack.
+         * @param {string} rackId - The ID of the rack to reset.
+         */
+        function resetRackProgress(rackId) {
+            if (confirm(`Are you sure you want to reset all progress for rack ${rackId}?`)) {
+                config.racks[rackId].items.forEach(item => {
+                    delete state.itemStatus[item.id];
+                    delete state.itemNotes[item.id];
+                    delete state.itemTimestamps[item.id];
+                });
+                saveState();
+                render();
+                showNotification(`Progress reset for rack ${rackId}`, "success");
+            }
+        }
+
+        /**
+         * @description Resets all progress across the entire application.
+         */
+        function resetAllProgress() {
+            if (confirm('Reset ALL progress? This clears all status, notes, and timestamps.')) {
+                state.itemStatus = {};
+                state.itemNotes = {};
+                state.itemTimestamps = {};
+                saveState();
+                render();
+                showNotification("All progress has been reset", "success");
+            }
+        }
+
+        /**
+         * @description Shows a prompt for searching on mobile.
+         */
+        function showMobileSearch() {
+            const searchTerm = prompt("Enter search term:", state.searchTerm || "");
+            if (searchTerm !== null) {
+                state.searchTerm = searchTerm.trim();
+                saveState();
+                render(); // Re-render all views to apply search filter
+                showNotification(state.searchTerm ? `Searching for: ${state.searchTerm}` : "Search cleared", "info");
+            }
+        }
+        // #endregion
+
+        // #region DATA I/O
+        /**
+         * @description Exports the application state as a YAML file.
+         */
+        function exportYAML() {
+            try {
+                const exportData = {
+                    metadata: {
+                        timestamp: new Date().toISOString(),
+                        version: config.version,
+                        technician: state.technicianId,
+                        totalItems: Object.keys(config.allItems).length
+                    },
+                    progress: getCategoryProgress(),
+                    state: state,
+                };
+                const yamlString = jsyaml.dump(exportData);
+                const filename = `dc_checklist_progress_${new Date().toISOString().split('T')[0]}.yaml`;
+                const blob = new Blob([yamlString], { type: "text/yaml" });
+                downloadBlob(blob, filename);
+                showNotification("Progress exported successfully as YAML", "success");
+            } catch (e) {
+                console.error("YAML Export failed", e);
+                showNotification("YAML Export failed", "error");
+            }
+        }
+
+        /**
+         * @description Exports the current progress as a CSV file.
+         */
+        function exportCSV() {
+            try {
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "ID,Rack,Category,Title,Status,Notes\r\n";
+
+                Object.values(config.allItems).forEach(item => {
+                    const status = state.itemStatus[item.id] || "pending";
+                    const notes = state.itemNotes[item.id] || "";
+                    const row = [item.id, item.rack, item.category, `"${item.title.replace(/"/g, '""')}"`, status, `"${notes.replace(/"/g, '""')}"`].join(",");
+                    csvContent += row + "\r\n";
+                });
+
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `dc_checklist_progress_${new Date().toISOString().split('T')[0]}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showNotification("Progress exported successfully as CSV", "success");
+            } catch (e) {
+                console.error("CSV Export failed", e);
+                showNotification("CSV Export failed", "error");
+            }
+        }
+
+        /**
+         * @description Imports application state from a JSON file.
+         */
+        function importState() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json,.yaml,.yml';
+            input.onchange = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        let importData;
+                        if (file.name.endsWith('.yaml') || file.name.endsWith('.yml')) {
+                            importData = jsyaml.load(e.target.result);
+                        } else {
+                            importData = JSON.parse(e.target.result);
+                        }
+                        
+                        if (importData.state && typeof importData.state.itemStatus === 'object') {
+                            state = { ...state, ...importData.state };
+                            saveState();
+                            render();
+                            showNotification("Progress imported successfully", "success");
+                        } else {
+                            throw new Error("Invalid file format");
+                        }
+                    } catch (error) {
+                        console.error("Import failed:", error);
+                        showNotification("Import failed: Invalid file", "error");
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        /**
+         * @description Creates a local backup of the current state in localStorage.
+         */
+        function createBackup() {
+            const backupData = { timestamp: new Date().toISOString(), state: state };
+            localStorage.setItem(`dcChecklistBackup_${Date.now()}`, JSON.stringify(backupData));
+            showNotification("Backup created in local storage", "success");
+            // Clean up old backups, keeping the 5 most recent
+            const keys = Object.keys(localStorage).filter(key => key.startsWith('dcChecklistBackup_'));
+            keys.sort().slice(0, -5).forEach(key => localStorage.removeItem(key));
+        }
+        // #endregion
+        
+        // #region PHOTO FUNCTIONS
+        /**
+         * @description Initiates photo capture for a rack.
+         * @param {string} rackId - The ID of the rack.
+         */
+        function captureRackPhoto(rackId) {
+            const existingPhoto = state.rackPhotos[rackId];
+            if (existingPhoto) {
+                viewRackPhoto(rackId);
+                return;
+            }
+
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        state.rackPhotos[rackId] = {
+                            data: e.target.result,
+                            timestamp: new Date().toISOString()
+                        };
+                        saveState();
+                        render();
+                        showNotification(`Photo added for rack ${rackId}`, "success");
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        /**
+         * @description Displays a saved photo in a modal.
+         * @param {string} rackId - The ID of the rack.
+         */
+        function viewRackPhoto(rackId) {
+            const photo = state.rackPhotos[rackId];
+            if (!photo) return;
+
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.8); z-index: 2000;
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+            `;
+            modal.innerHTML = `
+                <img src="${photo.data}" style="max-width: 90%; max-height: 80%; border: 2px solid white;">
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-secondary" id="close-photo-modal">Close</button>
+                    <button class="btn btn-secondary" id="delete-photo-btn" data-rack-id="${rackId}" style="margin-left: 1rem;">Delete</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            modal.querySelector('#close-photo-modal').onclick = () => modal.remove();
+            modal.querySelector('#delete-photo-btn').onclick = () => {
+                deleteRackPhoto(rackId);
+                modal.remove();
+            };
+        }
+
+        /**
+         * @description Deletes a photo for a given rack.
+         * @param {string} rackId - The ID of the rack.
+         */
+        function deleteRackPhoto(rackId) {
+            if (confirm(`Are you sure you want to delete the photo for rack ${rackId}?`)) {
+                delete state.rackPhotos[rackId];
+                saveState();
+                render();
+                showNotification(`Photo for rack ${rackId} deleted.`, "success");
+            }
+        }
+        // #endregion
+
+        // #region UTILITIES
+        /**
+         * @description Calculates the progress for a given category or all categories.
+         * @param {string|null} [categoryName=null] - The category to calculate progress for.
+         * @returns {{verified: number, failed: number, needsReview: number, checked: number, total: number}}
+         */
+        function getCategoryProgress(categoryName = null) {
+            let verified = 0, failed = 0, needsReview = 0, total = 0;
+            const items = categoryName ? Object.values(config.allItems).filter(i => i.category === categoryName) : Object.values(config.allItems);
+            total = items.length;
+            items.forEach(item => {
+                const status = state.itemStatus[item.id];
+                if (status === 'verified') verified++;
+                else if (status === 'failed') failed++;
+                else if (status === 'needs-review') needsReview++;
+            });
+            return { verified, failed, needsReview, checked: verified + failed + needsReview, total };
+        }
+
+        /**
+         * @description Calculates progress for a specific rack within a category.
+         * @param {string} rackId - The ID of the rack.
+         * @param {string} categoryName - The name of the category.
+         * @param {boolean} [detailed=false] - Whether to return a detailed progress object.
+         * @returns {Object} Progress object.
+         */
+        function getRackProgressForCategory(rackId, categoryName, detailed = false) {
+            const rack = config.racks[rackId];
+            if (!rack) return { verified: 0, failed: 0, needsReview: 0, checked: 0, total: 0 };
+            
+            let verified = 0, failed = 0, needsReview = 0, total = 0;
+            
+            rack.items.forEach(item => {
+                if (item.category === categoryName) {
+                    total++;
+                    const status = state.itemStatus[item.id];
+                    if (status === 'verified') verified++;
+                    else if (detailed) {
+                        if (status === 'failed') failed++;
+                        else if (status === 'needs-review') needsReview++;
+                    }
+                }
+            });
+            
+            if (detailed) {
+                return { verified, failed, needsReview, checked: verified + failed + needsReview, total };
+            }
+            return { verified, total };
+        }
+
+        /**
+         * @description Determines the overall status of a category based on its progress.
+         * @param {Object} progress - The progress object.
+         * @returns {string} The status string.
+         */
+        function getCategoryStatus(progress) {
+            if (progress.total === 0) return 'pending';
+            if (progress.verified === progress.total) return 'verified';
+            if (progress.failed > 0) return 'failed';
+            if (progress.needsReview > 0) return 'needs-review';
+            if (progress.checked > 0) return 'in-progress';
+            return 'pending';
+        }
+
+        /**
+         * @description Gets the appropriate icon for a given status.
+         * @param {string} status - The status string.
+         * @returns {string} The icon character.
+         */
+        function getStatusIcon(status) {
+            switch (status) {
+                case 'verified': return '✓';
+                case 'failed': return '✗';
+                case 'needs-review': return '!';
+                case 'in-progress': return '◐';
+                default: return '';
+            }
+        }
+
+        /**
+         * @description Shows a notification message to the user.
+         * @param {string} message - The message to display.
+         * @param {string} [type='info'] - The type of notification ('success', 'error', 'info').
+         */
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            notification.setAttribute('role', 'alert');
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => notification.classList.add('show'), 10);
+
+            // Remove after a delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                notification.addEventListener('transitionend', () => notification.remove());
+            }, 3000);
+        }
+
+        /**
+         * @description Sets up online/offline status handling.
+         */
+        function setupOfflineHandling() {
+            updateOnlineStatus();
+        }
+
+        /**
+         * @description Updates the visibility of the offline indicator.
+         */
+        function updateOnlineStatus() {
+            document.getElementById('offline-indicator').classList.toggle('show', !state.isOnline);
+        }
+
+        /**
+         * @description Creates a debounced function that delays invoking `func` until after `wait` milliseconds.
+         * @param {Function} func - The function to debounce.
+         * @param {number} wait - The number of milliseconds to delay.
+         * @returns {Function} The new debounced function.
+         */
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        /**
+         * @description Sanitizes a string to be used as a valid HTML ID.
+         * @param {string} text - The string to sanitize.
+         * @returns {string} The sanitized string.
+         */
+        function sanitizeForId(text) {
+            return text.replace(/[^a-zA-Z0-9]/g, "_");
+        }
+
+        /**
+         * @description Escapes HTML special characters to prevent XSS.
+         * @param {string} str - The string to escape.
+         * @returns {string} The escaped string.
+         */
+        function escapeHTML(str) {
+            if (typeof str !== 'string') return '';
+            return str.replace(/[&<>"']/g, function(match) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[match];
+            });
+        }
+        
+        /**
+         * @description Triggers a file download for a given blob.
+         * @param {Blob} blob - The blob to download.
+         * @param {string} filename - The name of the file.
+         */
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        // #endregion
+
+        // --- APPLICATION ENTRY POINT ---
+        document.addEventListener('DOMContentLoaded', init);
+    })();
+    </script>
+</body>
+</html>
