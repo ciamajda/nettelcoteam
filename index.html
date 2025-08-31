@@ -3,13 +3,408 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DC Deployment Checklist v5.4 (Instructions Update)</title>
+    <title>DC Deployment Checklist v6.0 (UX Optimized)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <style>
-        /*
-         * DC Deployment Checklist v5.4 CSS
+        /**
+         * DC Deployment Checklist v6.0 CSS (UX Optimized)
+         * Implements UX Audit recommendations: cleaner visuals, contextual actions.
          */
-        :root{--bg-color:#1a1d24;--panel-bg:#21252e;--text-color:#c0c5ce;--text-light:#e0e7ff;--border-color:#4a5568;--accent-color:#63b3ed;--success-color:#48bb78;--error-color:#f56565;--warning-color:#f6e05e;--needs-review-color:#ed8936;--font-mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace}*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box}html,body{height:100%}body{font-family:var(--font-mono);background-color:var(--bg-color);color:var(--text-color);margin:0;padding:1rem;line-height:1.6;font-size:14px}.desktop-view{display:grid;grid-template-columns:250px 1fr 2fr;grid-template-rows:auto auto 1fr;grid-template-areas:"header header header" "controls controls controls" "sidebar overview detail";gap:1rem;height:calc(100vh - 2rem);max-width:1600px;margin:0 auto}.app-header{grid-area:header;border:1px dashed var(--border-color);padding:.5rem 1rem;display:flex;justify-content:space-between;align-items:center}.header-title{font-size:1.2em;margin:0}.app-controls{grid-area:controls;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.panel{border:1px dashed var(--border-color);background-color:var(--panel-bg);padding:1rem;overflow:hidden;height:100%;display:flex;flex-direction:column}.panel-sidebar{grid-area:sidebar}.panel-overview{grid-area:overview}.panel-detail{grid-area:detail}.panel-title{font-weight:700;color:var(--text-light);font-size:1.1em;margin:0 0 1rem;padding-bottom:.5rem;border-bottom:1px dashed var(--border-color);display:flex;align-items:center;gap:.5rem;flex-shrink:0}.panel-content{overflow-y:auto;flex-grow:1}.category-list,.rack-list,.equipment-list{list-style:none;padding:0;margin:0}.category-list-item{padding:.5rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;transition:background-color .2s;border-radius:4px}.category-list-item:hover{background-color:rgba(255,255,255,.05)}.category-list-item.active{color:var(--accent-color);font-weight:700;background-color:rgba(99,179,237,.1)}.rack-list-item{display:flex;align-items:center;gap:.5rem}.rack-list-item-main{flex-grow:1;border:none;background:0 0;font-family:var(--font-mono);color:var(--text-color);font-size:1em;padding:.5rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;transition:background-color .2s;border-radius:4px}.rack-list-item-main:hover{background-color:rgba(255,255,255,.05)}.status-icon{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700}.status-icon.verified{background-color:var(--success-color);color:#fff}.status-icon.failed{background-color:var(--error-color);color:#fff}.status-icon.needs-review{background-color:var(--needs-review-color);color:#fff}.status-icon.in-progress{background-color:var(--accent-color);color:#fff}.status-icon.pending{border:1px solid var(--border-color);background:0 0}.rack-progress-bar{width:100%;height:16px;background-color:var(--bg-color);border:1px solid var(--border-color);border-radius:3px;overflow:hidden}.rack-progress-fill{height:100%;background-color:var(--accent-color);transition:width .3s}.rack-list-item .rack-name{width:100px;flex-shrink:0}.rack-list-item .percentage{width:50px;text-align:right}.rack-list-item .rack-overview-devices-btn{background:0 0;border:1px solid var(--border-color);color:var(--text-color);cursor:pointer;border-radius:4px;margin-left:.5rem;padding:0 .5rem;font-size:1.1em;transition:background-color .2s,border-color .2s;flex-shrink:0}.rack-list-item .rack-overview-devices-btn:hover{background-color:var(--accent-color);border-color:var(--accent-color);color:var(--bg-color)}.equipment-list-item{border:1px solid var(--border-color);padding:1rem;margin-bottom:1rem;background-color:var(--bg-color);border-radius:4px}.equipment-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.equipment-header .title{font-weight:700;color:var(--text-light);flex-grow:1}.equipment-details{margin-top:.5rem;padding-left:1rem;color:var(--text-color);font-size:.9em;word-break:break-all}.item-note{font-style:italic;color:var(--warning-color);margin-top:.5rem;padding:.5rem;background-color:rgba(246,224,94,.1);border-radius:4px;border-left:3px solid var(--warning-color)}.item-controls{display:flex;gap:.5rem;align-items:center}.note-btn,.photo-btn,.data-btn{cursor:pointer;font-size:1.2em;padding:.25rem;border-radius:3px;transition:background-color .2s;background:0 0;border:none;color:var(--text-color)}.note-btn:hover,.photo-btn:hover,.data-btn:hover{background-color:rgba(255,255,255,.1)}.status-toggle{width:32px;height:32px;border:2px solid var(--border-color);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:1rem;border-radius:4px;transition:all .2s}.status-toggle.verified{border-color:var(--success-color);background-color:var(--success-color);color:#fff}.status-toggle.failed{border-color:var(--error-color);background-color:var(--error-color);color:#fff}.status-toggle.needs-review{border-color:var(--needs-review-color);background-color:var(--needs-review-color);color:#fff}.search-input{background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.5rem;width:200px;border-radius:4px}.search-input:focus,.btn:focus-visible,.note-btn:focus-visible,.photo-btn:focus-visible,.data-btn:focus-visible,.status-toggle:focus-visible,.rack-selector-container input:focus-visible+span{outline:2px solid var(--accent-color);outline-offset:2px}.btn{background-color:var(--accent-color);color:var(--bg-color);border:none;padding:.5rem 1rem;cursor:pointer;font-family:var(--font-mono);border-radius:4px;transition:background-color .2s;font-weight:700}.btn:hover{background-color:#5299d3}.btn-secondary{background-color:var(--border-color);color:var(--text-light)}.btn-secondary:hover{background-color:#5a6c7d}.rack-selector-container{padding-bottom:1rem;border-bottom:1px dashed var(--border-color);margin-bottom:1rem;flex-shrink:0}.rack-selector-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.5rem}.rack-selector-grid label{display:inline-flex;align-items:center;padding:.25rem .5rem;cursor:pointer;border-radius:3px;transition:background-color .2s}.rack-selector-grid label:hover{background-color:rgba(255,255,255,.05)}.rack-selector-grid input{margin-right:.5rem}.no-selection{display:flex;align-items:center;justify-content:center;height:100%;color:var(--border-color);font-style:italic}.detail-rack-group h3{font-size:1em;display:flex;align-items:center;justify-content:space-between}.detail-rack-group .rack-controls{display:flex;gap:.5rem}.detail-rack-group-title{display:flex;align-items:center;gap:.5rem;cursor:pointer}.rack-photo-btn,.rack-reset-btn,.rack-devices-btn{background-color:var(--accent-color);color:var(--bg-color);border:none;padding:.25rem .5rem;border-radius:4px;font-size:.8em;cursor:pointer;transition:background-color .2s;font-weight:700}.rack-reset-btn{background-color:var(--border-color);color:var(--text-light)}.rack-photo-btn:hover,.rack-devices-btn:hover{background-color:#5299d3}.rack-reset-btn:hover{background-color:#5a6c7d}.progress-stats{display:flex;gap:1rem;padding:.5rem;background-color:var(--bg-color);border-radius:4px;margin-bottom:1rem;font-size:.9em}.progress-stats span{display:flex;align-items:center;gap:.25rem}.mobile-view{display:none}.offline-indicator{position:fixed;top:10px;right:10px;background-color:var(--error-color);color:#fff;padding:.5rem;border-radius:4px;display:none;z-index:3000}.offline-indicator.show{display:block}.notification{position:fixed;top:20px;right:20px;padding:1rem;border-radius:4px;color:#fff;font-family:var(--font-mono);z-index:1000;transform:translateX(calc(100% + 20px));transition:transform .3s ease-in-out}.notification.show{transform:translateX(0)}.notification.success{background-color:var(--success-color)}.notification.error{background-color:var(--error-color)}.notification.info{background-color:var(--accent-color)}.modal-overlay,.search-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s .3s}.modal-overlay.is-visible,.search-overlay.is-visible{opacity:1;visibility:visible;transition:opacity .3s ease}.modal-overlay{background-color:rgba(0,0,0,.7)}.search-overlay{background-color:rgba(0,0,0,.9);flex-direction:column;padding:1rem}.modal-content{background-color:var(--panel-bg);border:1px dashed var(--border-color);border-radius:4px;width:100%;max-width:800px;max-height:90vh;display:flex;flex-direction:column}.modal-header{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-bottom:1px dashed var(--border-color);flex-shrink:0}.modal-header h2{margin:0;color:var(--text-light);font-size:1.1em}.modal-close-btn{background:0 0;border:none;color:var(--text-color);font-size:2rem;cursor:pointer;line-height:1}.modal-body{overflow-y:auto;padding:1rem}.modal-body .form-group{margin-bottom:1rem}.modal-body label{display:block;margin-bottom:.5rem;color:var(--text-light)}.modal-body input,.modal-body textarea{width:100%;background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.75rem;border-radius:4px;font-size:1rem;font-family:var(--font-mono)}.modal-body textarea{min-height:120px;resize:vertical}.modal-footer{padding:1rem;border-top:1px dashed var(--border-color);text-align:right;display:flex;justify-content:flex-end;gap:.5rem;flex-shrink:0}.device-data-group{margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border-color)}.device-data-group:last-child{border-bottom:none}.device-data-group h3{color:var(--accent-color);margin:0 0 1rem;font-size:1em}.instructions-modal details{border:1px solid var(--border-color);border-radius:4px;margin-bottom:1rem}.instructions-modal summary{padding:1rem;cursor:pointer;background-color:var(--bg-color);color:var(--text-light);font-weight:700}.instructions-modal details[open] summary{border-bottom:1px dashed var(--border-color)}.instructions-modal ol{list-style-type:decimal;padding-left:2rem;margin:1rem 0}.instructions-modal li{margin-bottom:.75rem}.instructions-modal li strong{color:var(--accent-color)}.instructions-modal li .note{display:block;font-size:.9em;color:var(--warning-color);margin-top:.25rem;padding-left:1rem;border-left:2px solid var(--warning-color);white-space:pre-wrap}.search-overlay__header{display:flex;gap:1rem;margin-bottom:1rem}.search-overlay__input{flex-grow:1;background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.75rem;border-radius:4px;font-size:1.1rem}.search-overlay__input:focus{outline:none;border-color:var(--accent-color)}@media (max-width:768px){.desktop-view{display:none}.mobile-view{display:flex;flex-direction:column;height:calc(100vh - 1rem);border:1px dashed var(--border-color);background-color:var(--panel-bg)}.modal-content{max-width:100%;height:100%;border-radius:0;max-height:100vh}body{padding:.5rem}.mobile-panel{display:none;flex-direction:column;height:100%}.mobile-panel.active{display:flex}.mobile-header{padding:.75rem;border-bottom:1px dashed var(--border-color);display:flex;justify-content:space-between;align-items:center;font-size:1.1rem;flex-shrink:0}.mobile-panel-content{overflow-y:auto;flex-grow:1;padding:1rem}.mobile-back-btn{cursor:pointer;color:var(--accent-color);background:0 0;border:none;font-size:1.1rem;font-family:var(--font-mono);padding:0}.mobile-rack-item{display:flex;align-items:center;gap:.5rem;padding:.75rem;font-size:1.1rem;border-bottom:1px solid var(--border-color);cursor:pointer}.mobile-main-category-header{background-color:var(--bg-color);color:var(--accent-color);padding:.5rem .75rem;font-weight:700;margin-top:.5rem;border-radius:4px;border-bottom:1px solid var(--accent-color)}.mobile-main-list .mobile-rack-item:hover{background-color:rgba(255,255,255,.05)}.mobile-toolbar{padding:1rem;border-top:1px dashed var(--border-color);display:flex;justify-content:space-around;align-items:center;font-size:1.2rem;flex-shrink:0}.mobile-toolbar .btn{min-width:40px;padding:.75rem}.mobile-equipment-item{border:1px solid var(--border-color);margin-bottom:1rem;padding:1rem;border-radius:4px;background-color:var(--bg-color)}.mobile-equipment-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.5rem}.mobile-equipment-title{font-weight:700;color:var(--text-light);flex-grow:1;font-size:1rem}.mobile-equipment-controls{display:flex;gap:.5rem;align-items:center}.mobile-status-toggle{width:40px;height:40px;border:2px solid var(--border-color);cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;border-radius:4px;transition:all .2s}.mobile-status-toggle.verified{border-color:var(--success-color);background-color:var(--success-color);color:#fff}.mobile-status-toggle.failed{border-color:var(--error-color);background-color:var(--error-color);color:#fff}.mobile-status-toggle.needs-review{border-color:var(--needs-review-color);background-color:var(--needs-review-color);color:#fff}.mobile-toolbar .btn:active,.mobile-rack-item:active,.mobile-status-toggle:active,.note-btn:active,.data-btn:active,.photo-btn:active,.rack-devices-btn:active,.rack-overview-devices-btn:active{transform:scale(.96);background-color:rgba(255,255,255,.1)}}
+        :root {
+            --bg-color: #1a1d24;
+            --panel-bg: #21252e;
+            --panel-bg-lighter: #282c37;
+            --text-color: #c0c5ce;
+            --text-light: #e0e7ff;
+            --border-color: #4a5568;
+            --border-color-subtle: #3a4150;
+            --accent-color: #63b3ed;
+            --success-color: #48bb78;
+            --error-color: #f56565;
+            --warning-color: #f6e05e;
+            --needs-review-color: #ed8936;
+            --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        }
+
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 1rem;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .desktop-view {
+            display: grid;
+            grid-template-columns: 250px 1fr 2fr;
+            grid-template-rows: auto auto 1fr;
+            grid-template-areas:
+                "header header header"
+                "controls controls controls"
+                "sidebar overview detail";
+            gap: 1rem;
+            height: calc(100vh - 2rem);
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .desktop-view.rack-view {
+            grid-template-areas:
+                "header header header"
+                "controls controls controls"
+                "sidebar detail detail";
+        }
+
+        .app-header {
+            grid-area: header;
+            padding: .5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color-subtle);
+        }
+
+        .header-title {
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .app-controls {
+            grid-area: controls;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .panel {
+            border: none;
+            background-color: var(--panel-bg);
+            padding: 1rem;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .desktop-view.rack-view .panel-overview {
+            display: none;
+        }
+
+        .panel-sidebar { grid-area: sidebar; }
+        .panel-overview { grid-area: overview; }
+        .panel-detail { grid-area: detail; }
+
+        .panel-title {
+            font-weight: 700;
+            color: var(--text-light);
+            font-size: 1.1em;
+            margin: 0 0 1rem;
+            padding-bottom: .5rem;
+            border-bottom: 1px solid var(--border-color-subtle);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            flex-shrink: 0;
+        }
+
+        .panel-content {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .sidebar-list { list-style: none; padding: 0; margin: 0; }
+        .sidebar-list-item {
+            padding: .5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            transition: background-color .2s;
+            border-radius: 4px;
+            margin-bottom: 0.25rem;
+        }
+        .sidebar-list-item:hover { background-color: rgba(255, 255, 255, .05); }
+        .sidebar-list-item.active {
+            color: var(--accent-color);
+            font-weight: 700;
+            background-color: rgba(99, 179, 237, .1);
+        }
+
+        .rack-list-item { display: flex; align-items: center; gap: .5rem; }
+        .rack-list-item-main {
+            flex-grow: 1;
+            border: none;
+            background: none;
+            font-family: var(--font-mono);
+            color: var(--text-color);
+            font-size: 1em;
+            padding: .5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            transition: background-color .2s;
+            border-radius: 4px;
+        }
+        .rack-list-item-main:hover { background-color: rgba(255, 255, 255, .05); }
+
+        .status-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .status-icon.verified { background-color: var(--success-color); color: #fff; }
+        .status-icon.failed { background-color: var(--error-color); color: #fff; }
+        .status-icon.needs-review { background-color: var(--needs-review-color); color: #fff; }
+        .status-icon.in-progress { background-color: var(--accent-color); color: #fff; }
+        .status-icon.pending { border: 1px solid var(--border-color); background: none; }
+        
+        .rack-progress-bar {
+            width: 100%;
+            height: 16px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .rack-progress-fill { height: 100%; background-color: var(--accent-color); transition: width .3s; }
+        
+        .rack-list-item .rack-name { width: 100px; flex-shrink: 0; }
+        .rack-list-item .percentage { width: 50px; text-align: right; }
+        
+        .equipment-list { list-style: none; padding: 0; margin: 0; }
+        .equipment-list-item {
+            border: 1px solid var(--border-color-subtle);
+            padding: 1rem;
+            margin-bottom: .75rem;
+            background-color: var(--panel-bg-lighter);
+            border-radius: 4px;
+        }
+
+        .equipment-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+        .equipment-header .title { font-weight: 700; color: var(--text-light); flex-grow: 1; }
+        .equipment-details { margin-top: .5rem; padding-left: 1rem; color: var(--text-color); font-size: .9em; word-break: break-all; }
+        .item-note {
+            font-style: italic;
+            color: var(--warning-color);
+            margin-top: .5rem;
+            padding: .5rem;
+            background-color: rgba(246, 224, 94, .1);
+            border-radius: 4px;
+            border-left: 3px solid var(--warning-color);
+        }
+
+        .item-controls { display: flex; gap: .5rem; align-items: center; }
+        .note-btn, .photo-btn, .data-btn {
+            cursor: pointer;
+            padding: .25rem .5rem;
+            border-radius: 3px;
+            transition: background-color .2s;
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-size: 0.8em;
+            font-family: var(--font-mono);
+        }
+        .note-btn:hover, .photo-btn:hover, .data-btn:hover { background-color: rgba(255, 255, 255, .1); }
+        .data-btn.has-data { border-color: var(--success-color); color: var(--success-color); }
+        
+        .status-toggle {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            transition: all .2s;
+        }
+        .status-toggle.verified { border-color: var(--success-color); background-color: var(--success-color); color: #fff; }
+        .status-toggle.failed { border-color: var(--error-color); background-color: var(--error-color); color: #fff; }
+        .status-toggle.needs-review { border-color: var(--needs-review-color); background-color: var(--needs-review-color); color: #fff; }
+
+        .search-input {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: .5rem;
+            width: 200px;
+            border-radius: 4px;
+        }
+
+        .search-input:focus,
+        .btn:focus-visible,
+        .note-btn:focus-visible,
+        .photo-btn:focus-visible,
+        .data-btn:focus-visible,
+        .status-toggle:focus-visible,
+        .rack-selector-container input:focus-visible+span {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            padding: .5rem 1rem;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            border-radius: 4px;
+            transition: background-color .2s;
+            font-weight: 700;
+        }
+        .btn:hover { background-color: #5299d3; }
+
+        .btn-secondary { background-color: var(--border-color); color: var(--text-light); }
+        .btn-secondary:hover { background-color: #5a6c7d; }
+        
+        .view-toggle { display: flex; border: 1px solid var(--border-color); border-radius: 4px; }
+        .view-toggle .btn { border-radius: 0; background: none; color: var(--text-color); }
+        .view-toggle .btn.active { background: var(--accent-color); color: var(--bg-color); }
+        .view-toggle .btn:first-child { border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+        .view-toggle .btn:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+
+        .rack-selector-container {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color-subtle);
+            margin-bottom: 1rem;
+            flex-shrink: 0;
+        }
+        .rack-selector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: .5rem; }
+        .rack-selector-grid label { display: inline-flex; align-items: center; padding: .25rem .5rem; cursor: pointer; border-radius: 3px; transition: background-color .2s; }
+        .rack-selector-grid label:hover { background-color: rgba(255, 255, 255, .05); }
+        .rack-selector-grid input { margin-right: .5rem; }
+
+        .no-selection { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--border-color); font-style: italic; }
+        
+        .detail-rack-group h3 {
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--panel-bg-lighter);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .detail-rack-group .rack-controls { display: flex; gap: .5rem; }
+        .detail-rack-group-title { display: flex; align-items: center; gap: .5rem; cursor: pointer; }
+        
+        .rack-photo-btn, .rack-reset-btn {
+            background-color: var(--border-color);
+            color: var(--text-light);
+            border: none;
+            padding: .25rem .5rem;
+            border-radius: 4px;
+            font-size: .8em;
+            cursor: pointer;
+            transition: background-color .2s;
+            font-weight: 700;
+        }
+        .rack-photo-btn:hover, .rack-reset-btn:hover { background-color: #5a6c7d; }
+
+        .progress-stats { display: flex; gap: 1rem; padding: .5rem; background-color: var(--bg-color); border-radius: 4px; margin-bottom: 1rem; font-size: .9em; }
+        .progress-stats span { display: flex; align-items: center; gap: .25rem; }
+
+        .mobile-view { display: none; }
+        .offline-indicator { position: fixed; top: 10px; right: 10px; background-color: var(--error-color); color: #fff; padding: .5rem; border-radius: 4px; display: none; z-index: 3000; }
+        .offline-indicator.show { display: block; }
+        .notification { position: fixed; top: 20px; right: 20px; padding: 1rem; border-radius: 4px; color: #fff; font-family: var(--font-mono); z-index: 1000; transform: translateX(calc(100% + 20px)); transition: transform .3s ease-in-out; }
+        .notification.show { transform: translateX(0); }
+        .notification.success { background-color: var(--success-color); }
+        .notification.error { background-color: var(--error-color); }
+        .notification.info { background-color: var(--accent-color); }
+        
+        .modal-overlay, .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s .3s; }
+        .modal-overlay.is-visible, .search-overlay.is-visible { opacity: 1; visibility: visible; transition: opacity .3s ease; }
+        .modal-overlay { background-color: rgba(0, 0, 0, .7); }
+        .search-overlay { background-color: rgba(0, 0, 0, .9); flex-direction: column; padding: 1rem; }
+        
+        .modal-content { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 4px; width: 100%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border-color-subtle); flex-shrink: 0; }
+        .modal-header h2 { margin: 0; color: var(--text-light); font-size: 1.1em; }
+        .modal-close-btn { background: none; border: none; color: var(--text-color); font-size: 2rem; cursor: pointer; line-height: 1; }
+        .modal-body { overflow-y: auto; padding: 1rem; }
+        .modal-body .form-group { margin-bottom: 1rem; }
+        .modal-body label { display: block; margin-bottom: .5rem; color: var(--text-light); }
+        .modal-body input, .modal-body textarea { width: 100%; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-color); padding: .75rem; border-radius: 4px; font-size: 1rem; font-family: var(--font-mono); }
+        .modal-body textarea { min-height: 120px; resize: vertical; }
+        .modal-footer { padding: 1rem; border-top: 1px solid var(--border-color-subtle); text-align: right; display: flex; justify-content: flex-end; gap: .5rem; flex-shrink: 0; }
+        
+        .device-data-group { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color-subtle); }
+        .device-data-group:last-child { border-bottom: none; }
+        .device-data-group h3 { color: var(--accent-color); margin: 0 0 1rem; font-size: 1em; }
+        
+        .instructions-modal details { border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem; }
+        .instructions-modal summary { padding: 1rem; cursor: pointer; background-color: var(--bg-color); color: var(--text-light); font-weight: 700; }
+        .instructions-modal details[open] summary { border-bottom: 1px solid var(--border-color-subtle); }
+        .instructions-modal ol { list-style-type: decimal; padding-left: 2rem; margin: 1rem 0; }
+        .instructions-modal li { margin-bottom: .75rem; }
+        .instructions-modal li strong { color: var(--accent-color); }
+        .instructions-modal li .note { display: block; font-size: .9em; color: var(--warning-color); margin-top: .25rem; padding-left: 1rem; border-left: 2px solid var(--warning-color); white-space: pre-wrap; }
+        
+        .search-overlay__header { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .search-overlay__input { flex-grow: 1; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-color); padding: .75rem; border-radius: 4px; font-size: 1.1rem; }
+        .search-overlay__input:focus { outline: none; border-color: var(--accent-color); }
+
+        @media (max-width: 768px) {
+            .desktop-view { display: none; }
+            .mobile-view { display: flex; flex-direction: column; height: calc(100vh - 1rem); border: none; background-color: var(--panel-bg); border-radius: 6px; }
+            .modal-content { max-width: 100%; height: 100%; border-radius: 0; max-height: 100vh; }
+            body { padding: .5rem; }
+            .mobile-panel { display: none; flex-direction: column; height: 100%; }
+            .mobile-panel.active { display: flex; }
+            .mobile-header { padding: .75rem; border-bottom: 1px solid var(--border-color-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; flex-shrink: 0; }
+            .mobile-panel-content { overflow-y: auto; flex-grow: 1; padding: 1rem; }
+            .mobile-back-btn { cursor: pointer; color: var(--accent-color); background: none; border: none; font-size: 1.1rem; font-family: var(--font-mono); padding: 0; }
+            .mobile-rack-item { display: flex; align-items: center; gap: .5rem; padding: .75rem; font-size: 1.1rem; border-bottom: 1px solid var(--border-color-subtle); cursor: pointer; }
+            .mobile-main-category-header { background-color: var(--bg-color); color: var(--accent-color); padding: .5rem .75rem; font-weight: 700; margin-top: .5rem; border-radius: 4px; border-bottom: 1px solid var(--accent-color); }
+            .mobile-main-list .mobile-rack-item:hover { background-color: rgba(255, 255, 255, .05); }
+            .mobile-toolbar { padding: 1rem; border-top: 1px solid var(--border-color-subtle); display: flex; justify-content: space-around; align-items: center; font-size: 1.2rem; flex-shrink: 0; }
+            .mobile-toolbar .btn { min-width: 40px; padding: .75rem; }
+            
+            .mobile-equipment-item { border: 1px solid var(--border-color-subtle); margin-bottom: 1rem; padding: 1rem; border-radius: 4px; background-color: var(--bg-color); }
+            .mobile-equipment-header { display: flex; justify-content: space-between; align-items: flex-start; gap: .5rem; margin-bottom: .5rem; }
+            .mobile-equipment-title { font-weight: 700; color: var(--text-light); flex-grow: 1; font-size: 1rem; }
+            .mobile-equipment-controls { display: flex; gap: .5rem; align-items: center; }
+            .mobile-status-toggle { width: 40px; height: 40px; border: 2px solid var(--border-color); cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; border-radius: 4px; transition: all .2s; }
+            .mobile-status-toggle.verified { border-color: var(--success-color); background-color: var(--success-color); color: #fff; }
+            .mobile-status-toggle.failed { border-color: var(--error-color); background-color: var(--error-color); color: #fff; }
+            .mobile-status-toggle.needs-review { border-color: var(--needs-review-color); background-color: var(--needs-review-color); color: #fff; }
+            
+            .mobile-toolbar .btn:active, .mobile-rack-item:active, .mobile-status-toggle:active, .note-btn:active, .data-btn:active, .photo-btn:active {
+                transform: scale(.96);
+                background-color: rgba(255, 255, 255, .1);
+            }
+        }
     </style>
 </head>
 <body>
@@ -17,13 +412,17 @@
         📶 Working Offline
     </div>
 
-    <div class="desktop-view">
+    <div class="desktop-view" id="desktop-view">
         <header class="app-header" role="banner">
-            <h1 class="header-title">📊 DC Deployment Checklist v5.4</h1>
+            <h1 class="header-title">📊 DC Deployment Checklist v6.0</h1>
             <div class="header-user"><span>DataCenter-1</span> | <span>Admin</span></div>
         </header>
 
         <div class="app-controls" role="search">
+            <div class="view-toggle">
+                <button class="btn" id="view-mode-category-btn">By Category</button>
+                <button class="btn" id="view-mode-rack-btn">By Rack</button>
+            </div>
             <input type="search" id="search-input" class="search-input" placeholder="Search equipment, cables..." aria-label="Search equipment, cables, racks">
             <button class="btn" id="clear-search-btn">Clear</button>
             <button class="btn" id="show-instructions-btn">📄 Instructions</button>
@@ -35,10 +434,10 @@
         </div>
 
         <aside class="panel panel-sidebar" role="navigation">
-            <h2 class="panel-title">📋 Categories</h2>
+            <h2 class="panel-title" id="sidebar-title">📋 Categories</h2>
             <div class="progress-stats" id="overall-stats"></div>
             <div class="panel-content">
-                <ul id="category-list" class="category-list"></ul>
+                <ul id="sidebar-list" class="sidebar-list"></ul>
             </div>
         </aside>
 
@@ -46,7 +445,7 @@
             <h2 class="panel-title" id="overview-title">📊 Rack Overview</h2>
             <div id="rack-selector" class="rack-selector-container"></div>
             <div class="panel-content">
-                <ul id="rack-overview-list" class="rack-list"></ul>
+                <ul id="rack-overview-list" class="sidebar-list"></ul>
             </div>
         </main>
 
@@ -64,14 +463,14 @@
                 <span id="mobile-total-progress"></span>
             </header>
             <div class="mobile-panel-content">
-                <ul id="mobile-main-list" class="category-list"></ul>
+                <ul id="mobile-main-list" class="sidebar-list"></ul>
             </div>
             <footer class="mobile-toolbar">
                 <button class="btn" id="mobile-show-instructions-btn" title="Instructions">📄</button>
                 <button class="btn" id="mobile-export-yaml-btn" title="Export YAML">YAML</button>
                 <button class="btn" id="mobile-export-csv-btn" title="Export CSV">CSV</button>
-                <button class="btn btn-secondary" id="mobile-search-btn" title="Search">Search</button>
-                <button class="btn btn-secondary" id="mobile-backup-btn" title="Backup">Backup</button>
+                <button class="btn btn-secondary" id="mobile-search-btn" title="Search">🔍</button>
+                <button class="btn btn-secondary" id="mobile-backup-btn" title="Backup">💾</button>
                 <button class="btn btn-secondary" id="mobile-reset-all-btn" title="Reset All">🔄</button>
             </footer>
         </div>
@@ -105,18 +504,19 @@
 
     <script>
     /**
-     * @file Data Center Interactive Checklist Application v5.4 (Instructions Update)
+     * @file Data Center Interactive Checklist Application v6.0 (UX Optimized)
      * @description A standalone, client-side web application for tracking data center deployment tasks.
-     * v5.4 replaces the instructional content with a more detailed version.
+     * v6.0 implements a major UX overhaul based on HCI principles. It introduces a "View by Rack" mode,
+     * refines the visual design for clarity, and places actions contextually for intuitive operation.
      *
      * @author Gemini AI Code Auditor
-     * @version 5.4
+     * @version 6.0
      * @license MIT
      */
     (function() {
         'use strict';
 
-        // #region DATA
+        // #region DATA (Unchanged)
         const deploymentInstructionsData = [
             {
                 phase: 'Phase 1: Physical Infrastructure Setup',
@@ -216,97 +616,79 @@
             "C6 (CS)": ["ODF (C6.47)", "TOR_SW_A (C6.45)", "TOR_SW_B (C6.43)", "BOR_SW_A (C6.4)", "BOR_SW_B (C6.2)", "PDU A (C6.PDU A)", "PDU B (C6.PDU B)", "Server (C6.22)", "Server (C6.20)", "Server (C6.18)", "Server (C6.16)", "Server (C6.14)", "Server (C6.12)", "Server (C6.10)", "Server (C6.8)", "Server (C6.6)"]
         };
 
-
         const fullRawData = {
             "C1 (N-MCS)": {
                 "SFP Installation Verification": ["SPINE (C1.43) Ports 1-14: QSFP-100G-SM-SR", "OAM FW (C1.42) Port 15: SRX-SFP-1GE-LX (xconnect FW C2.42)", "OAM FW (C1.42) Ports 16-17: SRX-SFP-10GE-LR (to TOR BL C1.39)", "OAM FW (C1.42) HA CONTROL: SRX-SFP-1GE-LX (xconnect FW C2.42)", "OAM AGG (C1.41) Ports 1-6: GLC-LH-SMD", "OAM AGG (C1.41) Ports 47-48: SFP-10G-LR-S (xconnect AGG C2.41)", "TOR BL (C1.39) Ports 47-48: SFP-10G-LR-S (to FW C1.42)", "TOR BL (C1.39) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR BL (C1.39) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR BL (C1.39) Port 51: QSFP-100G-LR4-S (NatCo primary NNI link)", "TOR BL (C1.39) Ports 53-54: QSFP-100G-SM-SR (xconnect TORs C2.39)", "TOR (C1.37) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C1.37) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C1.37) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C1.35)", "TOR (C1.35) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C1.35) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C1.35) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C1.37)", "BOR (C1.4) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C1.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C1.2)", "BOR (C1.2) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C1.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C1.4)"],
                 "Fiber Optic (FO) Connections": ["SPINE 1 (C1.43) Port 1 -> TOR BL 1 (C1.39) Port 49 (Cable: PL-FO00001)", "SPINE 1 (C1.43) Port 2 -> TOR BL 2 (C2.39) Port 49 (Cable: PL-FO00002)", "SPINE 1 (C1.43) Port 3 -> TOR A (C1.37) Port 49 (Cable: PL-FO00003)", "SPINE 1 (C1.43) Port 4 -> TOR B (C1.35) Port 49 (Cable: PL-FO00004)", "SPINE 1 (C1.43) Port 5 -> TOR A (C2.37) Port 49 (Cable: PL-FO00005)", "SPINE 1 (C1.43) Port 6 -> TOR B (C2.35) Port 49 (Cable: PL-FO00006)", "SPINE 1 (C1.43) Port 7 -> TOR A (C3.45) Port 49 (Cable: PL-FO00007)", "SPINE 1 (C1.43) Port 8 -> TOR B (C3.43) Port 49 (Cable: PL-FO00008)", "SPINE 1 (C1.43) Port 9 -> TOR A (C4.45) Port 49 (Cable: PL-FO00009)", "SPINE 1 (C1.43) Port 10 -> TOR B (C4.43) Port 49 (Cable: PL-FO00010)", "SPINE 1 (C1.43) Port 11 -> TOR A (C5.45) Port 49 (Cable: PL-FO00011)", "SPINE 1 (C1.43) Port 12 -> TOR B (C5.43) Port 49 (Cable: PL-FO00012)", "SPINE 1 (C1.43) Port 13 -> TOR A (C6.45) Port 49 (Cable: PL-FO00013)", "SPINE 1 (C1.43) Port 14 -> TOR B (C6.43) Port 49 (Cable: PL-FO00014)", "FW 1 (C1.42) Port 15 -> FW 2 (C2.42) Port 15 (Cable: PL-FO00015)", "FW 1 (C1.42) Port 16 -> TOR BL 1 (C1.39) Port 47 (Cable: PL-FO00016)", "FW 1 (C1.42) Port 17 -> TOR BL 1 (C1.39) Port 48 (Cable: PL-FO00017)", "FW 1 (C1.42) HA CONTROL -> FW 2 (C2.42) HA CONTROL (Cable: PL-FO00018)", "AGG 1 (C1.41) Port 1 -> BOR A (C1.4) Port 49 (Cable: PL-FO00019)", "AGG 1 (C1.41) Port 2 -> BOR B (C2.2) Port 49 (Cable: PL-FO00020)", "AGG 1 (C1.41) Port 3 -> BOR A (C3.4) Port 49 (Cable: PL-FO00021)", "AGG 1 (C1.41) Port 4 -> BOR B (C4.2) Port 49 (Cable: PL-FO00022)", "AGG 1 (C1.41) Port 5 -> BOR A (C5.4) Port 49 (Cable: PL-FO00023)", "AGG 1 (C1.41) Port 6 -> BOR B (C6.2) Port 49 (Cable: PL-FO00024)", "AGG 1 (C1.41) Port 47 -> AGG 2 (C2.41) Port 47 (Cable: PL-FO00025)", "AGG 1 (C1.41) Port 48 -> AGG 2 (C2.41) Port 48 (Cable: PL-FO00026)", "TOR BL 1 (C1.39) Port 51 -> NatCo NNI link (Cable: PL-FO00049)"],
-                "UTP OAM Connections": ["Spine (C1.43) MGMT -> BOR SW A, Port 46", "FW (C1.42) MGMT -> BOR SW A, Port 44", "AGG SW (C1.41) MGMT -> BOR SW A, Port 43", "TOR_SW_BL (C1.39) MGMT -> BOR SW A, Port 42", "TOR_SW_A (C1.37) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C1.35) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C1.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C1.2) MGMT -> BOR SW A, Port 45", "PDU A (C1.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C1.PDU B) MGMT -> BOR SW B, Port 48", "C1.20 Server ILO -> BOR SW A, Port 32", "C1.18 Server ILO -> BOR SW A, Port 31", "C1.16 Server ILO -> BOR SW A, Port 30", "C1.14 Server ILO -> BOR SW A, Port 29", "C1.12 Server ILO -> BOR SW A, Port 28", "C1.10 Server ILO -> BOR SW A, Port 27", "C1.8 Server ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "C1.6 Server ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
+                "UTP OAM Connections": ["Spine (C1.43) MGMT -> BOR SW A, Port 46", "FW (C1.42) MGMT -> BOR SW A, Port 44", "AGG SW (C1.41) MGMT -> BOR SW A, Port 43", "TOR_SW_BL (C1.39) MGMT -> BOR SW A, Port 42", "TOR_SW_A (C1.37) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C1.35) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C1.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C1.2) MGMT -> BOR SW A, Port 45", "PDU A (C1.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C1.PDU B) MGMT -> BOR SW B, Port 48", "Server (C1.20) ILO -> BOR SW A, Port 32", "Server (C1.18) ILO -> BOR SW A, Port 31", "Server (C1.16) ILO -> BOR SW A, Port 30", "Server (C1.14) ILO -> BOR SW A, Port 29", "Server (C1.12) ILO -> BOR SW A, Port 28", "Server (C1.10) ILO -> BOR SW A, Port 27", "Server (C1.8) ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "Server (C1.6) ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
                 "UTP Console Connections": ["Console Server (C1.3) Eth1 -> BOR A (C1.2), Port 41", "Console Server (C1.3) Port 1 -> SPINE (C1.43), CON", "Console Server (C1.3) Port 2 -> FW (C1.42), CON", "Console Server (C1.3) Port 3 -> AGG (C1.41), CON", "Console Server (C1.3) Port 4 -> TOR BL (C1.39), CON"],
-                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "Spine (C1.43) (N9K-C9336C-FX2): RU 43, PDU A 18, PDU B 18", "FW (C1.42) (SRX1500-AC): RU 42, PDU A 8, PDU B 8", "AGG SW (C1.41) (N9K-C93180YC-FX3H): RU 41, PDU A 27, PDU B 27", "TOR_SW_BL (C1.39) (N9K-C93180YC-FX3H): RU 39, PDU A 17, PDU B 17", "TOR_SW_A (C1.37) (N9K-C93180YC-FX3H): RU 37, PDU A 7, PDU B 7", "TOR_SW_B (C1.35) (N9K-C93180YC-FX3H): RU 35, PDU A 26, PDU B 26", "BOR_SW_A (C1.4) (N9K-C92348GC-X): RU 4, PDU A 21, PDU B 21", "BOR_SW_B (C1.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C1.20) (Lenovo SR650 v3): RU 21, PDU A 14, PDU B 14", "Server (C1.18) (Lenovo SR650 v3): RU 19, PDU A 4, PDU B 4", "Server (C1.16) (Lenovo SR650 v3): RU 17, PDU A 23, PDU B 23", "Server (C1.14) (Lenovo SR650 v3): RU 15, PDU A 13, PDU B 13", "Server (C1.12) (Lenovo SR650 v3): RU 13, PDU A 3, PDU B 3", "Server (C1.10) (Lenovo SR650 v3): RU 11, PDU A 22, PDU B 22", "Server (C1.8) (Lenovo SR650 v3): RU 9, PDU A 12, PDU B 12", "Server (C1.6) (Lenovo SR650 v3): RU 7, PDU A 2, PDU B 2"]
+                "Rack Layout, Positioning, and Power": ["ODF (C1.47): RU 47", "Spine (C1.43) (N9K-C9336C-FX2): RU 43, PDU A 18, PDU B 18", "OAM FW (C1.42) (SRX1500-AC): RU 42, PDU A 8, PDU B 8", "AGG SW (C1.41) (N9K-C93180YC-FX3H): RU 41, PDU A 27, PDU B 27", "TOR_SW_BL (C1.39) (N9K-C93180YC-FX3H): RU 39, PDU A 17, PDU B 17", "TOR_SW_A (C1.37) (N9K-C93180YC-FX3H): RU 37, PDU A 7, PDU B 7", "TOR_SW_B (C1.35) (N9K-C93180YC-FX3H): RU 35, PDU A 26, PDU B 26", "BOR_SW_A (C1.4) (N9K-C92348GC-X): RU 4, PDU A 21, PDU B 21", "BOR_SW_B (C1.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Console Server (C1.3): RU 3", "Server (C1.20) (Lenovo SR650 v3): RU 21, PDU A 14, PDU B 14", "Server (C1.18) (Lenovo SR650 v3): RU 19, PDU A 4, PDU B 4", "Server (C1.16) (Lenovo SR650 v3): RU 17, PDU A 23, PDU B 23", "Server (C1.14) (Lenovo SR650 v3): RU 15, PDU A 13, PDU B 13", "Server (C1.12) (Lenovo SR650 v3): RU 13, PDU A 3, PDU B 3", "Server (C1.10) (Lenovo SR650 v3): RU 11, PDU A 22, PDU B 22", "Server (C1.8) (Lenovo SR650 v3): RU 9, PDU A 12, PDU B 12", "Server (C1.6) (Lenovo SR650 v3): RU 7, PDU A 2, PDU B 2", "PDU A (C1.PDU A): Vertical", "PDU B (C1.PDU B): Vertical"]
             },
             "C2 (N-MCS)": {
                 "SFP Installation Verification": ["SPINE (C2.43) Ports 1-14: QSFP-100G-SM-SR", "OAM FW (C2.42) Port 15: SRX-SFP-1GE-LX (xconnect FW C1.42)", "OAM FW (C2.42) Ports 16-17: SRX-SFP-10GE-LR (to TOR BL C2.39)", "OAM FW (C2.42) HA CONTROL: SRX-SFP-1GE-LX (xconnect FW C1.42)", "OAM AGG (C2.41) Ports 1-6: GLC-LH-SMD", "OAM AGG (C2.41) Ports 47-48: SFP-10G-LR-S (xconnect AGG C1.41)", "TOR BL (C2.39) Ports 47-48: SFP-10G-LR-S (to FW C2.42)", "TOR BL (C2.39) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR BL (C2.39) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR BL (C2.39) Port 51: QSFP-100G-LR4-S (NatCo primary NNI link)", "TOR BL (C2.39) Ports 53-54: QSFP-100G-SM-SR (xconnect TORs C1.39)", "TOR (C2.37) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C2.37) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C2.37) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C2.35)", "TOR (C2.35) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C2.35) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C2.35) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C2.37)", "BOR (C2.4) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C2.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C2.2)", "BOR (C2.2) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C2.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C2.4)"],
                 "Fiber Optic (FO) Connections": ["SPINE 2 (C2.43) Port 1 -> TOR BL 2 (C2.39) Port 50 (Cable: PL-FO00027)", "SPINE 2 (C2.43) Port 2 -> TOR BL 1 (C1.39) Port 50 (Cable: PL-FO00028)", "SPINE 2 (C2.43) Port 3 -> TOR A (C1.37) Port 50 (Cable: PL-FO00029)", "SPINE 2 (C2.43) Port 4 -> TOR B (C1.35) Port 50 (Cable: PL-FO00030)", "SPINE 2 (C2.43) Port 5 -> TOR A (C2.37) Port 50 (Cable: PL-FO00031)", "SPINE 2 (C2.43) Port 6 -> TOR B (C2.35) Port 50 (Cable: PL-FO00032)", "SPINE 2 (C2.43) Port 7 -> TOR A (C3.45) Port 50 (Cable: PL-FO00033)", "SPINE 2 (C2.43) Port 8 -> TOR B (C3.43) Port 50 (Cable: PL-FO00034)", "SPINE 2 (C2.43) Port 9 -> TOR A (C4.45) Port 50 (Cable: PL-FO00035)", "SPINE 2 (C2.43) Port 10 -> TOR B (C4.43) Port 50 (Cable: PL-FO00036)", "SPINE 2 (C2.43) Port 11 -> TOR A (C5.45) Port 50 (Cable: PL-FO00037)", "SPINE 2 (C2.43) Port 12 -> TOR B (C5.43) Port 50 (Cable: PL-FO00038)", "SPINE 2 (C2.43) Port 13 -> TOR A (C6.45) Port 50 (Cable: PL-FO00039)", "SPINE 2 (C2.43) Port 14 -> TOR B (C6.43) Port 50 (Cable: PL-FO00040)", "FW 2 (C2.42) Port 16 -> TOR BL 2 (C2.39) Port 47 (Cable: PL-FO00041)", "FW 2 (C2.42) Port 17 -> TOR BL 2 (C2.39) Port 48 (Cable: PL-FO00042)", "AGG 2 (C2.41) Port 1 -> BOR B (C1.2) Port 49 (Cable: PL-FO00043)", "AGG 2 (C2.41) Port 2 -> BOR A (C2.4) Port 49 (Cable: PL-FO00044)", "AGG 2 (C2.41) Port 3 -> BOR B (C3.2) Port 49 (Cable: PL-FO00045)", "AGG 2 (C2.41) Port 4 -> BOR A (C4.4) Port 49 (Cable: PL-FO00046)", "AGG 2 (C2.41) Port 5 -> BOR B (C5.2) Port 49 (Cable: PL-FO00047)", "AGG 2 (C2.41) Port 6 -> BOR A (C6.4) Port 49 (Cable: PL-FO00048)", "TOR BL 2 (C2.39) Port 51 -> NatCo NNI link (Cable: PL-FO00050)"],
-                "UTP OAM Connections": ["Spine (C2.43) MGMT -> BOR SW A, Port 46", "FW (C2.42) MGMT -> BOR SW A, Port 44", "AGG SW (C2.41) MGMT -> BOR SW A, Port 43", "TOR_SW_BL (C2.39) MGMT -> BOR SW A, Port 42", "TOR_SW_A (C2.37) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C2.35) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C2.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C2.2) MGMT -> BOR SW A, Port 45", "PDU A (C2.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C2.PDU B) MGMT -> BOR SW B, Port 48", "C2.20 Server ILO -> BOR SW A, Port 32", "C2.18 Server ILO -> BOR SW A, Port 31", "C2.16 Server ILO -> BOR SW A, Port 30", "C2.14 Server ILO -> BOR SW A, Port 29", "C2.12 Server ILO -> BOR SW A, Port 28", "C2.10 Server ILO -> BOR SW A, Port 27", "C2.8 Server ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "C2.6 Server ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
+                "UTP OAM Connections": ["Spine (C2.43) MGMT -> BOR SW A, Port 46", "FW (C2.42) MGMT -> BOR SW A, Port 44", "AGG SW (C2.41) MGMT -> BOR SW A, Port 43", "TOR_SW_BL (C2.39) MGMT -> BOR SW A, Port 42", "TOR_SW_A (C2.37) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C2.35) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C2.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C2.2) MGMT -> BOR SW A, Port 45", "PDU A (C2.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C2.PDU B) MGMT -> BOR SW B, Port 48", "Server (C2.20) ILO -> BOR SW A, Port 32", "Server (C2.18) ILO -> BOR SW A, Port 31", "Server (C2.16) ILO -> BOR SW A, Port 30", "Server (C2.14) ILO -> BOR SW A, Port 29", "Server (C2.12) ILO -> BOR SW A, Port 28", "Server (C2.10) ILO -> BOR SW A, Port 27", "Server (C2.8) ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "Server (C2.6) ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
                 "UTP Console Connections": ["Console Server (C2.3) Eth1 -> BOR A (C2.2), Port 41", "Console Server (C2.3) Port 1 -> SPINE (C2.43), CON", "Console Server (C2.3) Port 2 -> FW (C2.42), CON", "Console Server (C2.3) Port 3 -> AGG (C2.41), CON", "Console Server (C2.3) Port 4 -> TOR BL (C2.39), CON"],
-                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "Spine (C2.43) (N9K-C9336C-FX2): RU 43, PDU A 18, PDU B 18", "FW (C2.42) (SRX1500-AC): RU 42, PDU A 8, PDU B 8", "AGG SW (C2.41) (N9K-C93180YC-FX3H): RU 41, PDU A 27, PDU B 27", "TOR_SW_BL (C2.39) (N9K-C93180YC-FX3H): RU 39, PDU A 17, PDU B 17", "TOR_SW_A (C2.37) (N9K-C93180YC-FX3H): RU 37, PDU A 7, PDU B 7", "TOR_SW_B (C2.35) (N9K-C93180YC-FX3H): RU 35, PDU A 26, PDU B 26", "BOR_SW_A (C2.4) (N9K-C92348GC-X): RU 4, PDU A 21, PDU B 21", "BOR_SW_B (C2.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C2.20) (Lenovo SR650 v3): RU 21, PDU A 14, PDU B 14", "Server (C2.18) (Lenovo SR650 v3): RU 19, PDU A 4, PDU B 4", "Server (C2.16) (Lenovo SR650 v3): RU 17, PDU A 23, PDU B 23", "Server (C2.14) (Lenovo SR650 v3): RU 15, PDU A 13, PDU B 13", "Server (C2.12) (Lenovo SR650 v3): RU 13, PDU A 3, PDU B 3", "Server (C2.10) (Lenovo SR650 v3): RU 11, PDU A 22, PDU B 22", "Server (C2.8) (Lenovo SR650 v3): RU 9, PDU A 12, PDU B 12", "Server (C2.6) (Lenovo SR650 v3): RU 7, PDU A 2, PDU B 2"]
+                "Rack Layout, Positioning, and Power": ["ODF (C2.47): RU 47", "Spine (C2.43) (N9K-C9336C-FX2): RU 43, PDU A 18, PDU B 18", "OAM FW (C2.42) (SRX1500-AC): RU 42, PDU A 8, PDU B 8", "AGG SW (C2.41) (N9K-C93180YC-FX3H): RU 41, PDU A 27, PDU B 27", "TOR_SW_BL (C2.39) (N9K-C93180YC-FX3H): RU 39, PDU A 17, PDU B 17", "TOR_SW_A (C2.37) (N9K-C93180YC-FX3H): RU 37, PDU A 7, PDU B 7", "TOR_SW_B (C2.35) (N9K-C93180YC-FX3H): RU 35, PDU A 26, PDU B 26", "BOR_SW_A (C2.4) (N9K-C92348GC-X): RU 4, PDU A 21, PDU B 21", "BOR_SW_B (C2.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Console Server (C2.3): RU 3", "Server (C2.20) (Lenovo SR650 v3): RU 21, PDU A 14, PDU B 14", "Server (C2.18) (Lenovo SR650 v3): RU 19, PDU A 4, PDU B 4", "Server (C2.16) (Lenovo SR650 v3): RU 17, PDU A 23, PDU B 23", "Server (C2.14) (Lenovo SR650 v3): RU 15, PDU A 13, PDU B 13", "Server (C2.12) (Lenovo SR650 v3): RU 13, PDU A 3, PDU B 3", "Server (C2.10) (Lenovo SR650 v3): RU 11, PDU A 22, PDU B 22", "Server (C2.8) (Lenovo SR650 v3): RU 9, PDU A 12, PDU B 12", "Server (C2.6) (Lenovo SR650 v3): RU 7, PDU A 2, PDU B 2", "PDU A (C2.PDU A): Vertical", "PDU B (C2.PDU B): Vertical"]
             },
             "C3 (MCS)": {
                 "SFP Installation Verification": ["TOR (C3.45) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C3.45) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C3.45) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C3.43)", "TOR (C3.43) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C3.43) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C3.43) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C3.45)", "BOR (C3.4) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C3.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C3.2)", "BOR (C3.2) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C3.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C3.4)"],
-                "UTP OAM Connections": ["TOR_SW_A (C3.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C3.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C3.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C3.2) MGMT -> BOR SW A, Port 45", "PDU A (C3.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C3.PDU B) MGMT -> BOR SW B, Port 48", "C3.20 Server ILO -> BOR SW A, Port 32", "C3.18 Server ILO -> BOR SW A, Port 31", "C3.16 Server ILO -> BOR SW A, Port 30", "C3.14 Server ILO -> BOR SW A, Port 29", "C3.12 Server ILO -> BOR SW A, Port 28", "C3.10 Server ILO -> BOR SW A, Port 27", "C3.8 Server ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "C3.6 Server ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
-                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "TOR_SW_A (C3.45) (N9K-C93180YC-FX3H): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C3.43) (N9K-C93180YC-FX3H): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C3.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C3.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C3.20) (Lenovo SR650 v3): RU 21, PDU A 4, PDU B 4", "Server (C3.18) (Lenovo SR650 v3): RU 19, PDU A 23, PDU B 23", "Server (C3.16) (Lenovo SR650 v3): RU 17, PDU A 13, PDU B 13", "Server (C3.14) (Lenovo SR650 v3): RU 15, PDU A 3, PDU B 3", "Server (C3.12) (Lenovo SR650 v3): RU 13, PDU A 22, PDU B 22", "Server (C3.10) (Lenovo SR650 v3): RU 11, PDU A 12, PDU B 12", "Server (C3.8) (Lenovo SR650 v3): RU 9, PDU A 2, PDU B 2", "Server (C3.6) (Lenovo SR650 v3): RU 7, PDU A 21, PDU B 21"]
+                "UTP OAM Connections": ["TOR_SW_A (C3.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C3.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C3.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C3.2) MGMT -> BOR SW A, Port 45", "PDU A (C3.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C3.PDU B) MGMT -> BOR SW B, Port 48", "Server (C3.20) ILO -> BOR SW A, Port 32", "Server (C3.18) ILO -> BOR SW A, Port 31", "Server (C3.16) ILO -> BOR SW A, Port 30", "Server (C3.14) ILO -> BOR SW A, Port 29", "Server (C3.12) ILO -> BOR SW A, Port 28", "Server (C3.10) ILO -> BOR SW A, Port 27", "Server (C3.8) ILO -> BOR SW A, Port 26; OAM1 -> BOR SW A, Port 2; OAM2 -> BOR SW B, Port 2", "Server (C3.6) ILO -> BOR SW A, Port 25; OAM1 -> BOR SW A, Port 1; OAM2 -> BOR SW B, Port 1"],
+                "Rack Layout, Positioning, and Power": ["ODF (C3.47): RU 47", "TOR_SW_A (C3.45) (N9K-C93180YC-FX3H): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C3.43) (N9K-C93180YC-FX3H): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C3.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C3.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C3.20) (Lenovo SR650 v3): RU 21, PDU A 4, PDU B 4", "Server (C3.18) (Lenovo SR650 v3): RU 19, PDU A 23, PDU B 23", "Server (C3.16) (Lenovo SR650 v3): RU 17, PDU A 13, PDU B 13", "Server (C3.14) (Lenovo SR650 v3): RU 15, PDU A 3, PDU B 3", "Server (C3.12) (Lenovo SR650 v3): RU 13, PDU A 22, PDU B 22", "Server (C3.10) (Lenovo SR650 v3): RU 11, PDU A 12, PDU B 12", "Server (C3.8) (Lenovo SR650 v3): RU 9, PDU A 2, PDU B 2", "Server (C3.6) (Lenovo SR650 v3): RU 7, PDU A 21, PDU B 21", "PDU A (C3.PDU A): Vertical", "PDU B (C3.PDU B): Vertical"]
             },
             "C4 (CS)": {
                 "SFP Installation Verification": ["TOR (C4.45) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C4.45) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C4.45) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C4.43)", "TOR (C4.43) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C4.43) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C4.43) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C4.45)", "BOR (C4.4) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C4.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C4.2)", "BOR (C4.2) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C4.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C4.4)"],
-                "UTP OAM Connections": ["TOR_SW_A (C4.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C4.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C4.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C4.2) MGMT -> BOR SW A, Port 45", "PDU A (C4.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C4.PDU B) MGMT -> BOR SW B, Port 48", "C4.22 Server IMM -> BOR SW B, Port 25", "C4.20 Server IMM -> BOR SW A, Port 32", "C4.18 Server IMM -> BOR SW A, Port 31", "C4.16 Server IMM -> BOR SW A, Port 30", "C4.14 Server IMM -> BOR SW A, Port 29", "C4.12 Server IMM -> BOR SW A, Port 28", "C4.10 Server IMM -> BOR SW A, Port 27", "C4.8 Server IMM -> BOR SW A, Port 26", "C4.6 Server IMM -> BOR SW A, Port 25"],
-                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "TOR_SW_A (C4.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C4.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C4.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C4.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C4.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C4.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C4.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C4.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C4.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C4.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C4.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C4.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C4.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12"]
+                "UTP OAM Connections": ["TOR_SW_A (C4.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C4.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C4.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C4.2) MGMT -> BOR SW A, Port 45", "PDU A (C4.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C4.PDU B) MGMT -> BOR SW B, Port 48", "Server (C4.22) IMM -> BOR SW B, Port 25", "Server (C4.20) IMM -> BOR SW A, Port 32", "Server (C4.18) IMM -> BOR SW A, Port 31", "Server (C4.16) IMM -> BOR SW A, Port 30", "Server (C4.14) IMM -> BOR SW A, Port 29", "Server (C4.12) IMM -> BOR SW A, Port 28", "Server (C4.10) IMM -> BOR SW A, Port 27", "Server (C4.8) IMM -> BOR SW A, Port 26", "Server (C4.6) IMM -> BOR SW A, Port 25"],
+                "Rack Layout, Positioning, and Power": ["ODF (C4.47): RU 47", "TOR_SW_A (C4.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C4.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C4.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C4.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C4.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C4.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C4.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C4.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C4.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C4.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C4.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C4.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C4.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12", "PDU A (C4.PDU A): Vertical", "PDU B (C4.PDU B): Vertical"]
             },
             "C5 (CS)": {
                 "SFP Installation Verification": ["TOR (C5.45) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C5.45) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C5.45) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C5.43)", "TOR (C5.43) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C5.43) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C5.43) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C5.45)", "BOR (C5.4) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C5.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C5.2)", "BOR (C5.2) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C5.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C5.4)"],
-                "UTP OAM Connections": ["TOR_SW_A (C5.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C5.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C5.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C5.2) MGMT -> BOR SW A, Port 45", "PDU A (C5.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C5.PDU B) MGMT -> BOR SW B, Port 48", "C5.22 Server IMM -> BOR SW B, Port 25", "C5.20 Server IMM -> BOR SW A, Port 32", "C5.18 Server IMM -> BOR SW A, Port 31", "C5.16 Server IMM -> BOR SW A, Port 30", "C5.14 Server IMM -> BOR SW A, Port 29", "C5.12 Server IMM -> BOR SW A, Port 28", "C5.10 Server IMM -> BOR SW A, Port 27", "C5.8 Server IMM -> BOR SW A, Port 26", "C5.6 Server IMM -> BOR SW A, Port 25"],
-                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "TOR_SW_A (C5.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C5.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C5.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C5.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C5.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C5.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C5.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C5.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C5.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C5.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C5.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C5.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C5.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12"]
+                "UTP OAM Connections": ["TOR_SW_A (C5.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C5.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C5.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C5.2) MGMT -> BOR SW A, Port 45", "PDU A (C5.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C5.PDU B) MGMT -> BOR SW B, Port 48", "Server (C5.22) IMM -> BOR SW B, Port 25", "Server (C5.20) IMM -> BOR SW A, Port 32", "Server (C5.18) IMM -> BOR SW A, Port 31", "Server (C5.16) IMM -> BOR SW A, Port 30", "Server (C5.14) IMM -> BOR SW A, Port 29", "Server (C5.12) IMM -> BOR SW A, Port 28", "Server (C5.10) IMM -> BOR SW A, Port 27", "Server (C5.8) IMM -> BOR SW A, Port 26", "Server (C5.6) IMM -> BOR SW A, Port 25"],
+                "Rack Layout, Positioning, and Power": ["ODF (C5.47): RU 47", "TOR_SW_A (C5.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C5.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C5.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C5.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C5.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C5.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C5.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C5.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C5.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C5.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C5.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C5.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C5.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12", "PDU A (C5.PDU A): Vertical", "PDU B (C5.PDU B): Vertical"]
             },
             "C6 (CS)": {
                 "SFP Installation Verification": ["TOR (C6.45) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C6.45) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C6.45) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C6.43)", "TOR (C6.43) Port 49: QSFP-100G-SM-SR (to Spine C1.43)", "TOR (C6.43) Port 50: QSFP-100G-SM-SR (to Spine C2.43)", "TOR (C6.43) Ports 53-54: QSFP-100G-CU2M (xconnect TORs C6.45)", "BOR (C6.4) Port 49: GLC-LH-SMD (to AGG C2.41)", "BOR (C6.4) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C6.2)", "BOR (C6.2) Port 49: GLC-LH-SMD (to AGG C1.41)", "BOR (C6.2) Ports 51-52: SFP-H10GB-CU3M (xconnect BORs C6.4)"],
                 "UTP OAM Connections": ["TOR_SW_A (C6.45) MGMT -> BOR SW A, Port 47", "TOR_SW_B (C6.43) MGMT -> BOR SW B, Port 47", "BOR_SW_A (C6.4) MGMT -> BOR SW B, Port 45", "BOR_SW_B (C6.2) MGMT -> BOR SW A, Port 45", "PDU A (C6.PDU A) MGMT -> BOR SW A, Port 48", "PDU B (C6.PDU B) MGMT -> BOR SW B, Port 48", "C6.22 Server IMM -> BOR SW B, Port 25", "C6.20 Server IMM -> BOR SW A, Port 32", "C6.18 Server IMM -> BOR SW A, Port 31", "C6.16 Server IMM -> BOR SW A, Port 30", "C6.14 Server IMM -> BOR SW A, Port 29", "C6.12 Server IMM -> BOR SW A, Port 28", "C6.10 Server IMM -> BOR SW A, Port 27", "C6.8 Server IMM -> BOR SW A, Port 26", "C6.6 Server IMM -> BOR SW A, Port 25"],
-                "Rack Layout, Positioning, and Power": ["ODF: RU 47", "TOR_SW_A (C6.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C6.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C6.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C6.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C6.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C6.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C6.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C6.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C6.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C6.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C6.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C6.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C6.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12"]
+                "Rack Layout, Positioning, and Power": ["ODF (C6.47): RU 47", "TOR_SW_A (C6.45) (N9K-C93180YC-FX3): RU 45, PDU A 8, PDU B 8", "TOR_SW_B (C6.43) (N9K-C93180YC-FX3): RU 43, PDU A 27, PDU B 27", "BOR_SW_A (C6.4) (N9K-C92348GC-X): RU 4, PDU A 11, PDU B 11", "BOR_SW_B (C6.2) (N9K-C92348GC-X): RU 2, PDU A 1, PDU B 1", "Server (C6.22) (Lenovo SR650 v2): RU 23, PDU A 5, PDU B 5", "Server (C6.20) (Lenovo SR650 v2): RU 21, PDU A 24, PDU B 24", "Server (C6.18) (Lenovo SR650 v2): RU 19, PDU A 14, PDU B 14", "Server (C6.16) (Lenovo SR650 v2): RU 17, PDU A 4, PDU B 4", "Server (C6.14) (Lenovo SR650 v2): RU 15, PDU A 23, PDU B 23", "Server (C6.12) (Lenovo SR650 v2): RU 13, PDU A 13, PDU B 13", "Server (C6.10) (Lenovo SR650 v2): RU 11, PDU A 3, PDU B 3", "Server (C6.8) (Lenovo SR650 v2): RU 9, PDU A 22, PDU B 22", "Server (C6.6) (Lenovo SR650 v2): RU 7, PDU A 12, PDU B 12", "PDU A (C6.PDU A): Vertical", "PDU B (C6.PDU B): Vertical"]
             }
         };
         // #endregion
 
         // #region STATE & CONFIG
-        /**
-         * The application's state, including user progress and UI settings.
-         * Loaded from localStorage or initialized with defaults.
-         */
         let state = {};
-
-        /**
-         * The application's configuration, derived from the raw data.
-         */
         const config = {
             racks: {},
             categories: [],
-            version: '5.4',
+            version: '6.0',
             allItems: {}
         };
-
         const statusCycle = ['pending', 'verified', 'failed', 'needs-review'];
-        const localStorageKey = 'dcChecklistState_v4'; // Keep v4 key for compatibility
+        const localStorageKey = 'dcChecklistState_v6';
         // #endregion
 
         // #region CORE LOGIC & INITIALIZATION
-        /**
-         * Initializes the application by parsing data, loading state,
-         * setting up event listeners, and performing the initial render.
-         */
         function init() {
             parseData();
             loadState();
             setupEventListeners();
             setupOfflineHandling();
 
-            // Set default category if none is active
             if (!state.activeCategory && config.categories.length > 0) {
                 state.activeCategory = config.categories[0];
             }
-
-            // Set default rack selection if none are selected
+            if (!state.activeRack && Object.keys(config.racks).length > 0) {
+                state.activeRack = Object.keys(config.racks)[0];
+            }
             if (Object.keys(state.selectedRacks).length === 0) {
                 Object.keys(config.racks).forEach(rackId => {
                     state.selectedRacks[rackId] = true;
                 });
             }
 
-            renderFullUI();
+            renderAppLayout();
             renderMobile();
         }
 
-        /**
-         * Loads the application state from localStorage.
-         * Includes validation and backup for corrupted data.
-         */
         function loadState() {
             try {
                 const savedState = localStorage.getItem(localStorageKey);
@@ -314,6 +696,8 @@
                     const parsed = JSON.parse(savedState);
                     if (parsed && typeof parsed.itemStatus === 'object') {
                         state = parsed;
+                        // Ensure new state properties exist
+                        if (!state.viewMode) state.viewMode = 'category';
                         return;
                     }
                 }
@@ -324,7 +708,7 @@
                     localStorage.setItem(`dcChecklistState_corrupted_${Date.now()}`, corruptedData);
                 }
             }
-            // Initialize with default state if loading fails
+            // Initialize with default state
             state = {
                 itemStatus: {},
                 itemNotes: {},
@@ -333,19 +717,17 @@
                 itemData: {},
                 deviceData: {},
                 activeCategory: null,
+                activeRack: null,
                 selectedRacks: {},
-                mobileView: 'main', 
+                mobileView: 'main',
                 mobileRack: null,
                 searchTerm: '',
                 technicianId: 'Anonymous',
-                isOnline: navigator.onLine
+                isOnline: navigator.onLine,
+                viewMode: 'category', // 'category' or 'rack'
             };
         }
 
-        /**
-         * Saves the current application state to localStorage.
-         * Debounced to prevent excessive writes.
-         */
         const saveState = debounce(() => {
             try {
                 state.lastSaved = new Date().toISOString();
@@ -357,12 +739,6 @@
             }
         }, 500);
         
-        /**
-         * Utility function for debouncing.
-         * @param {Function} func The function to debounce.
-         * @param {number} wait The delay in milliseconds.
-         * @returns {Function} The debounced function.
-         */
         function debounce(func, wait) {
             let timeout;
             return function executedFunction(...args) {
@@ -375,9 +751,6 @@
             };
         }
 
-        /**
-         * Parses the raw data into a structured format for the application.
-         */
         function parseData() {
             const uniqueCategories = new Set();
             Object.keys(fullRawData).forEach(rackName => {
@@ -386,8 +759,8 @@
                 Object.keys(rackData).forEach(categoryName => {
                     uniqueCategories.add(categoryName);
                     rackData[categoryName].forEach((itemString, index) => {
-                        const [title, ...detailsParts] = itemString.split(' -> ');
-                        const details = detailsParts.length > 0 ? `→ ${detailsParts.join(' -> ')}` : '';
+                        const [title, ...detailsParts] = itemString.split(': ');
+                        const details = detailsParts.length > 0 ? detailsParts.join(': ') : '';
                         const itemId = `${sanitizeForId(rackName)}-${sanitizeForId(categoryName)}-${index}`;
                         const item = { id: itemId, title, details, category: categoryName, rack: rackName, notes: '' };
                         config.racks[rackName].items.push(item);
@@ -400,135 +773,70 @@
         // #endregion
 
         // #region DATA & PHOTO MODALS
-        /**
-         * Opens a modal for entering data for a specific item (e.g., cable ID).
-         * @param {string} itemId - The ID of the item.
-         */
         function openItemDataModal(itemId) {
             const item = config.allItems[itemId];
             if (!item) return;
 
-            let bodyHtml;
-            let footerButtons;
+            const itemType = getDeviceType(item);
 
-            const itemType = getItemType(item);
+            let bodyHtml, footerButtons, field, label, currentValue, deviceName;
+
+            const saveHandler = (value) => {
+                if (itemType === 'cable') {
+                    if (!state.itemData) state.itemData = {};
+                    state.itemData[itemId] = { cableId: value };
+                } else {
+                    if (!state.deviceData) state.deviceData = {};
+                    if (!state.deviceData[item.rack]) state.deviceData[item.rack] = {};
+                    if (!state.deviceData[item.rack][deviceName]) state.deviceData[item.rack][deviceName] = {};
+                    state.deviceData[item.rack][deviceName][field] = value;
+                }
+                saveState();
+                updateUI({ item: itemId });
+                modal.hide();
+            };
 
             switch (itemType) {
-                case 'foCable':
-                case 'utpCable': {
-                    const currentData = (state.itemData && state.itemData[itemId]) || {};
-                    const saveHandler = (state, cableId) => {
-                        if (!state.itemData) state.itemData = {};
-                        if (!state.itemData[itemId]) state.itemData[itemId] = {};
-                        state.itemData[itemId].cableId = cableId;
-                        saveState();
-                        updateUI({ item: itemId });
-                    };
-                    
-                    bodyHtml = `
-                        <div class="form-group">
-                            <label for="data-cable-id">Cable ID</label>
-                            <input type="text" id="data-cable-id" value="${escapeHTML(currentData.cableId || '')}">
-                        </div>
-                    `;
-                    footerButtons = [{
-                        label: 'Save',
-                        className: 'btn',
-                        onClick: () => {
-                            const input = document.getElementById('data-cable-id');
-                            saveHandler(state, input.value);
-                            modal.hide();
-                        }
-                    }];
+                case 'cable':
+                    field = 'cableId';
+                    label = 'Cable ID';
+                    currentValue = (state.itemData && state.itemData[itemId]?.cableId) || '';
                     break;
-                }
+                case 'server':
+                case 'network':
+                    field = event.target.dataset.field; // S/N, ILO, or MAC
+                    deviceName = event.target.dataset.deviceName;
+                    label = { serial: 'Serial Number', ilo: 'ILO Password', mac: 'MAC Address' }[field];
+                    currentValue = state.deviceData?.[item.rack]?.[deviceName]?.[field] || '';
+                    break;
                 default:
-                    bodyHtml = '<p>No specific data points to register for this item type. Use the "Devices" button on the rack header for device data.</p>';
-                    footerButtons = [];
+                    showNotification("No data points for this item type.", "info");
+                    return;
             }
-            
+
+            bodyHtml = `
+                <div class="form-group">
+                    <label for="data-input-field">${label} for ${escapeHTML(item.title)}</label>
+                    <input type="text" id="data-input-field" value="${escapeHTML(currentValue)}">
+                </div>
+            `;
+            footerButtons = [{
+                label: 'Save',
+                className: 'btn',
+                onClick: () => {
+                    const input = document.getElementById('data-input-field');
+                    saveHandler(input.value);
+                }
+            }];
+
             modal.show({
-                title: `Data for: ${item.title}`,
+                title: `Enter Data`,
                 body: bodyHtml,
                 footerButtons
             });
+             setTimeout(() => document.getElementById('data-input-field').focus(), 100);
         }
 
-        /**
-         * Opens a modal for entering data for all devices in a rack.
-         * @param {string} rackId - The ID of the rack.
-         */
-        function openDeviceDataModal(rackId) {
-            const uniqueDevices = definitiveDeviceList[rackId] || [];
-            let formHtml = '';
-
-            const saveHandler = () => {
-                const inputs = document.getElementById('device-data-body').querySelectorAll('input');
-                if (!state.deviceData) state.deviceData = {};
-                if (!state.deviceData[rackId]) state.deviceData[rackId] = {};
-                
-                inputs.forEach(input => {
-                    const { deviceName, field } = input.dataset;
-                    if (!state.deviceData[rackId][deviceName]) {
-                        state.deviceData[rackId][deviceName] = {};
-                    }
-                    state.deviceData[rackId][deviceName][field] = input.value;
-                });
-                
-                saveState();
-                modal.hide();
-                showNotification('Device data saved.', 'success');
-            };
-
-            if (uniqueDevices.length === 0) {
-                formHtml = '<p>No devices found in this rack to register.</p>';
-            } else {
-                uniqueDevices.forEach(deviceName => {
-                    const currentSerial = (state.deviceData?.[rackId]?.[deviceName]?.serial) || '';
-                    const currentMac = (state.deviceData?.[rackId]?.[deviceName]?.mac) || '';
-                    const currentIlo = (state.deviceData?.[rackId]?.[deviceName]?.iloPassword) || '';
-                    const deviceId = sanitizeForId(deviceName);
-                    
-                    formHtml += `<div class="device-data-group"><h3>${escapeHTML(deviceName)}</h3>`;
-                    
-                    if (getDeviceName(deviceName).toLowerCase() === 'server') {
-                        formHtml += `
-                            <div class="form-group">
-                                <label for="device-serial-${deviceId}">Serial Number</label>
-                                <input type="text" id="device-serial-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="serial" value="${escapeHTML(currentSerial)}">
-                            </div>
-                            <div class="form-group">
-                                <label for="device-ilo-${deviceId}">ILO Password</label>
-                                <input type="text" id="device-ilo-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="iloPassword" value="${escapeHTML(currentIlo)}">
-                            </div>
-                        `;
-                    } else {
-                        formHtml += `
-                             <div class="form-group">
-                                <label for="device-serial-${deviceId}">Serial Number</label>
-                                <input type="text" id="device-serial-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="serial" value="${escapeHTML(currentSerial)}">
-                            </div>
-                            <div class="form-group">
-                                <label for="device-mac-${deviceId}">MAC Address</label>
-                                <input type="text" id="device-mac-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="mac" value="${escapeHTML(currentMac)}">
-                            </div>
-                        `;
-                    }
-                    formHtml += `</div>`;
-                });
-            }
-
-            modal.show({
-                title: `Device Data for ${rackId}`,
-                body: `<div id="device-data-body">${formHtml}</div>`,
-                footerButtons: uniqueDevices.length > 0 ? [{ label: 'Save', className: 'btn', onClick: saveHandler }] : []
-            });
-        }
-
-        /**
-         * Handles capturing or viewing a rack photo.
-         * @param {string} rackId - The ID of the rack.
-         */
         function handleRackPhoto(rackId) {
             const existingPhoto = state.rackPhotos[rackId];
             if (existingPhoto) {
@@ -538,10 +846,6 @@
             }
         }
 
-        /**
-         * Opens file input to capture a new rack photo.
-         * @param {string} rackId - The ID of the rack.
-         */
         function captureRackPhoto(rackId) {
             const input = document.createElement('input');
             input.type = 'file';
@@ -565,38 +869,26 @@
             input.click();
         }
 
-        /**
-         * Shows a modal to view an existing rack photo.
-         * @param {string} rackId - The ID of the rack.
-         */
         function viewRackPhoto(rackId) {
             const photo = state.rackPhotos[rackId];
             if (!photo) return;
             
-            const bodyHtml = `
-                <img src="${photo.data}" style="width: 100%; height: 100%; object-fit: contain;" alt="Photo for rack ${rackId}">
-            `;
+            const bodyHtml = `<img src="${photo.data}" style="width: 100%; height: 100%; object-fit: contain;" alt="Photo for rack ${rackId}">`;
             
-            const footerButtons = [{
-                label: 'Delete',
-                className: 'btn btn-secondary',
-                onClick: () => {
-                    modal.hide();
-                    deleteRackPhoto(rackId);
-                }
-            }];
-
             modal.show({
                 title: `Photo for ${rackId}`,
                 body: bodyHtml,
-                footerButtons
+                footerButtons: [{
+                    label: 'Delete',
+                    className: 'btn btn-secondary',
+                    onClick: () => {
+                        modal.hide();
+                        deleteRackPhoto(rackId);
+                    }
+                }]
             });
         }
         
-        /**
-         * Confirms and deletes a rack photo.
-         * @param {string} rackId - The ID of the rack.
-         */
         function deleteRackPhoto(rackId) {
             modal.show({
                 title: `Delete Photo for ${rackId}?`,
@@ -620,34 +912,15 @@
         // #endregion
 
         // #region UTILITIES
-        /**
-         * Triggers a small vibration on touch devices for haptic feedback.
-         */
         function triggerVibration() {
-            if (navigator.vibrate) {
-                navigator.vibrate(10);
-            }
+            if (navigator.vibrate) navigator.vibrate(10);
         }
         
-        /**
-         * Extracts the device name (e.g., 'Server', 'Spine') from a device string.
-         * @param {string} deviceString - The full device name (e.g., "Server (C1.20)").
-         * @returns {string} The simplified device name.
-         */
-        function getDeviceName(deviceString) {
-            return deviceString.split(" ")[0];
-        }
-
-        /**
-         * Calculates progress statistics for a given category or for all items.
-         * @param {string|null} categoryName - The name of the category, or null for all.
-         * @returns {{verified: number, failed: number, needsReview: number, checked: number, total: number}}
-         */
         function getCategoryProgress(categoryName = null) {
             let verified = 0, failed = 0, needsReview = 0, total = 0;
-            
-            const allItems = Object.values(config.allItems).filter(item => state.selectedRacks[item.rack]);
-            const items = categoryName ? allItems.filter(i => i.category === categoryName) : allItems;
+            const items = categoryName 
+                ? Object.values(config.allItems).filter(i => i.category === categoryName && state.selectedRacks[i.rack])
+                : Object.values(config.allItems).filter(i => state.selectedRacks[i.rack]);
             
             total = items.length;
             items.forEach(item => {
@@ -659,45 +932,26 @@
             return { verified, failed, needsReview, checked: verified + failed + needsReview, total };
         }
 
-        /**
-         * Calculates progress for a specific rack within a specific category.
-         * @param {string} rackId - The rack's ID.
-         * @param {string} categoryName - The category's name.
-         * @param {boolean} [detailed=false] - Whether to include failed/needs-review counts.
-         * @returns {object} Progress statistics object.
-         */
-        function getRackProgressForCategory(rackId, categoryName, detailed = false) {
+        function getRackProgress(rackId, categoryName = null) {
+            let verified = 0, failed = 0, needsReview = 0, total = 0;
             const rack = config.racks[rackId];
             if (!rack) return { verified: 0, failed: 0, needsReview: 0, checked: 0, total: 0 };
             
-            let verified = 0, failed = 0, needsReview = 0, total = 0;
-            
-            rack.items.forEach(item => {
-                if (item.category === categoryName) {
-                    total++;
-                    const status = state.itemStatus[item.id];
-                    if (status === 'verified') verified++;
-                    else if (detailed) {
-                        if (status === 'failed') failed++;
-                        else if (status === 'needs-review') needsReview++;
-                    }
-                }
+            const items = categoryName ? rack.items.filter(i => i.category === categoryName) : rack.items;
+
+            items.forEach(item => {
+                total++;
+                const status = state.itemStatus[item.id];
+                if (status === 'verified') verified++;
+                else if (status === 'failed') failed++;
+                else if (status === 'needs-review') needsReview++;
             });
-            
-            if (detailed) {
-                return { verified, failed, needsReview, checked: verified + failed + needsReview, total };
-            }
-            return { verified, total };
+            return { verified, failed, needsReview, checked: verified + failed + needsReview, total };
         }
 
-        /**
-         * Determines the overall status of a category based on its progress.
-         * @param {object} progress - The progress object from getCategoryProgress.
-         * @returns {string} The status string (e.g., 'verified', 'failed').
-         */
         function getCategoryStatus(progress) {
             const { total, verified, failed, needsReview, checked } = progress;
-            if (total === 0) return 'pending';
+            if (total === 0 || checked === 0) return 'pending';
             if (verified === total) return 'verified';
             if (failed > 0) return 'failed';
             if (needsReview > 0) return 'needs-review';
@@ -705,87 +959,40 @@
             return 'pending';
         }
 
-        /**
-         * Returns the icon character for a given status.
-         * @param {string} status - The status string.
-         * @returns {string} The corresponding icon.
-         */
         function getStatusIcon(status) {
-            switch (status) {
-                case 'verified': return '✓';
-                case 'failed': return '✗';
-                case 'needs-review': return '!';
-                case 'in-progress': return '◐';
-                default: return '';
-            }
+            return { 'verified': '✓', 'failed': '✗', 'needs-review': '!', 'in-progress': '◐' }[status] || '';
         }
 
-        /**
-         * Shows a temporary notification toast.
-         * @param {string} message - The message to display.
-         * @param {string} [type='info'] - The type ('success', 'error', 'info').
-         */
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.textContent = message;
             notification.setAttribute('role', 'alert');
             document.body.appendChild(notification);
-            
             setTimeout(() => notification.classList.add('show'), 10);
-
             setTimeout(() => {
                 notification.classList.remove('show');
                 notification.addEventListener('transitionend', () => notification.remove());
             }, 3000);
         }
 
-        /**
-         * Sets up online/offline status handling.
-         */
         function setupOfflineHandling() {
             updateOnlineStatus();
         }
 
-        /**
-         * Updates the UI to show online/offline status.
-         */
         function updateOnlineStatus() {
             document.getElementById('offline-indicator').classList.toggle('show', !state.isOnline);
         }
 
-        /**
-         * Creates a sanitized string suitable for use as an ID.
-         * @param {string} text - The input text.
-         * @returns {string} The sanitized text.
-         */
         function sanitizeForId(text) {
             return text.replace(/[^a-zA-Z0-9]/g, "_");
         }
 
-        /**
-         * Escapes a string for safe insertion into HTML.
-         * @param {string} str - The string to escape.
-         * @returns {string} The escaped string.
-         */
         function escapeHTML(str) {
             if (typeof str !== 'string') return '';
-            return str.replace(/[&<>"']/g, function(match) {
-                return {
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#39;'
-                }[match];
-            });
+            return str.replace(/[&<>"']/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match]));
         }
         
-        /**
-         * Triggers a file download from a Blob.
-         * @param {Blob} blob - The data blob.
-         * @param {string} filename - The desired filename.
-         */
         function downloadBlob(blob, filename) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -800,40 +1007,27 @@
         // #endregion
         
         // #region MODAL SYSTEM
-        /**
-         * Shows the general instructions modal.
-         */
         function showInstructionsModal() {
-            const bodyHtml = () => {
-                let html = '';
-                deploymentInstructionsData.forEach(phase => {
-                    html += `<details ${phase.phase.includes('Phase 1') ? 'open' : ''}>`;
-                    html += `<summary>${escapeHTML(phase.phase)}</summary>`;
-                    html += '<ol>';
-                    phase.steps.forEach(step => {
-                        html += `
-                            <li>
-                                <strong>${escapeHTML(step.title)}</strong>
-                                ${step.note ? `<span class="note">${escapeHTML(step.note)}</span>` : ''}
-                            </li>
-                        `;
-                    });
-                    html += '</ol>';
-                    html += `</details>`;
-                });
-                return html;
-            };
+            const bodyHtml = deploymentInstructionsData.map(phase => `
+                <details ${phase.phase.includes('Phase 1') ? 'open' : ''}>
+                    <summary>${escapeHTML(phase.phase)}</summary>
+                    <ol>
+                    ${phase.steps.map(step => `
+                        <li>
+                            <strong>${escapeHTML(step.title)}</strong>
+                            ${step.note ? `<span class="note">${escapeHTML(step.note)}</span>` : ''}
+                        </li>
+                    `).join('')}
+                    </ol>
+                </details>
+            `).join('');
             modal.show({
                 title: "Data Center Hardware Installation",
-                body: bodyHtml(),
+                body: bodyHtml,
                 className: 'instructions-modal'
             });
         }
         
-        /**
-         * Creates and manages the main application modal.
-         * @returns {{show: Function, hide: Function}} An object with show and hide methods.
-         */
         const modal = (function buildModal() {
             const modalEl = document.getElementById('app-modal');
             const dialogEl = modalEl.querySelector('[role="dialog"]');
@@ -842,40 +1036,26 @@
 
             function keydownHandler(e) {
                 if (e.key === 'Escape') {
-                    const onEscape = modalEl.dataset.onEscape;
-                    if (onEscape && onEscape === 'ignore') return;
                     hide();
                 }
                 if (e.key === 'Tab') {
                     if (e.shiftKey) {
-                        if (document.activeElement === firstFocusableEl) {
-                            lastFocusableEl.focus();
-                            e.preventDefault();
-                        }
+                        if (document.activeElement === firstFocusableEl) { lastFocusableEl.focus(); e.preventDefault(); }
                     } else {
-                        if (document.activeElement === lastFocusableEl) {
-                            firstFocusableEl.focus();
-                            e.preventDefault();
-                        }
+                        if (document.activeElement === lastFocusableEl) { firstFocusableEl.focus(); e.preventDefault(); }
                     }
                 }
             }
 
             function clickHandler(e) {
-                if (e.target === modalEl && modalEl.dataset.backdrop !== 'static') {
-                    hide();
-                }
+                if (e.target === modalEl) hide();
             }
 
-            function show({ title, body, footerButtons = [], className, onEscape, backdrop }) {
-                const titleEl = modalEl.querySelector('#modal-title');
-                const bodyEl = modalEl.querySelector('#modal-body');
+            function show({ title, body, footerButtons = [], className }) {
+                modalEl.querySelector('#modal-title').textContent = title;
+                modalEl.querySelector('#modal-body').innerHTML = body;
                 const footerEl = modalEl.querySelector('#modal-footer');
-
-                titleEl.textContent = title;
-                bodyEl.innerHTML = body;
                 footerEl.innerHTML = '';
-
                 footerButtons.forEach(btnConfig => {
                     const btn = document.createElement('button');
                     btn.textContent = btnConfig.label;
@@ -885,32 +1065,19 @@
                 });
                 
                 dialogEl.className = `modal-content ${className || ''}`;
-                modalEl.dataset.onEscape = onEscape || '';
-                modalEl.dataset.backdrop = backdrop || '';
-                
                 modalEl.classList.add('is-visible');
-                
                 previouslyFocusedEl = document.activeElement;
-
                 const focusable = modalEl.querySelectorAll(focusableElements);
                 firstFocusableEl = focusable[0];
                 lastFocusableEl = focusable[focusable.length - 1];
-
-                setTimeout(() => {
-                    const elementToFocus = footerEl.querySelector('button') || bodyEl.querySelector('input, button, textarea') || titleEl;
-                    if (elementToFocus) elementToFocus.focus();
-                    else if (firstFocusableEl) firstFocusableEl.focus();
-                }, 100);
-
+                setTimeout(() => { (firstFocusableEl || dialogEl).focus() }, 100);
                 modalEl.addEventListener('keydown', keydownHandler);
                 modalEl.addEventListener('click', clickHandler);
             }
 
             function hide() {
                 modalEl.classList.remove('is-visible');
-                if (previouslyFocusedEl) {
-                    previouslyFocusedEl.focus();
-                }
+                if (previouslyFocusedEl) previouslyFocusedEl.focus();
                 modalEl.removeEventListener('keydown', keydownHandler);
                 modalEl.removeEventListener('click', clickHandler);
             }
@@ -921,57 +1088,43 @@
 
         // #region UI RENDERING & UPDATES
         
-        /**
-         * Main UI update controller. Delegates to specific functions to perform
-         * targeted, efficient DOM updates instead of a full re-render.
-         * @param {object} updates - An object specifying what needs to be updated.
-         */
-        function updateUI({ category, rack, item, all = false, stats = false, rackSelection = false, rackPhoto }) {
-            // A full refresh is needed for major changes like filtering.
-            // This now correctly updates BOTH desktop and mobile views.
-            if (all || stats || rackSelection) {
-                renderFullUI();
+        function updateUI({ category, rack, item, all = false, stats = false, rackSelection = false, rackPhoto, viewModeChange = false }) {
+            if (all || stats || rackSelection || viewModeChange) {
+                renderAppLayout();
                 renderMobile();
                 return;
             }
-
             if (rackPhoto) {
-                // Update the camera icon indicator in the detail view
-                const rackTitle = document.querySelector(`.detail-rack-group-title[data-rack-id="${rackPhoto}"]`);
-                if (rackTitle) {
-                    const indicator = rackTitle.querySelector('.rack-photo-indicator');
-                    const hasPhoto = state.rackPhotos[rackPhoto] ? '<span style="color: var(--success-color);">📸</span>' : '';
-                    indicator.innerHTML = hasPhoto;
-                }
+                const indicators = document.querySelectorAll(`.rack-photo-indicator[data-rack-id="${rackPhoto}"]`);
+                const hasPhoto = state.rackPhotos[rackPhoto] ? '<span style="color: var(--success-color);">📸</span>' : '';
+                indicators.forEach(ind => ind.innerHTML = hasPhoto);
             }
-
-            // Targeted updates for better performance on smaller changes.
-            if (category) updateCategoryUI(category);
-            if (rack) updateRackOverviewUI(rack);
             if (item) updateItemUI(item);
-            
-            // Always update global stats
+            if (category) updateCategoryUI(category);
+            if (rack) updateRackUI(rack);
             updateOverallStatsUI();
         }
 
-        /**
-         * Renders the entire Desktop UI from scratch. Used on initial load and major state changes.
-         */
-        function renderFullUI() {
+        function renderAppLayout() {
+            document.getElementById('desktop-view').classList.toggle('rack-view', state.viewMode === 'rack');
+            document.getElementById('view-mode-category-btn').classList.toggle('active', state.viewMode === 'category');
+            document.getElementById('view-mode-rack-btn').classList.toggle('active', state.viewMode === 'rack');
+
             renderRackSelector();
-            renderCategories();
-            renderRackOverview();
-            renderEquipmentDetail();
             updateOverallStatsUI();
+            
+            if (state.viewMode === 'rack') {
+                renderRackListSidebar();
+                renderDetailForSelectedRack();
+            } else {
+                renderCategoryListSidebar();
+                renderRackOverview();
+                renderEquipmentDetailByCategory();
+            }
         }
-        
-        /**
-         * Updates the overall statistics panel for both desktop and mobile.
-         */
+
         function updateOverallStatsUI() {
             const progress = getCategoryProgress();
-            
-            // Desktop
             const statsEl = document.getElementById('overall-stats');
             if (statsEl) {
                 statsEl.innerHTML = `
@@ -982,7 +1135,6 @@
                 `;
             }
 
-            // Mobile
             const mobileProgressEl = document.getElementById('mobile-total-progress');
             if(mobileProgressEl) {
                 const percentage = progress.total > 0 ? Math.round(progress.verified / progress.total * 100) : 0;
@@ -990,9 +1142,6 @@
             }
         }
 
-        /**
-         * Renders the rack selection checkboxes into all containers.
-         */
         function renderRackSelector() {
             const containers = document.querySelectorAll(".rack-selector-container");
             const rackIds = Object.keys(config.racks);
@@ -1007,86 +1156,51 @@
             html += "</div>";
             containers.forEach(c => c.innerHTML = html);
         }
-
-        /**
-         * Renders the list of categories and their progress.
-         */
-        function renderCategories() {
-            const container = document.getElementById("category-list");
+        
+        // --- BY CATEGORY VIEW ---
+        function renderCategoryListSidebar() {
+            document.getElementById("sidebar-title").textContent = "📋 Categories";
+            const container = document.getElementById("sidebar-list");
             if (!container) return;
-            let html = "";
-            config.categories.forEach(categoryName => {
-                html += generateCategoryHTML(categoryName);
-            });
-            container.innerHTML = html;
+            container.innerHTML = config.categories.map(generateCategoryHTML).join('');
         }
 
-        /**
-         * Updates the UI for a single category in the list.
-         * @param {string} categoryId - The ID of the category to update.
-         */
         function updateCategoryUI(categoryId) {
-            const el = document.querySelector(`.category-list-item[data-category-id="${categoryId}"]`);
-            if (el) {
-                el.outerHTML = generateCategoryHTML(categoryId);
-            }
+            const el = document.querySelector(`.sidebar-list-item[data-category-id="${categoryId}"]`);
+            if (el) el.outerHTML = generateCategoryHTML(categoryId);
         }
         
-        /**
-         * Generates the HTML for a single category list item.
-         * @param {string} categoryName - The name of the category.
-         * @returns {string} The HTML string for the category item.
-         */
         function generateCategoryHTML(categoryName) {
             const progress = getCategoryProgress(categoryName);
             const status = getCategoryStatus(progress);
             const activeClass = state.activeCategory === categoryName ? "active" : "";
             return `
-                <li class="category-list-item ${activeClass}" data-category-id="${categoryName}" tabindex="0" role="button">
+                <li class="sidebar-list-item ${activeClass}" data-category-id="${categoryName}" tabindex="0" role="button">
                     <span class="status-icon ${status}">${getStatusIcon(status)}</span>
                     ${categoryName}
                     <small>(${progress.checked}/${progress.total})</small>
-                </li>
-            `;
-        }
-
-        /**
-         * Renders the overview of racks for the active category.
-         */
-        function renderRackOverview() {
-            const container = document.getElementById("rack-overview-list");
-            if (!container) return;
-            if (!state.activeCategory) {
-                container.innerHTML = "";
-                return;
-            }
-            let html = "";
-            Object.keys(config.racks).forEach(rackId => {
-                if (state.selectedRacks[rackId]) {
-                   html += generateRackOverviewHTML(rackId);
-                }
-            });
-            container.innerHTML = html;
-        }
-
-        /**
-         * Updates the UI for a single rack in the overview list.
-         * @param {string} rackId - The ID of the rack to update.
-         */
-        function updateRackOverviewUI(rackId) {
-            const el = document.querySelector(`.rack-list-item[data-rack-id="${rackId}"]`);
-            if (el) {
-                el.outerHTML = generateRackOverviewHTML(rackId);
-            }
+                </li>`;
         }
         
-        /**
-         * Generates the HTML for a single rack overview item.
-         * @param {string} rackId - The ID of the rack.
-         * @returns {string} The HTML string for the rack overview item.
-         */
+        function renderRackOverview() {
+            const container = document.getElementById("rack-overview-list");
+            if (!container || !state.activeCategory) return;
+            container.innerHTML = Object.keys(config.racks)
+                .filter(rackId => state.selectedRacks[rackId])
+                .map(generateRackOverviewHTML)
+                .join('');
+        }
+
+        function updateRackUI(rackId) {
+             const overviewEl = document.querySelector(`.rack-list-item[data-rack-id="${rackId}"]`);
+             if (overviewEl) overviewEl.outerHTML = generateRackOverviewHTML(rackId);
+             
+             const sidebarEl = document.querySelector(`.sidebar-list-item[data-rack-id="${rackId}"]`);
+             if (sidebarEl) sidebarEl.outerHTML = generateRackSidebarHTML(rackId);
+        }
+        
         function generateRackOverviewHTML(rackId) {
-            const progress = getRackProgressForCategory(rackId, state.activeCategory);
+            const progress = getRackProgress(rackId, state.activeCategory);
             if (progress.total === 0) return '';
             const percentage = progress.total > 0 ? (progress.verified / progress.total) * 100 : 0;
             const shortName = rackId.split(" ")[0];
@@ -1094,108 +1208,149 @@
                 <li class="rack-list-item" data-rack-id="${rackId}">
                     <button class="rack-list-item-main" data-rack-id="${rackId}" aria-label="Scroll to ${rackId} details">
                         <div class="rack-name">${shortName}</div>
-                        <div class="rack-progress-bar" role="progressbar" aria-label="${shortName} progress ${Math.round(percentage)}%" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">
-                            <div class="rack-progress-fill" style="width:${percentage}%;"></div>
-                        </div>
+                        <div class="rack-progress-bar" role="progressbar" aria-valuenow="${percentage}"><div class="rack-progress-fill" style="width:${percentage}%;"></div></div>
                         <span class="percentage">${Math.round(percentage)}%</span>
                     </button>
-                    <button class="rack-overview-devices-btn" data-rack-id="${rackId}" title="Device Data for ${rackId}">💻</button>
-                </li>
-            `;
+                </li>`;
         }
 
-        /**
-         * Renders the detailed equipment list for the active category and selected racks.
-         */
-        function renderEquipmentDetail() {
+        function renderEquipmentDetailByCategory() {
             const container = document.getElementById("equipment-detail-content");
             const titleEl = document.getElementById("detail-panel-title");
 
-            if (!container || !titleEl) return;
-
-            if (!state.activeCategory) {
+            if (!container || !titleEl || !state.activeCategory) {
                 container.innerHTML = '<div class="no-selection">Select a Category to view details</div>';
                 titleEl.textContent = "🔧 Equipment Detail";
                 return;
             }
 
             titleEl.textContent = `🔧 ${state.activeCategory}`;
-            let html = "";
             const searchTerm = state.searchTerm.toLowerCase();
-
-            Object.keys(config.racks).forEach(rackId => {
-                if (!state.selectedRacks[rackId]) return;
-
-                const rack = config.racks[rackId];
-                const items = rack.items.filter(item =>
+            container.innerHTML = Object.keys(config.racks).filter(rackId => state.selectedRacks[rackId]).map(rackId => {
+                const items = config.racks[rackId].items.filter(item =>
                     item.category === state.activeCategory &&
-                    (!searchTerm || (item.title.toLowerCase().includes(searchTerm) || item.details.toLowerCase().includes(searchTerm)))
+                    (!searchTerm || item.title.toLowerCase().includes(searchTerm) || item.details.toLowerCase().includes(searchTerm))
                 );
+                if (items.length === 0) return '';
+                
+                const allVerified = items.every(item => state.itemStatus[item.id] === "verified");
+                const hasPhoto = state.rackPhotos[rackId] ? '<span style="color: var(--success-color);">📸</span>' : '';
 
-                if (items.length > 0) {
-                    const sanitizedId = sanitizeForId(rackId);
-                    const allVerified = items.every(item => state.itemStatus[item.id] === "verified");
-                    const hasPhoto = state.rackPhotos[rackId] ? '<span style="color: var(--success-color);">📸</span>' : '';
-
-                    html += `
-                        <div class="detail-rack-group">
-                            <h3 id="detail-rack-${sanitizedId}">
-                                <label class="detail-rack-group-title" data-rack-id="${rackId}">
-                                    <input type="checkbox" class="rack-master-check" data-rack-id="${rackId}" ${allVerified ? "checked" : ""}>
-                                    <span>${rackId} <span class="rack-photo-indicator">${hasPhoto}</span></span>
-                                </label>
-                                <div class="rack-controls">
-                                    <button class="rack-devices-btn" data-rack-id="${rackId}" title="Enter Device Data for ${rackId}">💻 Devices</button>
-                                    <button class="rack-photo-btn" data-rack-id="${rackId}" title="Add or View Rack Photo">📷 Photo</button>
-                                    <button class="rack-reset-btn" data-rack-id="${rackId}" title="Reset Progress for ${rackId}">🔄 Reset</button>
-                                </div>
-                            </h3>
-                            <ul class="equipment-list">
-                    `;
-                    items.forEach(item => {
-                        html += generateItemHTML(item);
-                    });
-                    html += "</ul></div>";
-                }
-            });
-            container.innerHTML = html || '<div class="no-selection">No items match your selection or search.</div>';
+                return `
+                    <div class="detail-rack-group">
+                        <h3 id="detail-rack-${sanitizeForId(rackId)}">
+                            <label class="detail-rack-group-title" data-rack-id="${rackId}">
+                                <input type="checkbox" class="rack-master-check" data-rack-id="${rackId}" ${allVerified ? "checked" : ""}>
+                                <span>${rackId} <span class="rack-photo-indicator" data-rack-id="${rackId}">${hasPhoto}</span></span>
+                            </label>
+                            <div class="rack-controls">
+                                <button class="rack-photo-btn" data-rack-id="${rackId}" title="Add or View Rack Photo">📷 Photo</button>
+                                <button class="rack-reset-btn" data-rack-id="${rackId}" title="Reset Progress for ${rackId}">🔄 Reset</button>
+                            </div>
+                        </h3>
+                        <ul class="equipment-list">${items.map(generateItemHTML).join('')}</ul>
+                    </div>`;
+            }).join('') || '<div class="no-selection">No items match your selection or search.</div>';
         }
 
-        /**
-         * Updates the UI for a single equipment item.
-         * @param {string} itemId - The ID of the item to update.
-         */
+        // --- BY RACK VIEW ---
+        function renderRackListSidebar() {
+            document.getElementById("sidebar-title").textContent = "🏢 Racks";
+            const container = document.getElementById("sidebar-list");
+            if (!container) return;
+            container.innerHTML = Object.keys(config.racks).map(generateRackSidebarHTML).join('');
+        }
+
+        function generateRackSidebarHTML(rackId) {
+            const progress = getRackProgress(rackId);
+            const status = getCategoryStatus(progress);
+            const activeClass = state.activeRack === rackId ? "active" : "";
+            return `
+                <li class="sidebar-list-item ${activeClass}" data-rack-id="${rackId}" tabindex="0" role="button">
+                    <span class="status-icon ${status}">${getStatusIcon(status)}</span>
+                    ${rackId}
+                    <small>(${progress.checked}/${progress.total})</small>
+                </li>`;
+        }
+
+        function renderDetailForSelectedRack() {
+            const container = document.getElementById("equipment-detail-content");
+            const titleEl = document.getElementById("detail-panel-title");
+
+            if (!container || !titleEl || !state.activeRack) {
+                container.innerHTML = '<div class="no-selection">Select a Rack to view details</div>';
+                titleEl.textContent = "🔧 Equipment Detail";
+                return;
+            }
+            
+            titleEl.textContent = `🔧 ${state.activeRack}`;
+            const searchTerm = state.searchTerm.toLowerCase();
+            const items = config.racks[state.activeRack].items.filter(item => 
+                !searchTerm || item.title.toLowerCase().includes(searchTerm) || item.details.toLowerCase().includes(searchTerm)
+            );
+            
+            const groupedItems = items.reduce((acc, item) => {
+                (acc[item.category] = acc[item.category] || []).push(item);
+                return acc;
+            }, {});
+
+            container.innerHTML = config.categories.map(categoryName => {
+                if (!groupedItems[categoryName]) return '';
+
+                const categoryItems = groupedItems[categoryName];
+                const allVerified = categoryItems.every(item => state.itemStatus[item.id] === "verified");
+                const hasPhoto = state.rackPhotos[state.activeRack] ? '<span style="color: var(--success-color);">📸</span>' : '';
+                
+                 return `
+                    <div class="detail-rack-group">
+                        <h3 id="detail-rack-${sanitizeForId(categoryName)}">
+                            <label class="detail-rack-group-title" data-category-id="${categoryName}">
+                                <input type="checkbox" class="rack-master-check" data-rack-id="${state.activeRack}" data-category-id="${categoryName}" ${allVerified ? "checked" : ""}>
+                                <span>${categoryName} <span class="rack-photo-indicator" data-rack-id="${state.activeRack}">${hasPhoto}</span></span>
+                            </label>
+                             <div class="rack-controls">
+                                <button class="rack-photo-btn" data-rack-id="${state.activeRack}" title="Add or View Rack Photo">📷 Photo</button>
+                                <button class="rack-reset-btn" data-rack-id="${state.activeRack}" title="Reset Progress for ${state.activeRack}">🔄 Reset</button>
+                            </div>
+                        </h3>
+                        <ul class="equipment-list">${categoryItems.map(generateItemHTML).join('')}</ul>
+                    </div>`;
+
+            }).join('') || '<div class="no-selection">No items match your selection or search.</div>';
+        }
+
+        // --- SHARED ITEM RENDERING ---
         function updateItemUI(itemId) {
-            const desktopEl = document.getElementById(`item-${itemId}`);
-            const mobileEl = document.getElementById(`mobile-item-${itemId}`);
-            if (desktopEl) {
-                desktopEl.outerHTML = generateItemHTML(config.allItems[itemId]);
-            }
-            if (mobileEl) {
-                mobileEl.outerHTML = generateMobileItemHTML(config.allItems[itemId]);
-            }
+            const item = config.allItems[itemId];
+            if (!item) return;
+            const desktopEl = document.getElementById(`item-${item.id}`);
+            const mobileEl = document.getElementById(`mobile-item-${item.id}`);
+            if (desktopEl) desktopEl.outerHTML = generateItemHTML(item);
+            if (mobileEl) mobileEl.outerHTML = generateMobileItemHTML(item);
         }
 
-        /**
-         * Generates the HTML for a single equipment item.
-         * @param {Object} item - The item object.
-         * @returns {string} The HTML string for the item.
-         */
         function generateItemHTML(item) {
             const status = state.itemStatus[item.id] || "pending";
             const note = state.itemNotes[item.id];
             const timestamp = state.itemTimestamps[item.id];
-            const statusContent = getStatusIcon(status);
-            const noteHTML = note ? `<div class="item-note">Note: ${escapeHTML(note)}</div>` : "";
-            const timestampHTML = timestamp ? `<div style="font-size: 0.8em; color: var(--border-color); margin-top: 0.5rem;">Last updated: ${new Date(timestamp).toLocaleString()}</div>` : "";
             
-            let dataBtnHtml = '';
-            const itemType = getItemType(item);
-            if (itemType === 'foCable' || itemType === 'utpCable') {
-                 const hasData = state.itemData && state.itemData[item.id] && Object.values(state.itemData[item.id]).some(d => d);
-                 const dataIcon = hasData ? '🗄️' : '📝';
-                 const dataBtnTitle = hasData ? 'Edit collected data' : 'Collect data for this item';
-                 dataBtnHtml = `<button class="data-btn" data-item-id="${item.id}" title="${dataBtnTitle}">${dataIcon}</button>`;
+            const deviceType = getDeviceType(item);
+            let deviceControls = '';
+            let hasData = false;
+            
+            if (deviceType === 'server') {
+                const deviceData = state.deviceData?.[item.rack]?.[item.title] || {};
+                deviceControls = `
+                    <button class="data-btn ${deviceData.serial ? 'has-data' : ''}" data-item-id="${item.id}" data-device-name="${escapeHTML(item.title)}" data-rack-id="${item.rack}" data-field="serial" title="Serial Number">S/N</button>
+                    <button class="data-btn ${deviceData.ilo ? 'has-data' : ''}" data-item-id="${item.id}" data-device-name="${escapeHTML(item.title)}" data-rack-id="${item.rack}" data-field="ilo" title="ILO Password">ILO</button>`;
+            } else if (deviceType === 'network') {
+                const deviceData = state.deviceData?.[item.rack]?.[item.title] || {};
+                deviceControls = `
+                    <button class="data-btn ${deviceData.serial ? 'has-data' : ''}" data-item-id="${item.id}" data-device-name="${escapeHTML(item.title)}" data-rack-id="${item.rack}" data-field="serial" title="Serial Number">S/N</button>
+                    <button class="data-btn ${deviceData.mac ? 'has-data' : ''}" data-item-id="${item.id}" data-device-name="${escapeHTML(item.title)}" data-rack-id="${item.rack}" data-field="mac" title="MAC Address">MAC</button>`;
+            } else if (deviceType === 'cable') {
+                const cableData = state.itemData?.[item.id] || {};
+                deviceControls = `<button class="data-btn ${cableData.cableId ? 'has-data' : ''}" data-item-id="${item.id}" data-field="cableId" title="Cable ID">ID</button>`;
             }
 
             return `
@@ -1203,42 +1358,28 @@
                     <div class="equipment-header">
                         <div class="title">${escapeHTML(item.title)}</div>
                         <div class="item-controls">
-                            <button class="note-btn" data-item-id="${item.id}" title="Add note for this item">🗒️</button>
-                            ${dataBtnHtml}
-                            <div class="status-toggle ${status}" data-item-id="${item.id}"
-                                 title="Click to cycle status: ${status}" role="button" tabindex="0" aria-label="Cycle status for ${escapeHTML(item.title)}. Current status: ${status}">
-                                 ${statusContent}
-                            </div>
+                            ${deviceControls}
+                            <button class="note-btn" data-item-id="${item.id}" title="Add note">🗒️</button>
+                            <div class="status-toggle ${status}" data-item-id="${item.id}" title="Cycle status: ${status}" role="button" tabindex="0">${getStatusIcon(status)}</div>
                         </div>
                     </div>
-                    <div class="equipment-details">${escapeHTML(item.details)}</div>
-                    ${noteHTML}
-                    ${timestampHTML}
+                    ${item.details ? `<div class="equipment-details">${escapeHTML(item.details)}</div>` : ''}
+                    ${note ? `<div class="item-note">Note: ${escapeHTML(note)}</div>` : ""}
+                    ${timestamp ? `<div style="font-size: 0.8em; color: var(--border-color); margin-top: 0.5rem;">Updated: ${new Date(timestamp).toLocaleString()}</div>` : ""}
                 </li>`;
         }
         
-        /**
-         * Identifies the type of an item based on its title and category.
-         * @param {Object} item - The item object.
-         * @returns {string} The type of the item (e.g., 'server', 'networkDevice').
-         */
-        function getItemType(item) {
+        function getDeviceType(item) {
             const title = item.title.toLowerCase();
             const category = item.category.toLowerCase();
-
             if (title.includes('server')) return 'server';
-            if (title.includes('spine') || title.includes('fw') || title.includes('agg') || title.includes('tor') || title.includes('bor')) return 'networkDevice';
-            if (category.includes('fiber optic')) return 'foCable';
-            if (category.includes('utp')) return 'utpCable';
-
-            return 'generic';
+            if (['spine', 'fw', 'agg', 'tor', 'bor'].some(term => title.includes(term))) return 'network';
+            if (category.includes('fiber optic') || category.includes('utp')) return 'cable';
+            return 'other';
         }
         // #endregion
         
         // #region MOBILE RENDERING
-        /**
-         * Orchestrates rendering for mobile views.
-         */
         function renderMobile() {
             document.getElementById("mobile-panel-main").classList.toggle("active", state.mobileView === "main");
             document.getElementById("mobile-panel-items").classList.toggle("active", state.mobileView === "items");
@@ -1250,98 +1391,77 @@
             }
         }
 
-        /**
-         * Renders the new combined category/rack list for mobile.
-         */
         function renderMobileMainList() {
             const container = document.getElementById("mobile-main-list");
             if (!container) return;
-
             updateOverallStatsUI();
 
-            let html = "";
-            config.categories.forEach(categoryName => {
+            container.innerHTML = config.categories.map(categoryName => {
                 const racksForCategory = Object.keys(config.racks).filter(rackId => 
                     state.selectedRacks[rackId] && config.racks[rackId].items.some(item => item.category === categoryName)
                 );
-
-                if (racksForCategory.length > 0) {
-                    html += `<li class="mobile-main-category-header">${categoryName}</li>`;
-                    racksForCategory.forEach(rackId => {
-                        const progress = getRackProgressForCategory(rackId, categoryName, true);
-                        const percentage = progress.total > 0 ? Math.round(progress.verified / progress.total * 100) : 0;
-                        const status = getCategoryStatus(progress);
-                        
-                        html += `
-                            <li class="mobile-rack-item" data-rack-id="${rackId}" data-category-id="${categoryName}">
-                                <div class="rack-list-item-main" role="button" tabindex="0">
-                                    <span class="status-icon ${status}">${getStatusIcon(status)}</span>
-                                    <span class="rack-name">${rackId.split(" ")[0]}</span>
-                                    <div class="rack-progress-bar">
-                                        <div class="rack-progress-fill" style="width:${percentage}%;"></div>
-                                    </div>
-                                    <span class="percentage">${percentage}%</span>
-                                </div>
-                                <button class="rack-overview-devices-btn mobile-rack-devices-btn" data-rack-id="${rackId}">💻</button>
-                            </li>
-                        `;
-                    });
-                }
-            });
-            container.innerHTML = html;
+                if (racksForCategory.length === 0) return '';
+                
+                let categoryHtml = `<li class="mobile-main-category-header">${categoryName}</li>`;
+                categoryHtml += racksForCategory.map(rackId => {
+                    const progress = getRackProgress(rackId, categoryName);
+                    const percentage = progress.total > 0 ? Math.round(progress.verified / progress.total * 100) : 0;
+                    const status = getCategoryStatus(progress);
+                    
+                    return `
+                        <li class="mobile-rack-item" data-rack-id="${rackId}" data-category-id="${categoryName}">
+                            <div class="rack-list-item-main" role="button" tabindex="0">
+                                <span class="status-icon ${status}">${getStatusIcon(status)}</span>
+                                <span class="rack-name">${rackId.split(" ")[0]}</span>
+                                <div class="rack-progress-bar"><div class="rack-progress-fill" style="width:${percentage}%;"></div></div>
+                                <span class="percentage">${percentage}%</span>
+                            </div>
+                        </li>`;
+                }).join('');
+                return categoryHtml;
+            }).join('');
         }
 
-        /**
-         * Renders the item list for a specific rack in the mobile view.
-         */
         function renderMobileItemList() {
             const container = document.getElementById("mobile-item-list");
-            if (!container || !state.mobileRack || !state.activeCategory) {
-                container.innerHTML = "";
-                return;
-            }
+            if (!container || !state.mobileRack || !state.activeCategory) return;
 
             document.getElementById("mobile-item-title").textContent = `${state.mobileRack.split(" ")[0]} - ${state.activeCategory}`;
-            const rack = config.racks[state.mobileRack];
             const searchTerm = state.searchTerm.toLowerCase();
-            const items = rack.items.filter(item => 
+            const items = config.racks[state.mobileRack].items.filter(item => 
                 item.category === state.activeCategory &&
-                (!searchTerm || (item.title.toLowerCase().includes(searchTerm) || item.details.toLowerCase().includes(searchTerm)))
+                (!searchTerm || item.title.toLowerCase().includes(searchTerm) || item.details.toLowerCase().includes(searchTerm))
             );
 
             let html = `
-                <div style="margin-bottom: 1rem; padding: 1rem; border: 1px dashed var(--border-color); border-radius: 4px;">
+                <div style="margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border-color-subtle); border-radius: 4px;">
                     <div style="display: flex; justify-content: space-around; align-items: center;">
-                        <button class="btn mobile-rack-devices-btn" data-rack-id="${state.mobileRack}">💻 Devices</button>
                         <button class="btn mobile-rack-photo-btn" data-rack-id="${state.mobileRack}">📷 Photo</button>
                         <button class="btn btn-secondary mobile-rack-reset-btn" data-rack-id="${state.mobileRack}">🔄 Reset</button>
                     </div>
-                </div>
-            `;
-
-            items.forEach(item => {
-                html += generateMobileItemHTML(item);
-            });
-            container.innerHTML = html || '<div class="no-selection">No items match your selection or search.</div>';
+                </div>`;
+            html += items.map(generateMobileItemHTML).join('');
+            container.innerHTML = html || '<div class="no-selection">No items match.</div>';
         }
         
-        /**
-         * Generates the HTML for a single item in the mobile view.
-         * @param {object} item - The item object to render.
-         * @returns {string} The generated HTML string.
-         */
         function generateMobileItemHTML(item) {
             const status = state.itemStatus[item.id] || "pending";
             const note = state.itemNotes[item.id];
-            const statusContent = getStatusIcon(status);
             
-            let dataBtnHtml = '';
-             const itemType = getItemType(item);
-             if (itemType === 'foCable' || itemType === 'utpCable') {
-                const hasData = state.itemData && state.itemData[item.id] && Object.values(state.itemData[item.id]).some(d => d);
-                const dataIcon = hasData ? '🗄️' : '📝';
-                const dataBtnTitle = hasData ? 'Edit collected data' : 'Collect data for this item';
-                dataBtnHtml = `<button class="data-btn" data-item-id="${item.id}" title="${dataBtnTitle}">${dataIcon}</button>`;
+            const deviceType = getDeviceType(item);
+            let deviceControls = '';
+            
+            if (deviceType === 'server') {
+                const deviceData = state.deviceData?.[item.rack]?.[item.title] || {};
+                deviceControls = `<button class="data-btn ${deviceData.serial ? 'has-data' : ''}" data-item-id="${item.id}" data-device-name="${escapeHTML(item.title)}" data-rack-id="${item.rack}" data-field="serial">S/N</button>
+                                  <button class="data-btn ${deviceData.ilo ? 'has-data' : ''}" data-item-id="${item.id}" data-device-name="${escapeHTML(item.title)}" data-rack-id="${item.rack}" data-field="ilo">ILO</button>`;
+            } else if (deviceType === 'network') {
+                const deviceData = state.deviceData?.[item.rack]?.[item.title] || {};
+                deviceControls = `<button class="data-btn ${deviceData.serial ? 'has-data' : ''}" data-item-id="${item.id}" data-device-name="${escapeHTML(item.title)}" data-rack-id="${item.rack}" data-field="serial">S/N</button>
+                                  <button class="data-btn ${deviceData.mac ? 'has-data' : ''}" data-item-id="${item.id}" data-device-name="${escapeHTML(item.title)}" data-rack-id="${item.rack}" data-field="mac">MAC</button>`;
+            } else if (deviceType === 'cable') {
+                const cableData = state.itemData?.[item.id] || {};
+                deviceControls = `<button class="data-btn ${cableData.cableId ? 'has-data' : ''}" data-item-id="${item.id}" data-field="cableId">ID</button>`;
             }
 
             return `
@@ -1349,60 +1469,52 @@
                     <div class="mobile-equipment-header">
                         <div class="mobile-equipment-title">${escapeHTML(item.title)}</div>
                         <div class="mobile-equipment-controls">
-                            <button class="note-btn" data-item-id="${item.id}" title="Add note for this item">🗒️</button>
-                            ${dataBtnHtml}
-                            <div class="mobile-status-toggle ${status}" data-item-id="${item.id}" role="button" tabindex="0">${statusContent}</div>
+                            ${deviceControls}
+                            <button class="note-btn" data-item-id="${item.id}" title="Add note">🗒️</button>
+                            <div class="mobile-status-toggle ${status}" data-item-id="${item.id}" role="button" tabindex="0">${getStatusIcon(status)}</div>
                         </div>
                     </div>
-                    <div class="equipment-details">${escapeHTML(item.details)}</div>
+                    ${item.details ? `<div class="equipment-details">${escapeHTML(item.details)}</div>` : ''}
                     ${note ? `<div class="item-note">Note: ${escapeHTML(note)}</div>` : ""}
                 </div>`;
         }
         // #endregion
         
         // #region EVENT HANDLING & USER ACTIONS
-        /**
-         * Sets up all event listeners for the application.
-         * Uses event delegation for performance.
-         */
         function setupEventListeners() {
-            // --- DELEGATED EVENTS ---
             document.body.addEventListener('click', handleBodyClick);
             document.body.addEventListener('change', handleBodyChange);
             document.body.addEventListener('keydown', handleBodyKeydown);
 
-            // --- DIRECT EVENTS ---
             const searchInput = document.getElementById("search-input");
             searchInput.addEventListener("input", debounce(e => {
                 state.searchTerm = e.target.value;
-                renderEquipmentDetail();
+                renderAppLayout();
             }, 300));
             
             const mobileSearchInput = document.getElementById("mobile-search-input");
             mobileSearchInput.addEventListener("input", debounce(e => {
                 state.searchTerm = e.target.value;
-                renderMobile(); // Mobile search affects the whole mobile view
+                renderMobile();
             }, 300));
 
-            // --- OFFLINE/ONLINE EVENTS ---
             window.addEventListener('online', () => { state.isOnline = true; updateOnlineStatus(); });
             window.addEventListener('offline', () => { state.isOnline = false; updateOnlineStatus(); });
         }
 
-        /**
-         * Handles all click events on the body using delegation. This function is ordered
-         * to prioritize more specific actions (like a button inside a list item) over
-         * more general ones (like the list item itself) to prevent conflicting events.
-         * @param {Event} e - The click event object.
-         */
         function handleBodyClick(e) {
             const target = e.target;
             
-            if (target.closest('.btn, .mobile-rack-item, .mobile-status-toggle, .note-btn, .data-btn, .photo-btn, .rack-devices-btn, .rack-overview-devices-btn')) {
+            // Haptic feedback for interactive elements
+            if (target.closest('.btn, .sidebar-list-item, .mobile-rack-item, .mobile-status-toggle, .note-btn, .data-btn, .photo-btn')) {
                 triggerVibration();
             }
 
-            // --- Top-level Modals, Overlays, and Global Controls ---
+            // --- View Mode ---
+            if (target.id === 'view-mode-category-btn') { setViewMode('category'); return; }
+            if (target.id === 'view-mode-rack-btn') { setViewMode('rack'); return; }
+
+            // --- Modals, Overlays, Global Controls ---
             if (target.closest('#show-instructions-btn, #mobile-show-instructions-btn')) { showInstructionsModal(); return; }
             if (target.id === 'mobile-filter-racks-btn') {
                 modal.show({
@@ -1419,41 +1531,20 @@
                 document.getElementById('mobile-search-input').focus();
                 return;
             }
-            if (target.id === 'close-search-overlay-btn') {
-                document.getElementById('search-overlay').classList.remove('is-visible');
-                return;
-            }
+            if (target.id === 'close-search-overlay-btn') { document.getElementById('search-overlay').classList.remove('is-visible'); return; }
             if (target.id === 'clear-search-btn') {
                 document.getElementById("search-input").value = '';
                 state.searchTerm = '';
-                renderEquipmentDetail();
+                renderAppLayout();
                 return;
             }
-            if (target.id === 'export-yaml-btn' || target.id === 'mobile-export-yaml-btn') { exportYAML(); return; }
-            if (target.id === 'export-csv-btn' || target.id === 'mobile-export-csv-btn') { exportCSV(); return; }
+            if (target.closest('#export-yaml-btn, #mobile-export-yaml-btn')) { exportYAML(); return; }
+            if (target.closest('#export-csv-btn, #mobile-export-csv-btn')) { exportCSV(); return; }
             if (target.id === 'import-btn') { importState(); return; }
-            if (target.id === 'backup-btn' || target.id === 'mobile-backup-btn') { createBackup(); return; }
-            if (target.id === 'reset-all-btn' || target.id === 'mobile-reset-all-btn') { resetAllProgress(); return; }
+            if (target.closest('#backup-btn, #mobile-backup-btn')) { createBackup(); return; }
+            if (target.closest('#reset-all-btn, #mobile-reset-all-btn')) { resetAllProgress(); return; }
 
-
-            // --- Context-Specific Actions (ordered by specificity) ---
-
-            // A specific button inside a list item (e.g., Devices button in a mobile rack item)
-            const rackDevicesBtn = target.closest(".rack-devices-btn, .mobile-rack-devices-btn, .rack-overview-devices-btn");
-            if (rackDevicesBtn) {
-                openDeviceDataModal(rackDevicesBtn.dataset.rackId);
-                return;
-            }
-
-            // Any other click on a mobile rack item is for navigation. This is checked *after* the
-            // more specific device button to avoid conflict.
-            const mobileRackItem = target.closest(".mobile-rack-item");
-            if (mobileRackItem) {
-                selectCategoryAndRackForMobile(mobileRackItem.dataset.categoryId, mobileRackItem.dataset.rackId);
-                return;
-            }
-            
-            // Other specific item-level buttons
+            // --- Context-Specific Actions ---
             const dataBtn = target.closest(".data-btn");
             if (dataBtn) { openItemDataModal(dataBtn.dataset.itemId); return; }
 
@@ -1468,101 +1559,80 @@
         
             const rackResetBtn = target.closest(".rack-reset-btn, .mobile-rack-reset-btn");
             if (rackResetBtn) { resetRackProgress(rackResetBtn.dataset.rackId); return; }
-
-            // General navigation elements
-            const categoryItem = target.closest(".category-list-item");
-            if (categoryItem) { selectCategory(categoryItem.dataset.categoryId); return; }
             
-            // Desktop-only navigation (scrolling)
-            const rackItemMain = target.closest(".desktop-view .rack-list-item-main");
-            if (rackItemMain) { scrollToRack(rackItemMain.dataset.rackId); return; }
+            // --- Navigation ---
+            const sidebarItem = target.closest("#sidebar-list .sidebar-list-item");
+            if (sidebarItem) {
+                if (sidebarItem.dataset.categoryId) selectCategory(sidebarItem.dataset.categoryId);
+                if (sidebarItem.dataset.rackId) selectRack(sidebarItem.dataset.rackId);
+                return;
+            }
+            
+            const rackOverviewItem = target.closest(".desktop-view .rack-list-item-main");
+            if (rackOverviewItem) { scrollToRack(rackOverviewItem.dataset.rackId); return; }
+            
+            const mobileRackItem = target.closest(".mobile-rack-item");
+            if (mobileRackItem) {
+                selectCategoryAndRackForMobile(mobileRackItem.dataset.categoryId, mobileRackItem.dataset.rackId);
+                return;
+            }
 
-            // Mobile-only navigation
             const mobileBackBtn = target.closest(".mobile-back-btn");
             if (mobileBackBtn) { setMobileView('main'); return; }
         }
 
-        /**
-         * Handles all change events on the body using delegation (for checkboxes).
-         * @param {Event} e - The change event object.
-         */
         function handleBodyChange(e) {
             const target = e.target;
             if (target.closest(".rack-selector-container") && target.type === 'checkbox') {
                 updateRackSelection(target.value, target.checked);
             }
             if (target.classList.contains('rack-master-check')) {
-                toggleAllItemsInRack(target.dataset.rackId, target.checked);
+                toggleAllItemsInGroup(target.dataset.rackId, target.dataset.categoryId, target.checked);
             }
         }
 
-        /**
-         * Handles keydown events for accessibility and shortcuts.
-         * @param {Event} e - The keydown event object.
-         */
         function handleBodyKeydown(e) {
-             if (e.key === 'Escape') {
-                const modalVisible = document.querySelector('.modal-overlay.is-visible');
-                if (modalVisible) modal.hide();
-            }
-            // Enter/Space for accessible buttons
-            if (e.key === 'Enter' || e.key === ' ') {
-                const roleButton = e.target.closest('[role="button"]');
-                if (roleButton) {
-                    e.preventDefault();
-                    roleButton.click();
-                }
-            }
-            // Global shortcuts
-            if (e.ctrlKey || e.metaKey) {
-                switch (e.key) {
-                    case 's': e.preventDefault(); createBackup(); break;
-                    case 'e': e.preventDefault(); exportYAML(); break;
-                    case 'f': e.preventDefault(); document.getElementById("search-input").focus(); break;
-                }
-            }
+             if (e.key === 'Escape' && document.querySelector('.modal-overlay.is-visible')) { modal.hide(); }
+             if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[role="button"]')) { e.preventDefault(); e.target.click(); }
+             if (e.ctrlKey || e.metaKey) {
+                 if (e.key === 'f') { e.preventDefault(); document.getElementById("search-input").focus(); }
+             }
         }
         
-        /**
-         * Selects a category and updates the UI.
-         * @param {string} categoryId - The ID of the category to select.
-         */
+        function setViewMode(mode) {
+            if (state.viewMode === mode) return;
+            state.viewMode = mode;
+            saveState();
+            updateUI({ viewModeChange: true });
+        }
+
         function selectCategory(categoryId) {
             state.activeCategory = categoryId;
             saveState();
-            updateUI({ all: true }); // A category change affects everything
+            updateUI({ all: true });
         }
         
-        /**
-         * Selects a category and rack for mobile view navigation.
-         * @param {string} categoryId - The category ID.
-         * @param {string} rackId - The rack ID.
-         */
+        function selectRack(rackId) {
+            state.activeRack = rackId;
+            saveState();
+            updateUI({ all: true });
+        }
+        
         function selectCategoryAndRackForMobile(categoryId, rackId) {
             state.activeCategory = categoryId;
             state.mobileRack = rackId;
             setMobileView("items");
         }
 
-        /**
-         * Sets the current view for the mobile interface.
-         * @param {string} view - The view to switch to ('main' or 'items').
-         */
         function setMobileView(view) {
             state.mobileView = view;
             saveState();
             renderMobile();
         }
 
-        /**
-         * Cycles the status of a checklist item.
-         * @param {string} itemId - The ID of the item to toggle.
-         */
         function toggleItemStatus(itemId) {
             const currentStatus = state.itemStatus[itemId] || "pending";
-            const currentIndex = statusCycle.indexOf(currentStatus);
-            const nextStatus = statusCycle[(currentIndex + 1) % statusCycle.length];
-
+            const nextStatus = statusCycle[(statusCycle.indexOf(currentStatus) + 1) % statusCycle.length];
             if (nextStatus === "pending") {
                 delete state.itemStatus[itemId];
                 delete state.itemTimestamps[itemId];
@@ -1570,19 +1640,15 @@
                 state.itemStatus[itemId] = nextStatus;
                 state.itemTimestamps[itemId] = new Date().toISOString();
             }
-
             saveState();
             const item = config.allItems[itemId];
             updateUI({ item: itemId, category: item.category, rack: item.rack });
         }
 
-        /**
-         * Toggles all items in a specific rack for the current category to 'verified' or 'pending'.
-         * @param {string} rackId - The ID of the rack.
-         * @param {boolean} isChecked - True to set to 'verified', false to 'pending'.
-         */
-        function toggleAllItemsInRack(rackId, isChecked) {
-            const items = config.racks[rackId].items.filter(item => item.category === state.activeCategory);
+        function toggleAllItemsInGroup(rackId, categoryId, isChecked) {
+            const items = config.racks[rackId].items.filter(item => 
+                state.viewMode === 'rack' ? item.category === categoryId : item.category === state.activeCategory
+            );
             items.forEach(item => {
                 if (isChecked) {
                     state.itemStatus[item.id] = "verified";
@@ -1593,15 +1659,9 @@
                 }
             });
             saveState();
-            renderEquipmentDetail(); // Re-render the whole detail pane
-            items.forEach(item => updateRackOverviewUI(item.rack)); // Update each affected rack in overview
+            renderAppLayout();
         }
 
-        /**
-         * Updates the set of selected racks to display.
-         * @param {string} rackId - The rack ID, or 'all'.
-         * @param {boolean} isChecked - The new checked state.
-         */
         function updateRackSelection(rackId, isChecked) {
             if (rackId === "all") {
                 Object.keys(config.racks).forEach(id => state.selectedRacks[id] = isChecked);
@@ -1609,13 +1669,9 @@
                 state.selectedRacks[rackId] = isChecked;
             }
             saveState();
-            updateUI({ all: true }); // Rack selection is a major change, refresh everything
+            updateUI({ all: true });
         }
 
-        /**
-         * Smoothly scrolls to a rack's details in the main view.
-         * @param {string} rackId - The ID of the rack to scroll to.
-         */
         function scrollToRack(rackId) {
             const element = document.getElementById(`detail-rack-${sanitizeForId(rackId)}`);
             if (element) {
@@ -1624,21 +1680,14 @@
             }
         }
         
-        /**
-         * Opens a modal to edit the note for an item.
-         * @param {string} itemId - The ID of the item.
-         */
         function promptForNote(itemId) {
             const item = config.allItems[itemId];
             const currentNote = state.itemNotes[itemId] || "";
-
             const bodyHtml = `
                 <div class="form-group">
                     <label for="item-note-input">Note for: ${escapeHTML(item.title)}</label>
                     <textarea id="item-note-input">${escapeHTML(currentNote)}</textarea>
-                </div>
-            `;
-
+                </div>`;
             modal.show({
                 title: 'Edit Note',
                 body: bodyHtml,
@@ -1658,12 +1707,9 @@
                     }
                 }]
             });
+            setTimeout(() => document.getElementById('item-note-input').focus(), 100);
         }
         
-        /**
-         * Confirms and resets all progress for a specific rack.
-         * @param {string} rackId - The ID of the rack to reset.
-         */
         function resetRackProgress(rackId) {
             modal.show({
                 title: `Reset progress for ${rackId}?`,
@@ -1678,35 +1724,24 @@
                                 delete state.itemStatus[item.id];
                                 delete state.itemNotes[item.id];
                                 delete state.itemTimestamps[item.id];
-                                if (state.itemData && state.itemData[item.id]) {
-                                    delete state.itemData[item.id];
-                                }
+                                if (state.itemData) delete state.itemData[item.id];
                             });
+                            if (state.deviceData) delete state.deviceData[rackId];
                             saveState();
                             showNotification(`Progress reset for rack ${rackId}`, "success");
                             modal.hide();
-                            
-                            // If on mobile item view, go back to the main list.
-                            // Otherwise, do a full refresh of all UIs.
-                            if (state.mobileView === 'items') {
-                                setMobileView('main');
-                                renderFullUI(); // Still refresh desktop in background
-                            } else {
-                                updateUI({ all: true });
-                            }
+                            if (state.mobileView === 'items') setMobileView('main');
+                            renderAppLayout();
                         }
                     }
                 ]
             });
         }
 
-        /**
-         * Confirms and resets all progress for the entire application.
-         */
         function resetAllProgress() {
             modal.show({
                 title: "Reset All Progress?",
-                body: '<p>Are you sure you want to reset <strong>ALL</strong> progress? This will clear all statuses, notes, photos, and collected data across all racks. This action cannot be undone.</p>',
+                body: '<p>Are you sure? This will clear <strong>ALL</strong> statuses, notes, photos, and data across all racks. This action cannot be undone.</p>',
                 footerButtons: [
                     { label: 'Cancel', className: 'btn-secondary', onClick: () => modal.hide() },
                     {
@@ -1718,6 +1753,7 @@
                             state.itemTimestamps = {};
                             state.itemData = {};
                             state.deviceData = {};
+                            state.rackPhotos = {};
                             saveState();
                             updateUI({ all: true });
                             showNotification("All progress has been reset", "success");
@@ -1730,88 +1766,54 @@
         // #endregion
 
         // #region DATA I/O
-        /**
-         * Exports the current state to a YAML file.
-         */
         function exportYAML() {
             try {
-                const exportData = {
-                    metadata: {
-                        timestamp: new Date().toISOString(),
-                        version: config.version,
-                        technician: state.technicianId,
-                        totalItems: Object.keys(config.allItems).length
-                    },
+                const yamlString = jsyaml.dump({
+                    metadata: { timestamp: new Date().toISOString(), version: config.version, technician: state.technicianId },
                     progress: getCategoryProgress(),
-                    state: state,
-                };
-                const yamlString = jsyaml.dump(exportData);
-                const filename = `dc_checklist_progress_${new Date().toISOString().split('T')[0]}.yaml`;
-                const blob = new Blob([yamlString], { type: "text/yaml" });
-                downloadBlob(blob, filename);
-                showNotification("Progress exported successfully as YAML", "success");
+                    state: state
+                });
+                downloadBlob(new Blob([yamlString], { type: "text/yaml" }), `dc_checklist_${new Date().toISOString().split('T')[0]}.yaml`);
+                showNotification("Exported as YAML", "success");
             } catch (e) {
-                console.error("YAML Export failed", e);
                 showNotification("YAML Export failed", "error");
             }
         }
 
-        /**
-         * Exports the current state to a CSV file.
-         */
         function exportCSV() {
             try {
                 let csvContent = "data:text/csv;charset=utf-8,";
                 csvContent += "ID,Rack,Category,Title,Status,Notes,SerialNumber,MACAddress,ILOPassword,CableID\r\n";
-
                 Object.values(config.allItems).forEach(item => {
                     const status = state.itemStatus[item.id] || "pending";
                     const notes = state.itemNotes[item.id] || "";
-                    
+                    const itemType = getDeviceType(item);
                     let data = {};
-                    const itemType = getItemType(item);
-
-                    if(itemType === 'networkDevice' || itemType === 'server'){
-                        if(state.deviceData && state.deviceData[item.rack]) {
-                           // Use the item title as the key, as it's unique per rack in the data
-                           data = state.deviceData[item.rack][item.title] || {};
-                        }
-                    } else {
-                        data = (state.itemData && state.itemData[item.id]) || {};
+                    if(itemType === 'server' || itemType === 'network'){
+                        data = state.deviceData?.[item.rack]?.[item.title] || {};
+                    } else if (itemType === 'cable') {
+                        data = state.itemData?.[item.id] || {};
                     }
-                    
                     const row = [
-                        item.id,
-                        item.rack,
-                        item.category,
-                        `"${item.title.replace(/"/g, '""')}"`,
-                        status,
-                        `"${notes.replace(/"/g, '""')}"`,
-                        data.serial || "",
-                        data.mac || "",
-                        data.iloPassword || "",
-                        data.cableId || ""
+                        item.id, item.rack, item.category, `"${item.title.replace(/"/g, '""')}"`,
+                        status, `"${notes.replace(/"/g, '""')}"`,
+                        data.serial || "", data.mac || "", data.ilo || "", data.cableId || ""
                     ].join(",");
                     csvContent += row + "\r\n";
                 });
-
                 const encodedUri = encodeURI(csvContent);
                 const link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
-                link.setAttribute("download", `dc_checklist_progress_${new Date().toISOString().split('T')[0]}.csv`);
+                link.setAttribute("download", `dc_checklist_${new Date().toISOString().split('T')[0]}.csv`);
                 document.body.appendChild(link);
                 link.click();
-                document.body.removeChild(link);
-                showNotification("Progress exported successfully as CSV", "success");
+                link.remove();
+                showNotification("Exported as CSV", "success");
             } catch (e) {
-                console.error("CSV Export failed", e);
                 showNotification("CSV Export failed", "error");
             }
         }
 
-        /**
-         * Imports application state from a JSON or YAML file.
-         */
         function importState() {
             const input = document.createElement('input');
             input.type = 'file';
@@ -1838,7 +1840,6 @@
                             throw new Error("Invalid file format");
                         }
                     } catch (error) {
-                        console.error("Import failed:", error);
                         showNotification("Import failed: Invalid file", "error");
                     }
                 };
@@ -1847,20 +1848,14 @@
             input.click();
         }
 
-        /**
-         * Creates a backup of the current state in localStorage.
-         */
         function createBackup() {
-            const backupData = { timestamp: new Date().toISOString(), state: state };
-            localStorage.setItem(`dcChecklistBackup_${Date.now()}`, JSON.stringify(backupData));
-            showNotification("Backup created in local storage", "success");
-            // Prune old backups, keeping the last 5
+            localStorage.setItem(`dcChecklistBackup_${Date.now()}`, JSON.stringify({ timestamp: new Date().toISOString(), state: state }));
+            showNotification("Backup created", "success");
             const keys = Object.keys(localStorage).filter(key => key.startsWith('dcChecklistBackup_'));
             keys.sort().slice(0, -5).forEach(key => localStorage.removeItem(key));
         }
         // #endregion
 
-        // --- APPLICATION ENTRY POINT ---
         document.addEventListener('DOMContentLoaded', init);
     })();
     </script>
