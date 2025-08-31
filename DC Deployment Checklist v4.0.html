@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DC Deployment Checklist v6.0 (Optimized)</title>
+    <title>DC Deployment Checklist v5.4 (Instructions Update)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <style>
         /*
-         * DC Deployment Checklist v6.0 CSS (Optimized based on Heuristic Evaluation)
+         * DC Deployment Checklist v5.4 CSS
          */
-        :root{--bg-color:#1a1d24;--panel-bg:#21252e;--text-color:#c0c5ce;--text-light:#e0e7ff;--border-color:#4a5568;--accent-color:#63b3ed;--success-color:#48bb78;--error-color:#f56565;--warning-color:#f6e05e;--needs-review-color:#ed8936;--font-mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace}*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box}html,body{height:100%}body{font-family:var(--font-mono);background-color:var(--bg-color);color:var(--text-color);margin:0;padding:1rem;line-height:1.6;font-size:14px}.desktop-view{display:grid;grid-template-columns:250px 1fr 2fr;grid-template-rows:auto auto 1fr;grid-template-areas:"header header header" "controls controls controls" "sidebar overview detail";gap:1rem;height:calc(100vh - 2rem);max-width:1600px;margin:0 auto}.app-header{grid-area:header;border-bottom:1px solid var(--border-color);padding:.5rem 1rem;display:flex;justify-content:space-between;align-items:center}.header-title{font-size:1.2em;margin:0}.app-controls{grid-area:controls;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.panel{border:1px solid var(--border-color);background-color:var(--panel-bg);border-radius:8px;padding:0;overflow:hidden;height:100%;display:flex;flex-direction:column}.panel-sidebar{grid-area:sidebar}.panel-overview{grid-area:overview}.panel-detail{grid-area:detail}.panel-title{font-weight:700;color:var(--text-light);font-size:1.1em;margin:0;padding:1rem;border-bottom:1px solid var(--border-color);display:flex;align-items:center;gap:.5rem;flex-shrink:0}.panel-content{overflow-y:auto;flex-grow:1;padding:1rem}.category-list,.rack-list,.equipment-list{list-style:none;padding:0;margin:0}.category-list-item{padding:.5rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;transition:background-color .2s;border-radius:4px}.category-list-item:hover{background-color:rgba(255,255,255,.05)}.category-list-item.active{color:var(--accent-color);font-weight:700;background-color:rgba(99,179,237,.1)}.rack-list-item{display:flex;align-items:center;gap:.5rem}.rack-list-item-main{flex-grow:1;border:none;background:0 0;font-family:var(--font-mono);color:var(--text-color);font-size:1em;padding:.5rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;transition:background-color .2s;border-radius:4px}.rack-list-item-main:hover{background-color:rgba(255,255,255,.05)}.status-icon{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700}.status-icon.verified{background-color:var(--success-color);color:#fff}.status-icon.failed{background-color:var(--error-color);color:#fff}.status-icon.needs-review{background-color:var(--needs-review-color);color:#fff}.status-icon.in-progress{background-color:var(--accent-color);color:#fff}.status-icon.pending{border:1px solid var(--border-color);background:0 0}.rack-progress-bar{width:100%;height:16px;background-color:var(--bg-color);border:1px solid var(--border-color);border-radius:3px;overflow:hidden}.rack-progress-fill{height:100%;background-color:var(--accent-color);transition:width .3s}.rack-list-item .rack-name{width:100px;flex-shrink:0}.rack-list-item .percentage{width:50px;text-align:right}.rack-list-item .rack-overview-devices-btn{background:0 0;border:1px solid var(--border-color);color:var(--text-color);cursor:pointer;border-radius:4px;margin-left:.5rem;padding:0 .5rem;font-size:1.1em;transition:background-color .2s,border-color .2s;flex-shrink:0}.rack-list-item .rack-overview-devices-btn:hover{background-color:var(--accent-color);border-color:var(--accent-color);color:var(--bg-color)}.equipment-list-item{background:var(--bg-color);border-radius:8px;padding:1rem;margin-bottom:12px;border:1px solid var(--border-color);box-shadow:0 2px 4px rgba(0,0,0,.1);transition:transform .2s,box-shadow .2s}.equipment-list-item:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.15)}.equipment-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.equipment-header .title{font-weight:700;color:var(--text-light);flex-grow:1;font-size:1em;line-height:1.5;margin-bottom:4px}.equipment-details{margin-top:.5rem;padding-left:1rem;color:var(--text-color);font-size:.9em;word-break:break-all}.item-note{font-style:italic;color:var(--warning-color);margin-top:.5rem;padding:.5rem;background-color:rgba(246,224,94,.1);border-radius:4px;border-left:3px solid var(--warning-color)}.item-controls{display:flex;gap:.5rem;align-items:center}.item-control-btn{cursor:pointer;padding:.25rem;border-radius:3px;transition:background-color .2s;background:0 0;border:none;color:var(--text-color);display:flex;align-items:center;justify-content:center}.item-control-btn svg{width:20px;height:20px}.item-control-btn:hover{background-color:rgba(255,255,255,.1)}.status-select{width:150px;height:36px;font-size:14px;padding:0 8px;border-radius:4px;background:var(--bg-color);color:var(--text-color);border:1px solid var(--border-color);font-family:var(--font-mono)}.search-input{background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.5rem;width:200px;border-radius:4px}.search-input:focus,.btn:focus-visible,.item-control-btn:focus-visible,.status-toggle:focus-visible,.rack-selector-container input:focus-visible+span{outline:2px solid var(--accent-color);outline-offset:2px}.btn{background-color:var(--accent-color);color:var(--bg-color);border:none;padding:.5rem 1rem;cursor:pointer;font-family:var(--font-mono);border-radius:4px;transition:background-color .2s;font-weight:700;display:inline-flex;align-items:center;gap:.5rem}.btn:hover{background-color:#5299d3}.btn-secondary{background-color:var(--border-color);color:var(--text-light)}.btn-secondary:hover{background-color:#5a6c7d}.btn svg{width:16px;height:16px}.rack-selector-container{padding-bottom:1rem;border-bottom:1px solid var(--border-color);margin-bottom:1rem;flex-shrink:0}.rack-selector-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.5rem}.rack-selector-grid label{display:inline-flex;align-items:center;padding:.25rem .5rem;cursor:pointer;border-radius:3px;transition:background-color .2s}.rack-selector-grid label:hover{background-color:rgba(255,255,255,.05)}.rack-selector-grid input{margin-right:.5rem}.no-selection{display:flex;align-items:center;justify-content:center;height:100%;color:var(--border-color);font-style:italic}.detail-rack-group h3{font-size:1em;display:flex;align-items:center;justify-content:space-between}.detail-rack-group .rack-controls{display:flex;gap:.5rem}.detail-rack-group-title{display:flex;align-items:center;gap:.5rem;cursor:pointer}.rack-control-btn{background-color:var(--panel-bg);color:var(--text-color);border:1px solid var(--border-color);padding:.25rem .5rem;border-radius:4px;font-size:.9em;cursor:pointer;transition:background-color .2s;font-weight:700;display:flex;align-items:center;gap:.25rem}.rack-control-btn:hover{background-color:var(--accent-color);color:var(--bg-color);border-color:var(--accent-color)}.rack-control-btn svg{width:14px;height:14px}.progress-stats{display:flex;gap:1rem;padding:.5rem;background-color:var(--bg-color);border-radius:4px;margin-bottom:1rem;font-size:.9em}.progress-stats span{display:flex;align-items:center;gap:.25rem}.mobile-view{display:none}.offline-indicator{position:fixed;top:10px;right:10px;background-color:var(--error-color);color:#fff;padding:.5rem;border-radius:4px;display:none;z-index:3000}.offline-indicator.show{display:block}.notification{position:fixed;top:20px;right:20px;padding:1rem;border-radius:4px;color:#fff;font-family:var(--font-mono);z-index:1000;transform:translateX(calc(100% + 20px));transition:transform .3s ease-in-out}.notification.show{transform:translateX(0)}.notification.success{background-color:var(--success-color)}.notification.error{background-color:var(--error-color)}.notification.info{background-color:var(--accent-color)}.modal-overlay,.search-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s .3s}.modal-overlay.is-visible,.search-overlay.is-visible{opacity:1;visibility:visible;transition:opacity .3s ease}.modal-overlay{background-color:rgba(0,0,0,.7)}.search-overlay{background-color:rgba(0,0,0,.9);flex-direction:column;padding:1rem}.modal-content{background-color:var(--panel-bg);border:1px solid var(--border-color);border-radius:8px;width:100%;max-width:800px;max-height:90vh;display:flex;flex-direction:column}.modal-header{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-bottom:1px solid var(--border-color);flex-shrink:0}.modal-header h2{margin:0;color:var(--text-light);font-size:1.1em}.modal-close-btn{background:0 0;border:none;color:var(--text-color);font-size:2rem;cursor:pointer;line-height:1}.modal-body{overflow-y:auto;padding:1rem}.modal-body .form-group{margin-bottom:1rem}.modal-body label{display:block;margin-bottom:.5rem;color:var(--text-light)}.modal-body input,.modal-body textarea{width:100%;background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.75rem;border-radius:4px;font-size:1rem;font-family:var(--font-mono)}.modal-body textarea{min-height:120px;resize:vertical}.modal-footer{padding:1rem;border-top:1px solid var(--border-color);text-align:right;display:flex;justify-content:flex-end;gap:.5rem;flex-shrink:0}.device-data-group{margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border-color)}.device-data-group:last-child{border-bottom:none}.device-data-group h3{color:var(--accent-color);margin:0 0 1rem;font-size:1em}.instructions-modal details{border:1px solid var(--border-color);border-radius:4px;margin-bottom:1rem}.instructions-modal summary{padding:1rem;cursor:pointer;background-color:var(--bg-color);color:var(--text-light);font-weight:700}.instructions-modal details[open] summary{border-bottom:1px dashed var(--border-color)}.instructions-modal ol{list-style-type:decimal;padding-left:2rem;margin:1rem 0}.instructions-modal li{margin-bottom:.75rem}.instructions-modal li strong{color:var(--accent-color)}.instructions-modal li .note{display:block;font-size:.9em;color:var(--warning-color);margin-top:.25rem;padding-left:1rem;border-left:2px solid var(--warning-color);white-space:pre-wrap}.search-overlay__header{display:flex;gap:1rem;margin-bottom:1rem}.search-overlay__input{flex-grow:1;background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.75rem;border-radius:4px;font-size:1.1rem}.search-overlay__input:focus{outline:none;border-color:var(--accent-color)}.breadcrumb{margin:0 0 .5rem;padding:0}.breadcrumb ol{display:flex;flex-wrap:wrap;list-style:none;margin:0;padding:0}.breadcrumb li a{color:var(--accent-color);text-decoration:none}.breadcrumb li a:hover{text-decoration:underline}.breadcrumb .breadcrumb-separator{margin:0 .5rem;color:var(--border-color)}.btn.loading{position:relative;pointer-events:none;color:transparent!important}.btn.loading::after{content:"";position:absolute;top:50%;left:50%;width:16px;height:16px;margin-top:-8px;margin-left:-8px;border:2px solid var(--bg-color);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}mark{background-color:var(--warning-color);color:var(--bg-color);padding:0 2px;border-radius:2px}@media (max-width:768px){.desktop-view{display:none}.mobile-view{display:flex;flex-direction:column;height:calc(100vh - 1rem);border:1px solid var(--border-color);background-color:var(--panel-bg);border-radius:8px}.modal-content{max-width:100%;height:100%;border-radius:0;max-height:100vh}body{padding:.5rem}.mobile-panel{display:none;flex-direction:column;height:100%}.mobile-panel.active{display:flex}.mobile-header{padding:.75rem;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;font-size:1.1rem;flex-shrink:0}.mobile-panel-content{overflow-y:auto;flex-grow:1;padding:1rem}.mobile-back-btn{cursor:pointer;color:var(--accent-color);background:0 0;border:none;font-size:1.1rem;font-family:var(--font-mono);padding:0}.mobile-rack-item{display:flex;align-items:center;gap:.5rem;padding:.75rem;font-size:1.1rem;border-bottom:1px solid var(--border-color);cursor:pointer}.mobile-main-category-header{background-color:var(--bg-color);color:var(--accent-color);padding:.5rem .75rem;font-weight:700;margin-top:.5rem;border-radius:4px;border-bottom:1px solid var(--accent-color)}.mobile-main-list .mobile-rack-item:hover{background-color:rgba(255,255,255,.05)}.mobile-toolbar{padding:1rem;border-top:1px solid var(--border-color);display:flex;justify-content:space-around;align-items:center;font-size:1.2rem;flex-shrink:0}.mobile-toolbar .btn{min-width:40px;padding:.75rem}.mobile-equipment-item{border:1px solid var(--border-color);margin-bottom:1rem;padding:1rem;border-radius:8px;background-color:var(--bg-color)}.mobile-equipment-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.5rem}.mobile-equipment-title{font-weight:700;color:var(--text-light);flex-grow:1;font-size:1rem}.mobile-equipment-controls{display:flex;gap:.5rem;align-items:center}.mobile-toolbar .btn:active,.mobile-rack-item:active,.mobile-status-toggle:active,.note-btn:active,.data-btn:active,.photo-btn:active,.rack-devices-btn:active,.rack-overview-devices-btn:active{transform:scale(.96);background-color:rgba(255,255,255,.1)}}@media print{body{background-color:#fff;color:#000;padding:0;margin:0}.desktop-view{display:block;grid-template-columns:1fr;height:auto}.app-header,.app-controls,.panel-sidebar,.panel-overview,.modal-overlay,.offline-indicator{display:none!important}.panel{border:none;background-color:#fff;height:auto}.panel-detail{grid-area:initial}.panel-title{color:#000;border-bottom:2px solid #000}.equipment-list-item{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}.equipment-header .title{color:#000}.equipment-details{color:#333}.item-controls,.rack-controls{display:none!important}.item-note{color:#555;background-color:#eee;border-left-color:#aaa}}
+        :root{--bg-color:#1a1d24;--panel-bg:#21252e;--text-color:#c0c5ce;--text-light:#e0e7ff;--border-color:#4a5568;--accent-color:#63b3ed;--success-color:#48bb78;--error-color:#f56565;--warning-color:#f6e05e;--needs-review-color:#ed8936;--font-mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace}*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box}html,body{height:100%}body{font-family:var(--font-mono);background-color:var(--bg-color);color:var(--text-color);margin:0;padding:1rem;line-height:1.6;font-size:14px}.desktop-view{display:grid;grid-template-columns:250px 1fr 2fr;grid-template-rows:auto auto 1fr;grid-template-areas:"header header header" "controls controls controls" "sidebar overview detail";gap:1rem;height:calc(100vh - 2rem);max-width:1600px;margin:0 auto}.app-header{grid-area:header;border:1px dashed var(--border-color);padding:.5rem 1rem;display:flex;justify-content:space-between;align-items:center}.header-title{font-size:1.2em;margin:0}.app-controls{grid-area:controls;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.panel{border:1px dashed var(--border-color);background-color:var(--panel-bg);padding:1rem;overflow:hidden;height:100%;display:flex;flex-direction:column}.panel-sidebar{grid-area:sidebar}.panel-overview{grid-area:overview}.panel-detail{grid-area:detail}.panel-title{font-weight:700;color:var(--text-light);font-size:1.1em;margin:0 0 1rem;padding-bottom:.5rem;border-bottom:1px dashed var(--border-color);display:flex;align-items:center;gap:.5rem;flex-shrink:0}.panel-content{overflow-y:auto;flex-grow:1}.category-list,.rack-list,.equipment-list{list-style:none;padding:0;margin:0}.category-list-item{padding:.5rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;transition:background-color .2s;border-radius:4px}.category-list-item:hover{background-color:rgba(255,255,255,.05)}.category-list-item.active{color:var(--accent-color);font-weight:700;background-color:rgba(99,179,237,.1)}.rack-list-item{display:flex;align-items:center;gap:.5rem}.rack-list-item-main{flex-grow:1;border:none;background:0 0;font-family:var(--font-mono);color:var(--text-color);font-size:1em;padding:.5rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;transition:background-color .2s;border-radius:4px}.rack-list-item-main:hover{background-color:rgba(255,255,255,.05)}.status-icon{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700}.status-icon.verified{background-color:var(--success-color);color:#fff}.status-icon.failed{background-color:var(--error-color);color:#fff}.status-icon.needs-review{background-color:var(--needs-review-color);color:#fff}.status-icon.in-progress{background-color:var(--accent-color);color:#fff}.status-icon.pending{border:1px solid var(--border-color);background:0 0}.rack-progress-bar{width:100%;height:16px;background-color:var(--bg-color);border:1px solid var(--border-color);border-radius:3px;overflow:hidden}.rack-progress-fill{height:100%;background-color:var(--accent-color);transition:width .3s}.rack-list-item .rack-name{width:100px;flex-shrink:0}.rack-list-item .percentage{width:50px;text-align:right}.rack-list-item .rack-overview-devices-btn{background:0 0;border:1px solid var(--border-color);color:var(--text-color);cursor:pointer;border-radius:4px;margin-left:.5rem;padding:0 .5rem;font-size:1.1em;transition:background-color .2s,border-color .2s;flex-shrink:0}.rack-list-item .rack-overview-devices-btn:hover{background-color:var(--accent-color);border-color:var(--accent-color);color:var(--bg-color)}.equipment-list-item{border:1px solid var(--border-color);padding:1rem;margin-bottom:1rem;background-color:var(--bg-color);border-radius:4px}.equipment-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.equipment-header .title{font-weight:700;color:var(--text-light);flex-grow:1}.equipment-details{margin-top:.5rem;padding-left:1rem;color:var(--text-color);font-size:.9em;word-break:break-all}.item-note{font-style:italic;color:var(--warning-color);margin-top:.5rem;padding:.5rem;background-color:rgba(246,224,94,.1);border-radius:4px;border-left:3px solid var(--warning-color)}.item-controls{display:flex;gap:.5rem;align-items:center}.note-btn,.photo-btn,.data-btn{cursor:pointer;font-size:1.2em;padding:.25rem;border-radius:3px;transition:background-color .2s;background:0 0;border:none;color:var(--text-color)}.note-btn:hover,.photo-btn:hover,.data-btn:hover{background-color:rgba(255,255,255,.1)}.status-toggle{width:32px;height:32px;border:2px solid var(--border-color);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:1rem;border-radius:4px;transition:all .2s}.status-toggle.verified{border-color:var(--success-color);background-color:var(--success-color);color:#fff}.status-toggle.failed{border-color:var(--error-color);background-color:var(--error-color);color:#fff}.status-toggle.needs-review{border-color:var(--needs-review-color);background-color:var(--needs-review-color);color:#fff}.search-input{background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.5rem;width:200px;border-radius:4px}.search-input:focus,.btn:focus-visible,.note-btn:focus-visible,.photo-btn:focus-visible,.data-btn:focus-visible,.status-toggle:focus-visible,.rack-selector-container input:focus-visible+span{outline:2px solid var(--accent-color);outline-offset:2px}.btn{background-color:var(--accent-color);color:var(--bg-color);border:none;padding:.5rem 1rem;cursor:pointer;font-family:var(--font-mono);border-radius:4px;transition:background-color .2s;font-weight:700}.btn:hover{background-color:#5299d3}.btn-secondary{background-color:var(--border-color);color:var(--text-light)}.btn-secondary:hover{background-color:#5a6c7d}.rack-selector-container{padding-bottom:1rem;border-bottom:1px dashed var(--border-color);margin-bottom:1rem;flex-shrink:0}.rack-selector-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.5rem}.rack-selector-grid label{display:inline-flex;align-items:center;padding:.25rem .5rem;cursor:pointer;border-radius:3px;transition:background-color .2s}.rack-selector-grid label:hover{background-color:rgba(255,255,255,.05)}.rack-selector-grid input{margin-right:.5rem}.no-selection{display:flex;align-items:center;justify-content:center;height:100%;color:var(--border-color);font-style:italic}.detail-rack-group h3{font-size:1em;display:flex;align-items:center;justify-content:space-between}.detail-rack-group .rack-controls{display:flex;gap:.5rem}.detail-rack-group-title{display:flex;align-items:center;gap:.5rem;cursor:pointer}.rack-photo-btn,.rack-reset-btn,.rack-devices-btn{background-color:var(--accent-color);color:var(--bg-color);border:none;padding:.25rem .5rem;border-radius:4px;font-size:.8em;cursor:pointer;transition:background-color .2s;font-weight:700}.rack-reset-btn{background-color:var(--border-color);color:var(--text-light)}.rack-photo-btn:hover,.rack-devices-btn:hover{background-color:#5299d3}.rack-reset-btn:hover{background-color:#5a6c7d}.progress-stats{display:flex;gap:1rem;padding:.5rem;background-color:var(--bg-color);border-radius:4px;margin-bottom:1rem;font-size:.9em}.progress-stats span{display:flex;align-items:center;gap:.25rem}.mobile-view{display:none}.offline-indicator{position:fixed;top:10px;right:10px;background-color:var(--error-color);color:#fff;padding:.5rem;border-radius:4px;display:none;z-index:3000}.offline-indicator.show{display:block}.notification{position:fixed;top:20px;right:20px;padding:1rem;border-radius:4px;color:#fff;font-family:var(--font-mono);z-index:1000;transform:translateX(calc(100% + 20px));transition:transform .3s ease-in-out}.notification.show{transform:translateX(0)}.notification.success{background-color:var(--success-color)}.notification.error{background-color:var(--error-color)}.notification.info{background-color:var(--accent-color)}.modal-overlay,.search-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s .3s}.modal-overlay.is-visible,.search-overlay.is-visible{opacity:1;visibility:visible;transition:opacity .3s ease}.modal-overlay{background-color:rgba(0,0,0,.7)}.search-overlay{background-color:rgba(0,0,0,.9);flex-direction:column;padding:1rem}.modal-content{background-color:var(--panel-bg);border:1px dashed var(--border-color);border-radius:4px;width:100%;max-width:800px;max-height:90vh;display:flex;flex-direction:column}.modal-header{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-bottom:1px dashed var(--border-color);flex-shrink:0}.modal-header h2{margin:0;color:var(--text-light);font-size:1.1em}.modal-close-btn{background:0 0;border:none;color:var(--text-color);font-size:2rem;cursor:pointer;line-height:1}.modal-body{overflow-y:auto;padding:1rem}.modal-body .form-group{margin-bottom:1rem}.modal-body label{display:block;margin-bottom:.5rem;color:var(--text-light)}.modal-body input,.modal-body textarea{width:100%;background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.75rem;border-radius:4px;font-size:1rem;font-family:var(--font-mono)}.modal-body textarea{min-height:120px;resize:vertical}.modal-footer{padding:1rem;border-top:1px dashed var(--border-color);text-align:right;display:flex;justify-content:flex-end;gap:.5rem;flex-shrink:0}.device-data-group{margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border-color)}.device-data-group:last-child{border-bottom:none}.device-data-group h3{color:var(--accent-color);margin:0 0 1rem;font-size:1em}.instructions-modal details{border:1px solid var(--border-color);border-radius:4px;margin-bottom:1rem}.instructions-modal summary{padding:1rem;cursor:pointer;background-color:var(--bg-color);color:var(--text-light);font-weight:700}.instructions-modal details[open] summary{border-bottom:1px dashed var(--border-color)}.instructions-modal ol{list-style-type:decimal;padding-left:2rem;margin:1rem 0}.instructions-modal li{margin-bottom:.75rem}.instructions-modal li strong{color:var(--accent-color)}.instructions-modal li .note{display:block;font-size:.9em;color:var(--warning-color);margin-top:.25rem;padding-left:1rem;border-left:2px solid var(--warning-color);white-space:pre-wrap}.search-overlay__header{display:flex;gap:1rem;margin-bottom:1rem}.search-overlay__input{flex-grow:1;background-color:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:.75rem;border-radius:4px;font-size:1.1rem}.search-overlay__input:focus{outline:none;border-color:var(--accent-color)}@media (max-width:768px){.desktop-view{display:none}.mobile-view{display:flex;flex-direction:column;height:calc(100vh - 1rem);border:1px dashed var(--border-color);background-color:var(--panel-bg)}.modal-content{max-width:100%;height:100%;border-radius:0;max-height:100vh}body{padding:.5rem}.mobile-panel{display:none;flex-direction:column;height:100%}.mobile-panel.active{display:flex}.mobile-header{padding:.75rem;border-bottom:1px dashed var(--border-color);display:flex;justify-content:space-between;align-items:center;font-size:1.1rem;flex-shrink:0}.mobile-panel-content{overflow-y:auto;flex-grow:1;padding:1rem}.mobile-back-btn{cursor:pointer;color:var(--accent-color);background:0 0;border:none;font-size:1.1rem;font-family:var(--font-mono);padding:0}.mobile-rack-item{display:flex;align-items:center;gap:.5rem;padding:.75rem;font-size:1.1rem;border-bottom:1px solid var(--border-color);cursor:pointer}.mobile-main-category-header{background-color:var(--bg-color);color:var(--accent-color);padding:.5rem .75rem;font-weight:700;margin-top:.5rem;border-radius:4px;border-bottom:1px solid var(--accent-color)}.mobile-main-list .mobile-rack-item:hover{background-color:rgba(255,255,255,.05)}.mobile-toolbar{padding:1rem;border-top:1px dashed var(--border-color);display:flex;justify-content:space-around;align-items:center;font-size:1.2rem;flex-shrink:0}.mobile-toolbar .btn{min-width:40px;padding:.75rem}.mobile-equipment-item{border:1px solid var(--border-color);margin-bottom:1rem;padding:1rem;border-radius:4px;background-color:var(--bg-color)}.mobile-equipment-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.5rem}.mobile-equipment-title{font-weight:700;color:var(--text-light);flex-grow:1;font-size:1rem}.mobile-equipment-controls{display:flex;gap:.5rem;align-items:center}.mobile-status-toggle{width:40px;height:40px;border:2px solid var(--border-color);cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;border-radius:4px;transition:all .2s}.mobile-status-toggle.verified{border-color:var(--success-color);background-color:var(--success-color);color:#fff}.mobile-status-toggle.failed{border-color:var(--error-color);background-color:var(--error-color);color:#fff}.mobile-status-toggle.needs-review{border-color:var(--needs-review-color);background-color:var(--needs-review-color);color:#fff}.mobile-toolbar .btn:active,.mobile-rack-item:active,.mobile-status-toggle:active,.note-btn:active,.data-btn:active,.photo-btn:active,.rack-devices-btn:active,.rack-overview-devices-btn:active{transform:scale(.96);background-color:rgba(255,255,255,.1)}}
     </style>
 </head>
 <body>
@@ -19,33 +19,33 @@
 
     <div class="desktop-view">
         <header class="app-header" role="banner">
-            <h1 class="header-title">📊 DC Deployment Checklist v6.0</h1>
+            <h1 class="header-title">📊 DC Deployment Checklist v5.4</h1>
             <div class="header-user"><span>DataCenter-1</span> | <span>Admin</span></div>
         </header>
 
         <div class="app-controls" role="search">
-            <nav id="breadcrumb-container" class="breadcrumb" aria-label="Breadcrumb"></nav>
-            <input type="search" id="search-input" class="search-input" placeholder="Search equipment..." aria-label="Search equipment, cables, racks">
-            <button class="btn" id="show-instructions-btn"></button>
-            <button class="btn" id="export-yaml-btn"></button>
-            <button class="btn" id="export-csv-btn"></button>
-            <button class="btn btn-secondary" id="import-btn"></button>
-            <button class="btn btn-secondary" id="backup-btn"></button>
-            <button class="btn btn-secondary" id="reset-all-btn"></button>
+            <input type="search" id="search-input" class="search-input" placeholder="Search equipment, cables..." aria-label="Search equipment, cables, racks">
+            <button class="btn" id="clear-search-btn">Clear</button>
+            <button class="btn" id="show-instructions-btn">📄 Instructions</button>
+            <button class="btn" id="export-yaml-btn">📥 YAML</button>
+            <button class="btn" id="export-csv-btn">📥 CSV</button>
+            <button class="btn btn-secondary" id="import-btn">📤 Import</button>
+            <button class="btn btn-secondary" id="backup-btn">💾 Backup</button>
+            <button class="btn btn-secondary" id="reset-all-btn">🔄 Reset</button>
         </div>
 
         <aside class="panel panel-sidebar" role="navigation">
             <h2 class="panel-title">📋 Categories</h2>
+            <div class="progress-stats" id="overall-stats"></div>
             <div class="panel-content">
-                <div class="progress-stats" id="overall-stats"></div>
                 <ul id="category-list" class="category-list"></ul>
             </div>
         </aside>
 
         <main class="panel panel-overview" role="region" aria-labelledby="overview-title">
             <h2 class="panel-title" id="overview-title">📊 Rack Overview</h2>
+            <div id="rack-selector" class="rack-selector-container"></div>
             <div class="panel-content">
-                <div id="rack-selector" class="rack-selector-container"></div>
                 <ul id="rack-overview-list" class="rack-list"></ul>
             </div>
         </main>
@@ -67,12 +67,12 @@
                 <ul id="mobile-main-list" class="category-list"></ul>
             </div>
             <footer class="mobile-toolbar">
-                <button class="btn" id="mobile-show-instructions-btn" title="Instructions"></button>
+                <button class="btn" id="mobile-show-instructions-btn" title="Instructions">📄</button>
                 <button class="btn" id="mobile-export-yaml-btn" title="Export YAML">YAML</button>
                 <button class="btn" id="mobile-export-csv-btn" title="Export CSV">CSV</button>
-                <button class="btn btn-secondary" id="mobile-search-btn" title="Search"></button>
-                <button class="btn btn-secondary" id="mobile-backup-btn" title="Backup"></button>
-                <button class="btn btn-secondary" id="mobile-reset-all-btn" title="Reset All"></button>
+                <button class="btn btn-secondary" id="mobile-search-btn" title="Search">Search</button>
+                <button class="btn btn-secondary" id="mobile-backup-btn" title="Backup">Backup</button>
+                <button class="btn btn-secondary" id="mobile-reset-all-btn" title="Reset All">🔄</button>
             </footer>
         </div>
 
@@ -105,34 +105,16 @@
 
     <script>
     /**
-     * @file Data Center Interactive Checklist Application v6.0 (Optimized)
+     * @file Data Center Interactive Checklist Application v5.4 (Instructions Update)
      * @description A standalone, client-side web application for tracking data center deployment tasks.
-     * v6.0 implements significant UX/UI and architectural improvements based on a heuristic evaluation.
-     * Key changes: direct status selection, improved visual design, robust error handling,
-     * and enhanced navigation.
+     * v5.4 replaces the instructional content with a more detailed version.
      *
-     * @author Gemini AI Code Auditor & Implementer
-     * @version 6.0
+     * @author Gemini AI Code Auditor
+     * @version 5.4
      * @license MIT
      */
     (function() {
         'use strict';
-
-        // #region ICONS
-        const icons = {
-            instructions: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg> Instructions`,
-            yaml: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg> YAML`,
-            csv: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><path d="M5 13H3.5v-.4L5.3 10H3.5v-.7h2.3v.4L4.2 12H6v.3h-.7V13H5zm4.8 0H8v-3h1.8c.4 0 .8.1 1 .3s.3.4.3.7c0 .3-.1.5-.3.7s-.5.3-1 .3H8.8v1zm-.7-1.3h.7c.3 0 .5-.1.7-.2.2-.1.3-.3.3-.5s-.1-.4-.3-.5-.4-.2-.7-.2h-.7v1.4zm4.2.3c.3.2.7.3 1.2.3.5 0 .9-.1 1.2-.3.3-.2.5-.5.5-.9s-.2-.7-.5-.9-.7-.3-1.2-.3c-.5 0-.9.1-1.2.3-.3.2-.5.5-.5.9s.2.7.5.9zm-.8-1.7c.3-.2.6-.3 1-.3.4 0 .7.1 1 .3.2.2.4.4.4.7s-.1.5-.4.7c-.2.2-.6.3-1 .3-.4 0-.7-.1-1-.3-.2-.2-.4-.4-.4-.7s.1-.5.4-.7z"/></svg> CSV`,
-            import: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg> Import`,
-            backup: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg> Backup`,
-            reset: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg> Reset`,
-            note: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-2 14h-2v-2h2v2zm0-4h-2v-4h2v4z"></path></svg>`,
-            data: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-4h2v4zm4 0h-2v-4h2v4zm4 0h-2v-4h2v4zm0-6H7V7h10v4z"></path></svg>`,
-            devices: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z"></path></svg>`,
-            photo: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"></path></svg>`,
-            search: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>`
-        };
-        // #endregion
 
         // #region DATA
         const deploymentInstructionsData = [
@@ -274,27 +256,43 @@
         // #endregion
 
         // #region STATE & CONFIG
+        /**
+         * The application's state, including user progress and UI settings.
+         * Loaded from localStorage or initialized with defaults.
+         */
         let state = {};
+
+        /**
+         * The application's configuration, derived from the raw data.
+         */
         const config = {
             racks: {},
             categories: [],
-            version: '6.0',
+            version: '5.4',
             allItems: {}
         };
-        const localStorageKey = 'dcChecklistState_v5';
+
+        const statusCycle = ['pending', 'verified', 'failed', 'needs-review'];
+        const localStorageKey = 'dcChecklistState_v4'; // Keep v4 key for compatibility
         // #endregion
 
         // #region CORE LOGIC & INITIALIZATION
+        /**
+         * Initializes the application by parsing data, loading state,
+         * setting up event listeners, and performing the initial render.
+         */
         function init() {
             parseData();
             loadState();
             setupEventListeners();
             setupOfflineHandling();
-            updateButtonIcons();
 
+            // Set default category if none is active
             if (!state.activeCategory && config.categories.length > 0) {
-                state.activeCategory = null;
+                state.activeCategory = config.categories[0];
             }
+
+            // Set default rack selection if none are selected
             if (Object.keys(state.selectedRacks).length === 0) {
                 Object.keys(config.racks).forEach(rackId => {
                     state.selectedRacks[rackId] = true;
@@ -305,6 +303,10 @@
             renderMobile();
         }
 
+        /**
+         * Loads the application state from localStorage.
+         * Includes validation and backup for corrupted data.
+         */
         function loadState() {
             try {
                 const savedState = localStorage.getItem(localStorageKey);
@@ -322,13 +324,28 @@
                     localStorage.setItem(`dcChecklistState_corrupted_${Date.now()}`, corruptedData);
                 }
             }
+            // Initialize with default state if loading fails
             state = {
-                itemStatus: {}, itemNotes: {}, itemTimestamps: {}, rackPhotos: {}, itemData: {}, deviceData: {},
-                activeCategory: null, selectedRacks: {}, mobileView: 'main', mobileRack: null, searchTerm: '',
-                technicianId: 'Anonymous', isOnline: navigator.onLine
+                itemStatus: {},
+                itemNotes: {},
+                itemTimestamps: {},
+                rackPhotos: {},
+                itemData: {},
+                deviceData: {},
+                activeCategory: null,
+                selectedRacks: {},
+                mobileView: 'main', 
+                mobileRack: null,
+                searchTerm: '',
+                technicianId: 'Anonymous',
+                isOnline: navigator.onLine
             };
         }
 
+        /**
+         * Saves the current application state to localStorage.
+         * Debounced to prevent excessive writes.
+         */
         const saveState = debounce(() => {
             try {
                 state.lastSaved = new Date().toISOString();
@@ -336,10 +353,16 @@
                 localStorage.setItem(localStorageKey, JSON.stringify(state));
             } catch (e) {
                 console.error("Failed to save state", e);
-                offerRecoveryOptions(e);
+                showNotification("Failed to save progress", "error");
             }
         }, 500);
         
+        /**
+         * Utility function for debouncing.
+         * @param {Function} func The function to debounce.
+         * @param {number} wait The delay in milliseconds.
+         * @returns {Function} The debounced function.
+         */
         function debounce(func, wait) {
             let timeout;
             return function executedFunction(...args) {
@@ -352,6 +375,9 @@
             };
         }
 
+        /**
+         * Parses the raw data into a structured format for the application.
+         */
         function parseData() {
             const uniqueCategories = new Set();
             Object.keys(fullRawData).forEach(rackName => {
@@ -374,6 +400,10 @@
         // #endregion
 
         // #region DATA & PHOTO MODALS
+        /**
+         * Opens a modal for entering data for a specific item (e.g., cable ID).
+         * @param {string} itemId - The ID of the item.
+         */
         function openItemDataModal(itemId) {
             const item = config.allItems[itemId];
             if (!item) return;
@@ -382,30 +412,39 @@
             let footerButtons;
 
             const itemType = getItemType(item);
-            if (itemType === 'foCable' || itemType === 'utpCable') {
-                const currentData = (state.itemData && state.itemData[itemId]) || {};
-                bodyHtml = `
-                    <div class="form-group">
-                        <label for="data-cable-id">Cable ID</label>
-                        <input type="text" id="data-cable-id" value="${escapeHTML(currentData.cableId || '')}">
-                    </div>
-                `;
-                footerButtons = [{
-                    label: 'Save',
-                    className: 'btn',
-                    onClick: () => {
-                        const input = document.getElementById('data-cable-id');
+
+            switch (itemType) {
+                case 'foCable':
+                case 'utpCable': {
+                    const currentData = (state.itemData && state.itemData[itemId]) || {};
+                    const saveHandler = (state, cableId) => {
                         if (!state.itemData) state.itemData = {};
                         if (!state.itemData[itemId]) state.itemData[itemId] = {};
-                        state.itemData[itemId].cableId = input.value;
+                        state.itemData[itemId].cableId = cableId;
                         saveState();
                         updateUI({ item: itemId });
-                        modal.hide();
-                    }
-                }];
-            } else {
-                bodyHtml = '<p>No specific data points to register for this item type. Use the "Devices" button on the rack header for device data.</p>';
-                footerButtons = [];
+                    };
+                    
+                    bodyHtml = `
+                        <div class="form-group">
+                            <label for="data-cable-id">Cable ID</label>
+                            <input type="text" id="data-cable-id" value="${escapeHTML(currentData.cableId || '')}">
+                        </div>
+                    `;
+                    footerButtons = [{
+                        label: 'Save',
+                        className: 'btn',
+                        onClick: () => {
+                            const input = document.getElementById('data-cable-id');
+                            saveHandler(state, input.value);
+                            modal.hide();
+                        }
+                    }];
+                    break;
+                }
+                default:
+                    bodyHtml = '<p>No specific data points to register for this item type. Use the "Devices" button on the rack header for device data.</p>';
+                    footerButtons = [];
             }
             
             modal.show({
@@ -415,6 +454,10 @@
             });
         }
 
+        /**
+         * Opens a modal for entering data for all devices in a rack.
+         * @param {string} rackId - The ID of the rack.
+         */
         function openDeviceDataModal(rackId) {
             const uniqueDevices = definitiveDeviceList[rackId] || [];
             let formHtml = '';
@@ -437,7 +480,9 @@
                 showNotification('Device data saved.', 'success');
             };
 
-            if (uniqueDevices.length > 0) {
+            if (uniqueDevices.length === 0) {
+                formHtml = '<p>No devices found in this rack to register.</p>';
+            } else {
                 uniqueDevices.forEach(deviceName => {
                     const currentSerial = (state.deviceData?.[rackId]?.[deviceName]?.serial) || '';
                     const currentMac = (state.deviceData?.[rackId]?.[deviceName]?.mac) || '';
@@ -448,17 +493,29 @@
                     
                     if (getDeviceName(deviceName).toLowerCase() === 'server') {
                         formHtml += `
-                            <div class="form-group"><label for="device-serial-${deviceId}">Serial Number</label><input type="text" id="device-serial-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="serial" value="${escapeHTML(currentSerial)}"></div>
-                            <div class="form-group"><label for="device-ilo-${deviceId}">ILO Password</label><input type="text" id="device-ilo-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="iloPassword" value="${escapeHTML(currentIlo)}"></div>`;
+                            <div class="form-group">
+                                <label for="device-serial-${deviceId}">Serial Number</label>
+                                <input type="text" id="device-serial-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="serial" value="${escapeHTML(currentSerial)}">
+                            </div>
+                            <div class="form-group">
+                                <label for="device-ilo-${deviceId}">ILO Password</label>
+                                <input type="text" id="device-ilo-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="iloPassword" value="${escapeHTML(currentIlo)}">
+                            </div>
+                        `;
                     } else {
                         formHtml += `
-                             <div class="form-group"><label for="device-serial-${deviceId}">Serial Number</label><input type="text" id="device-serial-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="serial" value="${escapeHTML(currentSerial)}"></div>
-                             <div class="form-group"><label for="device-mac-${deviceId}">MAC Address</label><input type="text" id="device-mac-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="mac" value="${escapeHTML(currentMac)}"></div>`;
+                             <div class="form-group">
+                                <label for="device-serial-${deviceId}">Serial Number</label>
+                                <input type="text" id="device-serial-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="serial" value="${escapeHTML(currentSerial)}">
+                            </div>
+                            <div class="form-group">
+                                <label for="device-mac-${deviceId}">MAC Address</label>
+                                <input type="text" id="device-mac-${deviceId}" data-device-name="${escapeHTML(deviceName)}" data-field="mac" value="${escapeHTML(currentMac)}">
+                            </div>
+                        `;
                     }
                     formHtml += `</div>`;
                 });
-            } else {
-                formHtml = '<p>No devices found in this rack to register.</p>';
             }
 
             modal.show({
@@ -468,6 +525,10 @@
             });
         }
 
+        /**
+         * Handles capturing or viewing a rack photo.
+         * @param {string} rackId - The ID of the rack.
+         */
         function handleRackPhoto(rackId) {
             const existingPhoto = state.rackPhotos[rackId];
             if (existingPhoto) {
@@ -477,6 +538,10 @@
             }
         }
 
+        /**
+         * Opens file input to capture a new rack photo.
+         * @param {string} rackId - The ID of the rack.
+         */
         function captureRackPhoto(rackId) {
             const input = document.createElement('input');
             input.type = 'file';
@@ -500,24 +565,38 @@
             input.click();
         }
 
+        /**
+         * Shows a modal to view an existing rack photo.
+         * @param {string} rackId - The ID of the rack.
+         */
         function viewRackPhoto(rackId) {
             const photo = state.rackPhotos[rackId];
             if (!photo) return;
             
+            const bodyHtml = `
+                <img src="${photo.data}" style="width: 100%; height: 100%; object-fit: contain;" alt="Photo for rack ${rackId}">
+            `;
+            
+            const footerButtons = [{
+                label: 'Delete',
+                className: 'btn btn-secondary',
+                onClick: () => {
+                    modal.hide();
+                    deleteRackPhoto(rackId);
+                }
+            }];
+
             modal.show({
                 title: `Photo for ${rackId}`,
-                body: `<img src="${photo.data}" style="width: 100%; height: auto; max-height: 70vh; object-fit: contain;" alt="Photo for rack ${rackId}">`,
-                footerButtons: [{
-                    label: 'Delete',
-                    className: 'btn btn-secondary',
-                    onClick: () => {
-                        modal.hide();
-                        deleteRackPhoto(rackId);
-                    }
-                }]
+                body: bodyHtml,
+                footerButtons
             });
         }
         
+        /**
+         * Confirms and deletes a rack photo.
+         * @param {string} rackId - The ID of the rack.
+         */
         function deleteRackPhoto(rackId) {
             modal.show({
                 title: `Delete Photo for ${rackId}?`,
@@ -541,20 +620,35 @@
         // #endregion
 
         // #region UTILITIES
+        /**
+         * Triggers a small vibration on touch devices for haptic feedback.
+         */
         function triggerVibration() {
             if (navigator.vibrate) {
                 navigator.vibrate(10);
             }
         }
         
+        /**
+         * Extracts the device name (e.g., 'Server', 'Spine') from a device string.
+         * @param {string} deviceString - The full device name (e.g., "Server (C1.20)").
+         * @returns {string} The simplified device name.
+         */
         function getDeviceName(deviceString) {
             return deviceString.split(" ")[0];
         }
 
+        /**
+         * Calculates progress statistics for a given category or for all items.
+         * @param {string|null} categoryName - The name of the category, or null for all.
+         * @returns {{verified: number, failed: number, needsReview: number, checked: number, total: number}}
+         */
         function getCategoryProgress(categoryName = null) {
             let verified = 0, failed = 0, needsReview = 0, total = 0;
+            
             const allItems = Object.values(config.allItems).filter(item => state.selectedRacks[item.rack]);
             const items = categoryName ? allItems.filter(i => i.category === categoryName) : allItems;
+            
             total = items.length;
             items.forEach(item => {
                 const status = state.itemStatus[item.id];
@@ -565,10 +659,19 @@
             return { verified, failed, needsReview, checked: verified + failed + needsReview, total };
         }
 
+        /**
+         * Calculates progress for a specific rack within a specific category.
+         * @param {string} rackId - The rack's ID.
+         * @param {string} categoryName - The category's name.
+         * @param {boolean} [detailed=false] - Whether to include failed/needs-review counts.
+         * @returns {object} Progress statistics object.
+         */
         function getRackProgressForCategory(rackId, categoryName, detailed = false) {
             const rack = config.racks[rackId];
             if (!rack) return { verified: 0, failed: 0, needsReview: 0, checked: 0, total: 0 };
+            
             let verified = 0, failed = 0, needsReview = 0, total = 0;
+            
             rack.items.forEach(item => {
                 if (item.category === categoryName) {
                     total++;
@@ -580,10 +683,18 @@
                     }
                 }
             });
-            const checked = verified + failed + needsReview;
-            return { verified, failed, needsReview, checked, total };
+            
+            if (detailed) {
+                return { verified, failed, needsReview, checked: verified + failed + needsReview, total };
+            }
+            return { verified, total };
         }
 
+        /**
+         * Determines the overall status of a category based on its progress.
+         * @param {object} progress - The progress object from getCategoryProgress.
+         * @returns {string} The status string (e.g., 'verified', 'failed').
+         */
         function getCategoryStatus(progress) {
             const { total, verified, failed, needsReview, checked } = progress;
             if (total === 0) return 'pending';
@@ -594,101 +705,121 @@
             return 'pending';
         }
 
+        /**
+         * Returns the icon character for a given status.
+         * @param {string} status - The status string.
+         * @returns {string} The corresponding icon.
+         */
         function getStatusIcon(status) {
             switch (status) {
-                case 'verified': return '✓'; case 'failed': return '✗'; case 'needs-review': return '!';
-                case 'in-progress': return '◐'; default: return '';
+                case 'verified': return '✓';
+                case 'failed': return '✗';
+                case 'needs-review': return '!';
+                case 'in-progress': return '◐';
+                default: return '';
             }
         }
 
+        /**
+         * Shows a temporary notification toast.
+         * @param {string} message - The message to display.
+         * @param {string} [type='info'] - The type ('success', 'error', 'info').
+         */
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.textContent = message;
             notification.setAttribute('role', 'alert');
             document.body.appendChild(notification);
+            
             setTimeout(() => notification.classList.add('show'), 10);
+
             setTimeout(() => {
                 notification.classList.remove('show');
                 notification.addEventListener('transitionend', () => notification.remove());
             }, 3000);
         }
 
+        /**
+         * Sets up online/offline status handling.
+         */
         function setupOfflineHandling() {
             updateOnlineStatus();
         }
 
+        /**
+         * Updates the UI to show online/offline status.
+         */
         function updateOnlineStatus() {
             document.getElementById('offline-indicator').classList.toggle('show', !state.isOnline);
         }
 
+        /**
+         * Creates a sanitized string suitable for use as an ID.
+         * @param {string} text - The input text.
+         * @returns {string} The sanitized text.
+         */
         function sanitizeForId(text) {
             return text.replace(/[^a-zA-Z0-9]/g, "_");
         }
 
+        /**
+         * Escapes a string for safe insertion into HTML.
+         * @param {string} str - The string to escape.
+         * @returns {string} The escaped string.
+         */
         function escapeHTML(str) {
             if (typeof str !== 'string') return '';
-            return str.replace(/[&<>"']/g, match => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[match]));
-        }
-
-        function highlight(text, searchTerm) {
-            if (!searchTerm) return escapeHTML(text);
-            const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`(${escapedTerm})`, 'gi');
-            return escapeHTML(text).replace(regex, `<mark>$1</mark>`);
+            return str.replace(/[&<>"']/g, function(match) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[match];
+            });
         }
         
+        /**
+         * Triggers a file download from a Blob.
+         * @param {Blob} blob - The data blob.
+         * @param {string} filename - The desired filename.
+         */
         function downloadBlob(blob, filename) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
-            a.href = url; a.download = filename; a.style.display = 'none';
-            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            a.href = url;
+            a.download = filename;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        }
-
-        function offerRecoveryOptions(error) {
-            modal.show({
-                title: "Save Failed",
-                body: `<p>Unable to save your progress, possibly because your browser's storage is full.</p>
-                       <p><strong>Action Recommended:</strong> Export your current progress to a file to avoid losing any work.</p>`,
-                footerButtons: [
-                    { label: "Export YAML Backup", className: 'btn', onClick: exportYAML },
-                    { label: "Continue Anyway", className: 'btn-secondary', onClick: () => modal.hide() }
-                ]
-            });
-        }
-
-        function updateButtonIcons() {
-            const buttonMap = {
-                '#show-instructions-btn': icons.instructions, '#mobile-show-instructions-btn': icons.instructions,
-                '#export-yaml-btn': icons.yaml, '#mobile-export-yaml-btn': icons.yaml,
-                '#export-csv-btn': icons.csv, '#mobile-export-csv-btn': icons.csv,
-                '#import-btn': icons.import,
-                '#backup-btn': icons.backup, '#mobile-backup-btn': icons.backup,
-                '#reset-all-btn': icons.reset, '#mobile-reset-all-btn': icons.reset,
-                '#mobile-search-btn': icons.search
-            };
-            for(const [selector, icon] of Object.entries(buttonMap)) {
-                const btn = document.querySelector(selector);
-                if (btn) btn.innerHTML = icon;
-            }
         }
         // #endregion
         
         // #region MODAL SYSTEM
+        /**
+         * Shows the general instructions modal.
+         */
         function showInstructionsModal() {
             const bodyHtml = () => {
                 let html = '';
                 deploymentInstructionsData.forEach(phase => {
-                    html += `<details ${phase.phase.includes('Phase 1') ? 'open' : ''}>
-                                <summary>${escapeHTML(phase.phase)}</summary>
-                                <ol>${phase.steps.map(step => `
-                                    <li>
-                                        <strong>${escapeHTML(step.title)}</strong>
-                                        ${step.note ? `<span class="note">${escapeHTML(step.note)}</span>` : ''}
-                                    </li>`).join('')}
-                                </ol>
-                             </details>`;
+                    html += `<details ${phase.phase.includes('Phase 1') ? 'open' : ''}>`;
+                    html += `<summary>${escapeHTML(phase.phase)}</summary>`;
+                    html += '<ol>';
+                    phase.steps.forEach(step => {
+                        html += `
+                            <li>
+                                <strong>${escapeHTML(step.title)}</strong>
+                                ${step.note ? `<span class="note">${escapeHTML(step.note)}</span>` : ''}
+                            </li>
+                        `;
+                    });
+                    html += '</ol>';
+                    html += `</details>`;
                 });
                 return html;
             };
@@ -699,6 +830,10 @@
             });
         }
         
+        /**
+         * Creates and manages the main application modal.
+         * @returns {{show: Function, hide: Function}} An object with show and hide methods.
+         */
         const modal = (function buildModal() {
             const modalEl = document.getElementById('app-modal');
             const dialogEl = modalEl.querySelector('[role="dialog"]');
@@ -707,23 +842,40 @@
 
             function keydownHandler(e) {
                 if (e.key === 'Escape') {
-                    if (modalEl.dataset.onEscape !== 'ignore') hide();
+                    const onEscape = modalEl.dataset.onEscape;
+                    if (onEscape && onEscape === 'ignore') return;
+                    hide();
                 }
                 if (e.key === 'Tab') {
-                    if (e.shiftKey && document.activeElement === firstFocusableEl) { lastFocusableEl.focus(); e.preventDefault(); }
-                    else if (!e.shiftKey && document.activeElement === lastFocusableEl) { firstFocusableEl.focus(); e.preventDefault(); }
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstFocusableEl) {
+                            lastFocusableEl.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === lastFocusableEl) {
+                            firstFocusableEl.focus();
+                            e.preventDefault();
+                        }
+                    }
                 }
             }
 
             function clickHandler(e) {
-                if (e.target === modalEl && modalEl.dataset.backdrop !== 'static') hide();
+                if (e.target === modalEl && modalEl.dataset.backdrop !== 'static') {
+                    hide();
+                }
             }
 
             function show({ title, body, footerButtons = [], className, onEscape, backdrop }) {
-                modalEl.querySelector('#modal-title').textContent = title;
-                modalEl.querySelector('#modal-body').innerHTML = body;
+                const titleEl = modalEl.querySelector('#modal-title');
+                const bodyEl = modalEl.querySelector('#modal-body');
                 const footerEl = modalEl.querySelector('#modal-footer');
+
+                titleEl.textContent = title;
+                bodyEl.innerHTML = body;
                 footerEl.innerHTML = '';
+
                 footerButtons.forEach(btnConfig => {
                     const btn = document.createElement('button');
                     btn.textContent = btnConfig.label;
@@ -737,6 +889,7 @@
                 modalEl.dataset.backdrop = backdrop || '';
                 
                 modalEl.classList.add('is-visible');
+                
                 previouslyFocusedEl = document.activeElement;
 
                 const focusable = modalEl.querySelectorAll(focusableElements);
@@ -744,8 +897,9 @@
                 lastFocusableEl = focusable[focusable.length - 1];
 
                 setTimeout(() => {
-                    const elToFocus = footerEl.querySelector('button') || bodyEl.querySelector('input, button, textarea') || firstFocusableEl;
-                    if (elToFocus) elToFocus.focus();
+                    const elementToFocus = footerEl.querySelector('button') || bodyEl.querySelector('input, button, textarea') || titleEl;
+                    if (elementToFocus) elementToFocus.focus();
+                    else if (firstFocusableEl) firstFocusableEl.focus();
                 }, 100);
 
                 modalEl.addEventListener('keydown', keydownHandler);
@@ -754,7 +908,9 @@
 
             function hide() {
                 modalEl.classList.remove('is-visible');
-                if (previouslyFocusedEl) previouslyFocusedEl.focus();
+                if (previouslyFocusedEl) {
+                    previouslyFocusedEl.focus();
+                }
                 modalEl.removeEventListener('keydown', keydownHandler);
                 modalEl.removeEventListener('click', clickHandler);
             }
@@ -764,7 +920,15 @@
         // #endregion
 
         // #region UI RENDERING & UPDATES
+        
+        /**
+         * Main UI update controller. Delegates to specific functions to perform
+         * targeted, efficient DOM updates instead of a full re-render.
+         * @param {object} updates - An object specifying what needs to be updated.
+         */
         function updateUI({ category, rack, item, all = false, stats = false, rackSelection = false, rackPhoto }) {
+            // A full refresh is needed for major changes like filtering.
+            // This now correctly updates BOTH desktop and mobile views.
             if (all || stats || rackSelection) {
                 renderFullUI();
                 renderMobile();
@@ -772,42 +936,42 @@
             }
 
             if (rackPhoto) {
+                // Update the camera icon indicator in the detail view
                 const rackTitle = document.querySelector(`.detail-rack-group-title[data-rack-id="${rackPhoto}"]`);
                 if (rackTitle) {
                     const indicator = rackTitle.querySelector('.rack-photo-indicator');
-                    const hasPhoto = state.rackPhotos[rackPhoto] ? `<span style="color: var(--success-color);">📸</span>` : '';
+                    const hasPhoto = state.rackPhotos[rackPhoto] ? '<span style="color: var(--success-color);">📸</span>' : '';
                     indicator.innerHTML = hasPhoto;
                 }
             }
+
+            // Targeted updates for better performance on smaller changes.
             if (category) updateCategoryUI(category);
             if (rack) updateRackOverviewUI(rack);
             if (item) updateItemUI(item);
+            
+            // Always update global stats
             updateOverallStatsUI();
         }
 
+        /**
+         * Renders the entire Desktop UI from scratch. Used on initial load and major state changes.
+         */
         function renderFullUI() {
-            renderBreadcrumb();
             renderRackSelector();
             renderCategories();
             renderRackOverview();
             renderEquipmentDetail();
             updateOverallStatsUI();
         }
-
-        function renderBreadcrumb() {
-            const container = document.getElementById('breadcrumb-container');
-            if (!container) return;
-            let html = '<ol>';
-            html += `<li><a href="#" data-nav="home">📊 DC Deployment Checklist</a></li>`;
-            if (state.activeCategory) {
-                html += `<li><span class="breadcrumb-separator">/</span><a href="#" data-nav="category">${state.activeCategory}</a></li>`;
-            }
-            html += '</ol>';
-            container.innerHTML = html;
-        }
         
+        /**
+         * Updates the overall statistics panel for both desktop and mobile.
+         */
         function updateOverallStatsUI() {
             const progress = getCategoryProgress();
+            
+            // Desktop
             const statsEl = document.getElementById('overall-stats');
             if (statsEl) {
                 statsEl.innerHTML = `
@@ -817,6 +981,8 @@
                     <span title="Total">Σ ${progress.total}</span>
                 `;
             }
+
+            // Mobile
             const mobileProgressEl = document.getElementById('mobile-total-progress');
             if(mobileProgressEl) {
                 const percentage = progress.total > 0 ? Math.round(progress.verified / progress.total * 100) : 0;
@@ -824,6 +990,9 @@
             }
         }
 
+        /**
+         * Renders the rack selection checkboxes into all containers.
+         */
         function renderRackSelector() {
             const containers = document.querySelectorAll(".rack-selector-container");
             const rackIds = Object.keys(config.racks);
@@ -831,23 +1000,43 @@
             let html = '<div class="rack-selector-grid">';
             html += `<label><input type="checkbox" value="all" ${allSelected ? "checked" : ""}> <span>All</span></label>`;
             rackIds.forEach(id => {
-                html += `<label><input type="checkbox" value="${id}" ${state.selectedRacks[id] ? "checked" : ""}> <span>${id.split(" ")[0]}</span></label>`;
+                const checked = state.selectedRacks[id] ? "checked" : "";
+                const shortName = id.split(" ")[0];
+                html += `<label><input type="checkbox" value="${id}" ${checked}> <span>${shortName}</span></label>`;
             });
             html += "</div>";
             containers.forEach(c => c.innerHTML = html);
         }
 
+        /**
+         * Renders the list of categories and their progress.
+         */
         function renderCategories() {
             const container = document.getElementById("category-list");
             if (!container) return;
-            container.innerHTML = config.categories.map(generateCategoryHTML).join('');
+            let html = "";
+            config.categories.forEach(categoryName => {
+                html += generateCategoryHTML(categoryName);
+            });
+            container.innerHTML = html;
         }
 
+        /**
+         * Updates the UI for a single category in the list.
+         * @param {string} categoryId - The ID of the category to update.
+         */
         function updateCategoryUI(categoryId) {
             const el = document.querySelector(`.category-list-item[data-category-id="${categoryId}"]`);
-            if (el) el.outerHTML = generateCategoryHTML(categoryId);
+            if (el) {
+                el.outerHTML = generateCategoryHTML(categoryId);
+            }
         }
         
+        /**
+         * Generates the HTML for a single category list item.
+         * @param {string} categoryName - The name of the category.
+         * @returns {string} The HTML string for the category item.
+         */
         function generateCategoryHTML(categoryName) {
             const progress = getCategoryProgress(categoryName);
             const status = getCategoryStatus(progress);
@@ -855,15 +1044,20 @@
             return `
                 <li class="category-list-item ${activeClass}" data-category-id="${categoryName}" tabindex="0" role="button">
                     <span class="status-icon ${status}">${getStatusIcon(status)}</span>
-                    ${categoryName} <small>(${progress.checked}/${progress.total})</small>
-                </li>`;
+                    ${categoryName}
+                    <small>(${progress.checked}/${progress.total})</small>
+                </li>
+            `;
         }
 
+        /**
+         * Renders the overview of racks for the active category.
+         */
         function renderRackOverview() {
             const container = document.getElementById("rack-overview-list");
             if (!container) return;
             if (!state.activeCategory) {
-                container.innerHTML = '<div class="no-selection">Select a category to see rack progress.</div>';
+                container.innerHTML = "";
                 return;
             }
             let html = "";
@@ -872,34 +1066,51 @@
                    html += generateRackOverviewHTML(rackId);
                 }
             });
-            container.innerHTML = html || '<div class="no-selection">No racks for this category.</div>';
+            container.innerHTML = html;
         }
 
+        /**
+         * Updates the UI for a single rack in the overview list.
+         * @param {string} rackId - The ID of the rack to update.
+         */
         function updateRackOverviewUI(rackId) {
             const el = document.querySelector(`.rack-list-item[data-rack-id="${rackId}"]`);
-            if (el) el.outerHTML = generateRackOverviewHTML(rackId);
+            if (el) {
+                el.outerHTML = generateRackOverviewHTML(rackId);
+            }
         }
         
+        /**
+         * Generates the HTML for a single rack overview item.
+         * @param {string} rackId - The ID of the rack.
+         * @returns {string} The HTML string for the rack overview item.
+         */
         function generateRackOverviewHTML(rackId) {
             const progress = getRackProgressForCategory(rackId, state.activeCategory);
             if (progress.total === 0) return '';
             const percentage = progress.total > 0 ? (progress.verified / progress.total) * 100 : 0;
-            return `
+            const shortName = rackId.split(" ")[0];
+             return `
                 <li class="rack-list-item" data-rack-id="${rackId}">
                     <button class="rack-list-item-main" data-rack-id="${rackId}" aria-label="Scroll to ${rackId} details">
-                        <div class="rack-name">${rackId.split(" ")[0]}</div>
-                        <div class="rack-progress-bar" role="progressbar" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="rack-name">${shortName}</div>
+                        <div class="rack-progress-bar" role="progressbar" aria-label="${shortName} progress ${Math.round(percentage)}%" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">
                             <div class="rack-progress-fill" style="width:${percentage}%;"></div>
                         </div>
                         <span class="percentage">${Math.round(percentage)}%</span>
                     </button>
-                    <button class="rack-overview-devices-btn" data-rack-id="${rackId}" title="Device Data for ${rackId}">${icons.devices}</button>
-                </li>`;
+                    <button class="rack-overview-devices-btn" data-rack-id="${rackId}" title="Device Data for ${rackId}">💻</button>
+                </li>
+            `;
         }
 
+        /**
+         * Renders the detailed equipment list for the active category and selected racks.
+         */
         function renderEquipmentDetail() {
             const container = document.getElementById("equipment-detail-content");
             const titleEl = document.getElementById("detail-panel-title");
+
             if (!container || !titleEl) return;
 
             if (!state.activeCategory) {
@@ -911,7 +1122,6 @@
             titleEl.textContent = `🔧 ${state.activeCategory}`;
             let html = "";
             const searchTerm = state.searchTerm.toLowerCase();
-            let itemsFound = false;
 
             Object.keys(config.racks).forEach(rackId => {
                 if (!state.selectedRacks[rackId]) return;
@@ -923,93 +1133,130 @@
                 );
 
                 if (items.length > 0) {
-                    itemsFound = true;
+                    const sanitizedId = sanitizeForId(rackId);
                     const allVerified = items.every(item => state.itemStatus[item.id] === "verified");
                     const hasPhoto = state.rackPhotos[rackId] ? '<span style="color: var(--success-color);">📸</span>' : '';
 
                     html += `
                         <div class="detail-rack-group">
-                            <h3 id="detail-rack-${sanitizeForId(rackId)}">
+                            <h3 id="detail-rack-${sanitizedId}">
                                 <label class="detail-rack-group-title" data-rack-id="${rackId}">
                                     <input type="checkbox" class="rack-master-check" data-rack-id="${rackId}" ${allVerified ? "checked" : ""}>
                                     <span>${rackId} <span class="rack-photo-indicator">${hasPhoto}</span></span>
                                 </label>
                                 <div class="rack-controls">
-                                    <button class="rack-control-btn" data-rack-id="${rackId}" data-action="devices" title="Enter Device Data">${icons.devices}</button>
-                                    <button class="rack-control-btn" data-rack-id="${rackId}" data-action="photo" title="Add/View Rack Photo">${icons.photo}</button>
-                                    <button class="rack-control-btn" data-rack-id="${rackId}" data-action="reset" title="Reset Rack Progress">${icons.reset}</button>
+                                    <button class="rack-devices-btn" data-rack-id="${rackId}" title="Enter Device Data for ${rackId}">💻 Devices</button>
+                                    <button class="rack-photo-btn" data-rack-id="${rackId}" title="Add or View Rack Photo">📷 Photo</button>
+                                    <button class="rack-reset-btn" data-rack-id="${rackId}" title="Reset Progress for ${rackId}">🔄 Reset</button>
                                 </div>
                             </h3>
-                            <ul class="equipment-list">${items.map(generateItemHTML).join('')}</ul>
-                        </div>`;
+                            <ul class="equipment-list">
+                    `;
+                    items.forEach(item => {
+                        html += generateItemHTML(item);
+                    });
+                    html += "</ul></div>";
                 }
             });
-            container.innerHTML = itemsFound ? html : '<div class="no-selection">No items match your selection or search.</div>';
+            container.innerHTML = html || '<div class="no-selection">No items match your selection or search.</div>';
         }
 
+        /**
+         * Updates the UI for a single equipment item.
+         * @param {string} itemId - The ID of the item to update.
+         */
         function updateItemUI(itemId) {
-            const item = config.allItems[itemId];
             const desktopEl = document.getElementById(`item-${itemId}`);
             const mobileEl = document.getElementById(`mobile-item-${itemId}`);
-            if (desktopEl) desktopEl.outerHTML = generateItemHTML(item);
-            if (mobileEl) mobileEl.outerHTML = generateMobileItemHTML(item);
+            if (desktopEl) {
+                desktopEl.outerHTML = generateItemHTML(config.allItems[itemId]);
+            }
+            if (mobileEl) {
+                mobileEl.outerHTML = generateMobileItemHTML(config.allItems[itemId]);
+            }
         }
 
+        /**
+         * Generates the HTML for a single equipment item.
+         * @param {Object} item - The item object.
+         * @returns {string} The HTML string for the item.
+         */
         function generateItemHTML(item) {
             const status = state.itemStatus[item.id] || "pending";
             const note = state.itemNotes[item.id];
             const timestamp = state.itemTimestamps[item.id];
+            const statusContent = getStatusIcon(status);
             const noteHTML = note ? `<div class="item-note">Note: ${escapeHTML(note)}</div>` : "";
             const timestampHTML = timestamp ? `<div style="font-size: 0.8em; color: var(--border-color); margin-top: 0.5rem;">Last updated: ${new Date(timestamp).toLocaleString()}</div>` : "";
             
+            let dataBtnHtml = '';
             const itemType = getItemType(item);
-            const hasData = state.itemData && state.itemData[item.id] && Object.values(state.itemData[item.id]).some(d => d);
-            const dataBtnHtml = (itemType === 'foCable' || itemType === 'utpCable') ?
-                `<button class="item-control-btn" data-item-id="${item.id}" data-action="data" title="${hasData ? 'Edit collected data' : 'Collect data for this item'}">${icons.data}</button>` : '';
+            if (itemType === 'foCable' || itemType === 'utpCable') {
+                 const hasData = state.itemData && state.itemData[item.id] && Object.values(state.itemData[item.id]).some(d => d);
+                 const dataIcon = hasData ? '🗄️' : '📝';
+                 const dataBtnTitle = hasData ? 'Edit collected data' : 'Collect data for this item';
+                 dataBtnHtml = `<button class="data-btn" data-item-id="${item.id}" title="${dataBtnTitle}">${dataIcon}</button>`;
+            }
 
             return `
                 <li class="equipment-list-item" id="item-${item.id}">
                     <div class="equipment-header">
-                        <div class="title">${highlight(item.title, state.searchTerm)}</div>
+                        <div class="title">${escapeHTML(item.title)}</div>
                         <div class="item-controls">
-                            <button class="item-control-btn" data-item-id="${item.id}" data-action="note" title="Add note">${icons.note}</button>
+                            <button class="note-btn" data-item-id="${item.id}" title="Add note for this item">🗒️</button>
                             ${dataBtnHtml}
-                            <select class="status-select" data-item-id="${item.id}" aria-label="Status for ${escapeHTML(item.title)}">
-                                <option value="pending" ${status === 'pending' ? 'selected' : ''}>⭕ Pending</option>
-                                <option value="verified" ${status === 'verified' ? 'selected' : ''}>✅ Verified</option>
-                                <option value="failed" ${status === 'failed' ? 'selected' : ''}>❌ Failed</option>
-                                <option value="needs-review" ${status === 'needs-review' ? 'selected' : ''}>⚠️ Needs Review</option>
-                            </select>
+                            <div class="status-toggle ${status}" data-item-id="${item.id}"
+                                 title="Click to cycle status: ${status}" role="button" tabindex="0" aria-label="Cycle status for ${escapeHTML(item.title)}. Current status: ${status}">
+                                 ${statusContent}
+                            </div>
                         </div>
                     </div>
-                    <div class="equipment-details">${highlight(item.details, state.searchTerm)}</div>
-                    ${noteHTML}${timestampHTML}
+                    <div class="equipment-details">${escapeHTML(item.details)}</div>
+                    ${noteHTML}
+                    ${timestampHTML}
                 </li>`;
         }
         
+        /**
+         * Identifies the type of an item based on its title and category.
+         * @param {Object} item - The item object.
+         * @returns {string} The type of the item (e.g., 'server', 'networkDevice').
+         */
         function getItemType(item) {
             const title = item.title.toLowerCase();
             const category = item.category.toLowerCase();
+
             if (title.includes('server')) return 'server';
             if (title.includes('spine') || title.includes('fw') || title.includes('agg') || title.includes('tor') || title.includes('bor')) return 'networkDevice';
             if (category.includes('fiber optic')) return 'foCable';
             if (category.includes('utp')) return 'utpCable';
+
             return 'generic';
         }
         // #endregion
         
         // #region MOBILE RENDERING
+        /**
+         * Orchestrates rendering for mobile views.
+         */
         function renderMobile() {
             document.getElementById("mobile-panel-main").classList.toggle("active", state.mobileView === "main");
             document.getElementById("mobile-panel-items").classList.toggle("active", state.mobileView === "items");
 
-            if (state.mobileView === 'main') renderMobileMainList();
-            else if (state.mobileView === 'items') renderMobileItemList();
+            if (state.mobileView === 'main') {
+                renderMobileMainList();
+            } else if (state.mobileView === 'items') {
+                renderMobileItemList();
+            }
         }
 
+        /**
+         * Renders the new combined category/rack list for mobile.
+         */
         function renderMobileMainList() {
             const container = document.getElementById("mobile-main-list");
             if (!container) return;
+
             updateOverallStatsUI();
 
             let html = "";
@@ -1017,30 +1264,42 @@
                 const racksForCategory = Object.keys(config.racks).filter(rackId => 
                     state.selectedRacks[rackId] && config.racks[rackId].items.some(item => item.category === categoryName)
                 );
+
                 if (racksForCategory.length > 0) {
                     html += `<li class="mobile-main-category-header">${categoryName}</li>`;
                     racksForCategory.forEach(rackId => {
                         const progress = getRackProgressForCategory(rackId, categoryName, true);
                         const percentage = progress.total > 0 ? Math.round(progress.verified / progress.total * 100) : 0;
+                        const status = getCategoryStatus(progress);
+                        
                         html += `
                             <li class="mobile-rack-item" data-rack-id="${rackId}" data-category-id="${categoryName}">
                                 <div class="rack-list-item-main" role="button" tabindex="0">
-                                    <span class="status-icon ${getCategoryStatus(progress)}">${getStatusIcon(getCategoryStatus(progress))}</span>
+                                    <span class="status-icon ${status}">${getStatusIcon(status)}</span>
                                     <span class="rack-name">${rackId.split(" ")[0]}</span>
-                                    <div class="rack-progress-bar"><div class="rack-progress-fill" style="width:${percentage}%;"></div></div>
+                                    <div class="rack-progress-bar">
+                                        <div class="rack-progress-fill" style="width:${percentage}%;"></div>
+                                    </div>
                                     <span class="percentage">${percentage}%</span>
                                 </div>
-                                <button class="rack-overview-devices-btn mobile-rack-devices-btn" data-rack-id="${rackId}">${icons.devices}</button>
-                            </li>`;
+                                <button class="rack-overview-devices-btn mobile-rack-devices-btn" data-rack-id="${rackId}">💻</button>
+                            </li>
+                        `;
                     });
                 }
             });
             container.innerHTML = html;
         }
 
+        /**
+         * Renders the item list for a specific rack in the mobile view.
+         */
         function renderMobileItemList() {
             const container = document.getElementById("mobile-item-list");
-            if (!container || !state.mobileRack || !state.activeCategory) return;
+            if (!container || !state.mobileRack || !state.activeCategory) {
+                container.innerHTML = "";
+                return;
+            }
 
             document.getElementById("mobile-item-title").textContent = `${state.mobileRack.split(" ")[0]} - ${state.activeCategory}`;
             const rack = config.racks[state.mobileRack];
@@ -1051,55 +1310,68 @@
             );
 
             let html = `
-                <div style="margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color)">
+                <div style="margin-bottom: 1rem; padding: 1rem; border: 1px dashed var(--border-color); border-radius: 4px;">
                     <div style="display: flex; justify-content: space-around; align-items: center;">
-                        <button class="rack-control-btn" data-rack-id="${state.mobileRack}" data-action="devices">${icons.devices} Devices</button>
-                        <button class="rack-control-btn" data-rack-id="${state.mobileRack}" data-action="photo">${icons.photo} Photo</button>
-                        <button class="rack-control-btn" data-rack-id="${state.mobileRack}" data-action="reset">${icons.reset} Reset</button>
+                        <button class="btn mobile-rack-devices-btn" data-rack-id="${state.mobileRack}">💻 Devices</button>
+                        <button class="btn mobile-rack-photo-btn" data-rack-id="${state.mobileRack}">📷 Photo</button>
+                        <button class="btn btn-secondary mobile-rack-reset-btn" data-rack-id="${state.mobileRack}">🔄 Reset</button>
                     </div>
-                </div>`;
-            items.forEach(item => { html += generateMobileItemHTML(item); });
+                </div>
+            `;
+
+            items.forEach(item => {
+                html += generateMobileItemHTML(item);
+            });
             container.innerHTML = html || '<div class="no-selection">No items match your selection or search.</div>';
         }
         
+        /**
+         * Generates the HTML for a single item in the mobile view.
+         * @param {object} item - The item object to render.
+         * @returns {string} The generated HTML string.
+         */
         function generateMobileItemHTML(item) {
             const status = state.itemStatus[item.id] || "pending";
             const note = state.itemNotes[item.id];
+            const statusContent = getStatusIcon(status);
             
-            const itemType = getItemType(item);
-            const hasData = state.itemData && state.itemData[item.id] && Object.values(state.itemData[item.id]).some(d => d);
-            const dataBtnHtml = (itemType === 'foCable' || itemType === 'utpCable') ?
-                `<button class="item-control-btn" data-item-id="${item.id}" data-action="data" title="${hasData ? 'Edit collected data' : 'Collect data for this item'}">${icons.data}</button>` : '';
+            let dataBtnHtml = '';
+             const itemType = getItemType(item);
+             if (itemType === 'foCable' || itemType === 'utpCable') {
+                const hasData = state.itemData && state.itemData[item.id] && Object.values(state.itemData[item.id]).some(d => d);
+                const dataIcon = hasData ? '🗄️' : '📝';
+                const dataBtnTitle = hasData ? 'Edit collected data' : 'Collect data for this item';
+                dataBtnHtml = `<button class="data-btn" data-item-id="${item.id}" title="${dataBtnTitle}">${dataIcon}</button>`;
+            }
 
             return `
                 <div class="mobile-equipment-item" id="mobile-item-${item.id}">
                     <div class="mobile-equipment-header">
-                        <div class="mobile-equipment-title">${highlight(item.title, state.searchTerm)}</div>
+                        <div class="mobile-equipment-title">${escapeHTML(item.title)}</div>
                         <div class="mobile-equipment-controls">
-                             <button class="item-control-btn" data-item-id="${item.id}" data-action="note" title="Add note">${icons.note}</button>
+                            <button class="note-btn" data-item-id="${item.id}" title="Add note for this item">🗒️</button>
                             ${dataBtnHtml}
+                            <div class="mobile-status-toggle ${status}" data-item-id="${item.id}" role="button" tabindex="0">${statusContent}</div>
                         </div>
                     </div>
-                    <div class="equipment-details">${highlight(item.details, state.searchTerm)}</div>
+                    <div class="equipment-details">${escapeHTML(item.details)}</div>
                     ${note ? `<div class="item-note">Note: ${escapeHTML(note)}</div>` : ""}
-                    <div style="margin-top: .75rem">
-                         <select class="status-select" data-item-id="${item.id}" style="width: 100%; height: 44px;">
-                            <option value="pending" ${status === 'pending' ? 'selected' : ''}>⭕ Pending</option>
-                            <option value="verified" ${status === 'verified' ? 'selected' : ''}>✅ Verified</option>
-                            <option value="failed" ${status === 'failed' ? 'selected' : ''}>❌ Failed</option>
-                            <option value="needs-review" ${status === 'needs-review' ? 'selected' : ''}>⚠️ Needs Review</option>
-                        </select>
-                    </div>
                 </div>`;
         }
         // #endregion
         
         // #region EVENT HANDLING & USER ACTIONS
+        /**
+         * Sets up all event listeners for the application.
+         * Uses event delegation for performance.
+         */
         function setupEventListeners() {
+            // --- DELEGATED EVENTS ---
             document.body.addEventListener('click', handleBodyClick);
             document.body.addEventListener('change', handleBodyChange);
             document.body.addEventListener('keydown', handleBodyKeydown);
 
+            // --- DIRECT EVENTS ---
             const searchInput = document.getElementById("search-input");
             searchInput.addEventListener("input", debounce(e => {
                 state.searchTerm = e.target.value;
@@ -1109,19 +1381,28 @@
             const mobileSearchInput = document.getElementById("mobile-search-input");
             mobileSearchInput.addEventListener("input", debounce(e => {
                 state.searchTerm = e.target.value;
-                renderMobile();
+                renderMobile(); // Mobile search affects the whole mobile view
             }, 300));
 
+            // --- OFFLINE/ONLINE EVENTS ---
             window.addEventListener('online', () => { state.isOnline = true; updateOnlineStatus(); });
             window.addEventListener('offline', () => { state.isOnline = false; updateOnlineStatus(); });
         }
 
+        /**
+         * Handles all click events on the body using delegation. This function is ordered
+         * to prioritize more specific actions (like a button inside a list item) over
+         * more general ones (like the list item itself) to prevent conflicting events.
+         * @param {Event} e - The click event object.
+         */
         function handleBodyClick(e) {
             const target = e.target;
-            const btn = target.closest('button, .mobile-rack-item');
-            if (btn) triggerVibration();
+            
+            if (target.closest('.btn, .mobile-rack-item, .mobile-status-toggle, .note-btn, .data-btn, .photo-btn, .rack-devices-btn, .rack-overview-devices-btn')) {
+                triggerVibration();
+            }
 
-            // --- Modals, Overlays, Global Controls ---
+            // --- Top-level Modals, Overlays, and Global Controls ---
             if (target.closest('#show-instructions-btn, #mobile-show-instructions-btn')) { showInstructionsModal(); return; }
             if (target.id === 'mobile-filter-racks-btn') {
                 modal.show({
@@ -1142,125 +1423,185 @@
                 document.getElementById('search-overlay').classList.remove('is-visible');
                 return;
             }
-            if (target.id === 'export-yaml-btn' || target.id === 'mobile-export-yaml-btn') { exportYAML(e.currentTarget); return; }
-            if (target.id === 'export-csv-btn' || target.id === 'mobile-export-csv-btn') { exportCSV(e.currentTarget); return; }
+            if (target.id === 'clear-search-btn') {
+                document.getElementById("search-input").value = '';
+                state.searchTerm = '';
+                renderEquipmentDetail();
+                return;
+            }
+            if (target.id === 'export-yaml-btn' || target.id === 'mobile-export-yaml-btn') { exportYAML(); return; }
+            if (target.id === 'export-csv-btn' || target.id === 'mobile-export-csv-btn') { exportCSV(); return; }
             if (target.id === 'import-btn') { importState(); return; }
             if (target.id === 'backup-btn' || target.id === 'mobile-backup-btn') { createBackup(); return; }
             if (target.id === 'reset-all-btn' || target.id === 'mobile-reset-all-btn') { resetAllProgress(); return; }
 
-            // --- Navigation ---
-            const navLink = target.closest('[data-nav]');
-            if (navLink) { e.preventDefault(); handleNavigation(navLink.dataset.nav); return; }
+
+            // --- Context-Specific Actions (ordered by specificity) ---
+
+            // A specific button inside a list item (e.g., Devices button in a mobile rack item)
+            const rackDevicesBtn = target.closest(".rack-devices-btn, .mobile-rack-devices-btn, .rack-overview-devices-btn");
+            if (rackDevicesBtn) {
+                openDeviceDataModal(rackDevicesBtn.dataset.rackId);
+                return;
+            }
+
+            // Any other click on a mobile rack item is for navigation. This is checked *after* the
+            // more specific device button to avoid conflict.
+            const mobileRackItem = target.closest(".mobile-rack-item");
+            if (mobileRackItem) {
+                selectCategoryAndRackForMobile(mobileRackItem.dataset.categoryId, mobileRackItem.dataset.rackId);
+                return;
+            }
+            
+            // Other specific item-level buttons
+            const dataBtn = target.closest(".data-btn");
+            if (dataBtn) { openItemDataModal(dataBtn.dataset.itemId); return; }
+
+            const statusToggle = target.closest(".status-toggle, .mobile-status-toggle");
+            if (statusToggle) { toggleItemStatus(statusToggle.dataset.itemId); return; }
+
+            const noteBtn = target.closest(".note-btn");
+            if (noteBtn) { promptForNote(noteBtn.dataset.itemId); return; }
+            
+            const rackPhotoBtn = target.closest(".rack-photo-btn, .mobile-rack-photo-btn");
+            if (rackPhotoBtn) { handleRackPhoto(rackPhotoBtn.dataset.rackId); return; }
+        
+            const rackResetBtn = target.closest(".rack-reset-btn, .mobile-rack-reset-btn");
+            if (rackResetBtn) { resetRackProgress(rackResetBtn.dataset.rackId); return; }
+
+            // General navigation elements
             const categoryItem = target.closest(".category-list-item");
             if (categoryItem) { selectCategory(categoryItem.dataset.categoryId); return; }
+            
+            // Desktop-only navigation (scrolling)
             const rackItemMain = target.closest(".desktop-view .rack-list-item-main");
             if (rackItemMain) { scrollToRack(rackItemMain.dataset.rackId); return; }
 
-            // --- Mobile Navigation ---
-            const mobileRackItem = target.closest(".mobile-rack-item .rack-list-item-main");
-            if (mobileRackItem) {
-                const parent = mobileRackItem.closest('.mobile-rack-item');
-                selectCategoryAndRackForMobile(parent.dataset.categoryId, parent.dataset.rackId);
-                return;
-            }
+            // Mobile-only navigation
             const mobileBackBtn = target.closest(".mobile-back-btn");
             if (mobileBackBtn) { setMobileView('main'); return; }
-
-            // --- Item/Rack Controls ---
-            const itemControlBtn = target.closest('.item-control-btn');
-            if (itemControlBtn) {
-                handleItemAction(itemControlBtn.dataset.itemId, itemControlBtn.dataset.action);
-                return;
-            }
-            const rackControlBtn = target.closest('.rack-control-btn, .rack-overview-devices-btn');
-            if(rackControlBtn) {
-                const action = rackControlBtn.dataset.action || 'devices'; // default for overview btn
-                handleRackAction(rackControlBtn.dataset.rackId, action);
-                return;
-            }
         }
 
+        /**
+         * Handles all change events on the body using delegation (for checkboxes).
+         * @param {Event} e - The change event object.
+         */
         function handleBodyChange(e) {
             const target = e.target;
             if (target.closest(".rack-selector-container") && target.type === 'checkbox') {
                 updateRackSelection(target.value, target.checked);
-            } else if (target.classList.contains('rack-master-check')) {
+            }
+            if (target.classList.contains('rack-master-check')) {
                 toggleAllItemsInRack(target.dataset.rackId, target.checked);
-            } else if (target.classList.contains('status-select')) {
-                setItemStatus(target.dataset.itemId, target.value);
             }
         }
 
+        /**
+         * Handles keydown events for accessibility and shortcuts.
+         * @param {Event} e - The keydown event object.
+         */
         function handleBodyKeydown(e) {
-             if (e.key === 'Escape' && document.querySelector('.modal-overlay.is-visible')) modal.hide();
-             if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[role="button"]')) { e.preventDefault(); e.target.click(); }
-             if (e.ctrlKey || e.metaKey) {
-                if (e.key === 's') { e.preventDefault(); createBackup(); }
-                else if (e.key === 'e') { e.preventDefault(); exportYAML(); }
-                else if (e.key === 'f') { e.preventDefault(); document.getElementById("search-input").focus(); }
+             if (e.key === 'Escape') {
+                const modalVisible = document.querySelector('.modal-overlay.is-visible');
+                if (modalVisible) modal.hide();
             }
-        }
-
-        function handleNavigation(navTarget) {
-            if (navTarget === 'home') {
-                state.activeCategory = null;
-                updateUI({ all: true });
-            } else if (navTarget === 'category') {
-                selectCategory(state.activeCategory);
+            // Enter/Space for accessible buttons
+            if (e.key === 'Enter' || e.key === ' ') {
+                const roleButton = e.target.closest('[role="button"]');
+                if (roleButton) {
+                    e.preventDefault();
+                    roleButton.click();
+                }
             }
-        }
-
-        function handleItemAction(itemId, action) {
-            if (action === 'note') promptForNote(itemId);
-            else if (action === 'data') openItemDataModal(itemId);
-        }
-
-        function handleRackAction(rackId, action) {
-            if (action === 'devices') openDeviceDataModal(rackId);
-            else if (action === 'photo') handleRackPhoto(rackId);
-            else if (action === 'reset') resetRackProgress(rackId);
+            // Global shortcuts
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case 's': e.preventDefault(); createBackup(); break;
+                    case 'e': e.preventDefault(); exportYAML(); break;
+                    case 'f': e.preventDefault(); document.getElementById("search-input").focus(); break;
+                }
+            }
         }
         
+        /**
+         * Selects a category and updates the UI.
+         * @param {string} categoryId - The ID of the category to select.
+         */
         function selectCategory(categoryId) {
             state.activeCategory = categoryId;
             saveState();
-            updateUI({ all: true });
+            updateUI({ all: true }); // A category change affects everything
         }
         
+        /**
+         * Selects a category and rack for mobile view navigation.
+         * @param {string} categoryId - The category ID.
+         * @param {string} rackId - The rack ID.
+         */
         function selectCategoryAndRackForMobile(categoryId, rackId) {
             state.activeCategory = categoryId;
             state.mobileRack = rackId;
             setMobileView("items");
         }
 
+        /**
+         * Sets the current view for the mobile interface.
+         * @param {string} view - The view to switch to ('main' or 'items').
+         */
         function setMobileView(view) {
             state.mobileView = view;
             saveState();
             renderMobile();
         }
 
-        function setItemStatus(itemId, newStatus) {
-            if (newStatus === "pending") {
+        /**
+         * Cycles the status of a checklist item.
+         * @param {string} itemId - The ID of the item to toggle.
+         */
+        function toggleItemStatus(itemId) {
+            const currentStatus = state.itemStatus[itemId] || "pending";
+            const currentIndex = statusCycle.indexOf(currentStatus);
+            const nextStatus = statusCycle[(currentIndex + 1) % statusCycle.length];
+
+            if (nextStatus === "pending") {
                 delete state.itemStatus[itemId];
                 delete state.itemTimestamps[itemId];
             } else {
-                state.itemStatus[itemId] = newStatus;
+                state.itemStatus[itemId] = nextStatus;
                 state.itemTimestamps[itemId] = new Date().toISOString();
             }
+
             saveState();
             const item = config.allItems[itemId];
             updateUI({ item: itemId, category: item.category, rack: item.rack });
         }
 
+        /**
+         * Toggles all items in a specific rack for the current category to 'verified' or 'pending'.
+         * @param {string} rackId - The ID of the rack.
+         * @param {boolean} isChecked - True to set to 'verified', false to 'pending'.
+         */
         function toggleAllItemsInRack(rackId, isChecked) {
             const items = config.racks[rackId].items.filter(item => item.category === state.activeCategory);
             items.forEach(item => {
-                const newStatus = isChecked ? "verified" : "pending";
-                setItemStatus(item.id, newStatus);
+                if (isChecked) {
+                    state.itemStatus[item.id] = "verified";
+                    state.itemTimestamps[item.id] = new Date().toISOString();
+                } else {
+                    delete state.itemStatus[item.id];
+                    delete state.itemTimestamps[item.id];
+                }
             });
-            renderEquipmentDetail(); // Re-render the whole detail pane for visual sync
+            saveState();
+            renderEquipmentDetail(); // Re-render the whole detail pane
+            items.forEach(item => updateRackOverviewUI(item.rack)); // Update each affected rack in overview
         }
 
+        /**
+         * Updates the set of selected racks to display.
+         * @param {string} rackId - The rack ID, or 'all'.
+         * @param {boolean} isChecked - The new checked state.
+         */
         function updateRackSelection(rackId, isChecked) {
             if (rackId === "all") {
                 Object.keys(config.racks).forEach(id => state.selectedRacks[id] = isChecked);
@@ -1268,9 +1609,13 @@
                 state.selectedRacks[rackId] = isChecked;
             }
             saveState();
-            updateUI({ all: true });
+            updateUI({ all: true }); // Rack selection is a major change, refresh everything
         }
 
+        /**
+         * Smoothly scrolls to a rack's details in the main view.
+         * @param {string} rackId - The ID of the rack to scroll to.
+         */
         function scrollToRack(rackId) {
             const element = document.getElementById(`detail-rack-${sanitizeForId(rackId)}`);
             if (element) {
@@ -1279,58 +1624,102 @@
             }
         }
         
+        /**
+         * Opens a modal to edit the note for an item.
+         * @param {string} itemId - The ID of the item.
+         */
         function promptForNote(itemId) {
             const item = config.allItems[itemId];
             const currentNote = state.itemNotes[itemId] || "";
+
+            const bodyHtml = `
+                <div class="form-group">
+                    <label for="item-note-input">Note for: ${escapeHTML(item.title)}</label>
+                    <textarea id="item-note-input">${escapeHTML(currentNote)}</textarea>
+                </div>
+            `;
+
             modal.show({
                 title: 'Edit Note',
-                body: `<div class="form-group"><label for="item-note-input">Note for: ${escapeHTML(item.title)}</label><textarea id="item-note-input">${escapeHTML(currentNote)}</textarea></div>`,
-                footerButtons: [{ label: 'Save', className: 'btn',
+                body: bodyHtml,
+                footerButtons: [{
+                    label: 'Save',
+                    className: 'btn',
                     onClick: () => {
                         const newNote = document.getElementById('item-note-input').value.trim();
-                        if (newNote) { state.itemNotes[itemId] = newNote; } 
-                        else { delete state.itemNotes[itemId]; }
-                        saveState(); updateUI({ item: itemId }); modal.hide();
+                        if (newNote) {
+                            state.itemNotes[itemId] = newNote;
+                        } else {
+                            delete state.itemNotes[itemId];
+                        }
+                        saveState();
+                        updateUI({ item: itemId });
+                        modal.hide();
                     }
                 }]
             });
         }
         
+        /**
+         * Confirms and resets all progress for a specific rack.
+         * @param {string} rackId - The ID of the rack to reset.
+         */
         function resetRackProgress(rackId) {
             modal.show({
                 title: `Reset progress for ${rackId}?`,
                 body: `<p>Are you sure you want to reset all progress, notes, and data for rack <strong>${rackId}</strong>? This cannot be undone.</p>`,
                 footerButtons: [
                     { label: 'Cancel', className: 'btn-secondary', onClick: () => modal.hide() },
-                    { label: 'Reset', className: 'btn',
+                    {
+                        label: 'Reset',
+                        className: 'btn',
                         onClick: () => {
                             config.racks[rackId].items.forEach(item => {
-                                delete state.itemStatus[item.id]; delete state.itemNotes[item.id];
+                                delete state.itemStatus[item.id];
+                                delete state.itemNotes[item.id];
                                 delete state.itemTimestamps[item.id];
-                                if (state.itemData) delete state.itemData[item.id];
+                                if (state.itemData && state.itemData[item.id]) {
+                                    delete state.itemData[item.id];
+                                }
                             });
                             saveState();
                             showNotification(`Progress reset for rack ${rackId}`, "success");
                             modal.hide();
-                            if (state.mobileView === 'items') { setMobileView('main'); renderFullUI(); }
-                            else { updateUI({ all: true }); }
+                            
+                            // If on mobile item view, go back to the main list.
+                            // Otherwise, do a full refresh of all UIs.
+                            if (state.mobileView === 'items') {
+                                setMobileView('main');
+                                renderFullUI(); // Still refresh desktop in background
+                            } else {
+                                updateUI({ all: true });
+                            }
                         }
                     }
                 ]
             });
         }
 
+        /**
+         * Confirms and resets all progress for the entire application.
+         */
         function resetAllProgress() {
             modal.show({
                 title: "Reset All Progress?",
-                body: '<p>Are you sure? This will clear all statuses, notes, photos, and collected data. This action cannot be undone.</p>',
+                body: '<p>Are you sure you want to reset <strong>ALL</strong> progress? This will clear all statuses, notes, photos, and collected data across all racks. This action cannot be undone.</p>',
                 footerButtons: [
                     { label: 'Cancel', className: 'btn-secondary', onClick: () => modal.hide() },
-                    { label: 'Reset Everything', className: 'btn',
+                    {
+                        label: 'Reset Everything',
+                        className: 'btn',
                         onClick: () => {
-                            state.itemStatus = {}; state.itemNotes = {}; state.itemTimestamps = {};
-                            state.itemData = {}; state.deviceData = {}; state.rackPhotos = {};
-                            saveState(); updateUI({ all: true });
+                            state.itemStatus = {};
+                            state.itemNotes = {};
+                            state.itemTimestamps = {};
+                            state.itemData = {};
+                            state.deviceData = {};
+                            saveState();
+                            updateUI({ all: true });
                             showNotification("All progress has been reset", "success");
                             modal.hide();
                         }
@@ -1341,73 +1730,88 @@
         // #endregion
 
         // #region DATA I/O
-        function exportYAML(buttonEl) {
-            if (buttonEl) {
-                buttonEl.classList.add('loading');
-                buttonEl.disabled = true;
+        /**
+         * Exports the current state to a YAML file.
+         */
+        function exportYAML() {
+            try {
+                const exportData = {
+                    metadata: {
+                        timestamp: new Date().toISOString(),
+                        version: config.version,
+                        technician: state.technicianId,
+                        totalItems: Object.keys(config.allItems).length
+                    },
+                    progress: getCategoryProgress(),
+                    state: state,
+                };
+                const yamlString = jsyaml.dump(exportData);
+                const filename = `dc_checklist_progress_${new Date().toISOString().split('T')[0]}.yaml`;
+                const blob = new Blob([yamlString], { type: "text/yaml" });
+                downloadBlob(blob, filename);
+                showNotification("Progress exported successfully as YAML", "success");
+            } catch (e) {
+                console.error("YAML Export failed", e);
+                showNotification("YAML Export failed", "error");
             }
-            setTimeout(() => {
-                try {
-                    const exportData = {
-                        metadata: { timestamp: new Date().toISOString(), version: config.version, technician: state.technicianId },
-                        state: state,
-                    };
-                    const blob = new Blob([jsyaml.dump(exportData)], { type: "text/yaml" });
-                    downloadBlob(blob, `dc_checklist_${new Date().toISOString().split('T')[0]}.yaml`);
-                    showNotification("Exported to YAML", "success");
-                } catch (e) {
-                    console.error("YAML Export failed", e);
-                    showNotification("YAML Export failed", "error");
-                } finally {
-                    if (buttonEl) { buttonEl.classList.remove('loading'); buttonEl.disabled = false; }
-                }
-            }, 50);
         }
 
-        function exportCSV(buttonEl) {
-            if (buttonEl) {
-                buttonEl.classList.add('loading');
-                buttonEl.disabled = true;
-            }
-            setTimeout(() => {
-                try {
-                    let csvContent = "data:text/csv;charset=utf-8,";
-                    csvContent += "ID,Rack,Category,ItemTitle,Status,Notes,SerialNumber,MACAddress,ILOPassword,CableID\r\n";
-                    Object.values(config.allItems).forEach(item => {
-                        const status = state.itemStatus[item.id] || "pending";
-                        const notes = state.itemNotes[item.id] || "";
-                        let data = (state.itemData && state.itemData[item.id]) || {};
-                        let deviceData = {};
-                        if (item.category === 'Rack Layout, Positioning, and Power') {
-                            const deviceNameMatch = item.title.match(/^(.*?)\s\(/);
-                            if (deviceNameMatch) {
-                                const deviceKey = deviceNameMatch[1].trim();
-                                deviceData = (state.deviceData?.[item.rack]?.[deviceKey]) || {};
-                            }
+        /**
+         * Exports the current state to a CSV file.
+         */
+        function exportCSV() {
+            try {
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "ID,Rack,Category,Title,Status,Notes,SerialNumber,MACAddress,ILOPassword,CableID\r\n";
+
+                Object.values(config.allItems).forEach(item => {
+                    const status = state.itemStatus[item.id] || "pending";
+                    const notes = state.itemNotes[item.id] || "";
+                    
+                    let data = {};
+                    const itemType = getItemType(item);
+
+                    if(itemType === 'networkDevice' || itemType === 'server'){
+                        if(state.deviceData && state.deviceData[item.rack]) {
+                           // Use the item title as the key, as it's unique per rack in the data
+                           data = state.deviceData[item.rack][item.title] || {};
                         }
-                        const row = [item.id, item.rack, item.category, `"${item.title.replace(/"/g, '""')}"`, status,
-                            `"${notes.replace(/"/g, '""')}"`, deviceData.serial || "", deviceData.mac || "",
-                            deviceData.iloPassword || "", data.cableId || ""
-                        ].join(",");
-                        csvContent += row + "\r\n";
-                    });
-                    const encodedUri = encodeURI(csvContent);
-                    const link = document.createElement("a");
-                    link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", `dc_checklist_${new Date().toISOString().split('T')[0]}.csv`);
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    showNotification("Exported to CSV", "success");
-                } catch (e) {
-                    console.error("CSV Export failed", e);
-                    showNotification("CSV Export failed", "error");
-                } finally {
-                    if (buttonEl) { buttonEl.classList.remove('loading'); buttonEl.disabled = false; }
-                }
-            }, 50);
+                    } else {
+                        data = (state.itemData && state.itemData[item.id]) || {};
+                    }
+                    
+                    const row = [
+                        item.id,
+                        item.rack,
+                        item.category,
+                        `"${item.title.replace(/"/g, '""')}"`,
+                        status,
+                        `"${notes.replace(/"/g, '""')}"`,
+                        data.serial || "",
+                        data.mac || "",
+                        data.iloPassword || "",
+                        data.cableId || ""
+                    ].join(",");
+                    csvContent += row + "\r\n";
+                });
+
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `dc_checklist_progress_${new Date().toISOString().split('T')[0]}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showNotification("Progress exported successfully as CSV", "success");
+            } catch (e) {
+                console.error("CSV Export failed", e);
+                showNotification("CSV Export failed", "error");
+            }
         }
 
+        /**
+         * Imports application state from a JSON or YAML file.
+         */
         function importState() {
             const input = document.createElement('input');
             input.type = 'file';
@@ -1418,12 +1822,21 @@
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     try {
-                        const importData = file.name.endsWith('.json') ? JSON.parse(e.target.result) : jsyaml.load(e.target.result);
+                        let importData;
+                        if (file.name.endsWith('.yaml') || file.name.endsWith('.yml')) {
+                            importData = jsyaml.load(e.target.result);
+                        } else {
+                            importData = JSON.parse(e.target.result);
+                        }
+                        
                         if (importData.state && typeof importData.state.itemStatus === 'object') {
                             state = { ...state, ...importData.state };
-                            saveState(); updateUI({ all: true });
+                            saveState();
+                            updateUI({ all: true });
                             showNotification("Progress imported successfully", "success");
-                        } else { throw new Error("Invalid file format"); }
+                        } else {
+                            throw new Error("Invalid file format");
+                        }
                     } catch (error) {
                         console.error("Import failed:", error);
                         showNotification("Import failed: Invalid file", "error");
@@ -1434,15 +1847,20 @@
             input.click();
         }
 
+        /**
+         * Creates a backup of the current state in localStorage.
+         */
         function createBackup() {
             const backupData = { timestamp: new Date().toISOString(), state: state };
             localStorage.setItem(`dcChecklistBackup_${Date.now()}`, JSON.stringify(backupData));
             showNotification("Backup created in local storage", "success");
+            // Prune old backups, keeping the last 5
             const keys = Object.keys(localStorage).filter(key => key.startsWith('dcChecklistBackup_'));
             keys.sort().slice(0, -5).forEach(key => localStorage.removeItem(key));
         }
         // #endregion
 
+        // --- APPLICATION ENTRY POINT ---
         document.addEventListener('DOMContentLoaded', init);
     })();
     </script>
